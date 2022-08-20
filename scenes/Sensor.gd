@@ -53,7 +53,7 @@ func _get_tile_info(tile_coord, pixel_coord, tile_map, tile_meta_array):
 	var angle_flip = 1 if x_flip == y_flip else -1
 	return {
 		mag = mag, 
-		angle = (meta.angle - 0.5 * _direction) * PI * angle_flip
+		angle = meta.angle * PI * angle_flip
 	}
 	
 
