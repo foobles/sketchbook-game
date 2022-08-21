@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/brick_tiles.png-71e5f4c1978726d82f6fc5c1a039bf39.stex"
+path="res://.import/road_tiles.png-08b22420b6b41b34d7df184cb716938a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/brick_tiles.png"
-dest_files=[ "res://.import/brick_tiles.png-71e5f4c1978726d82f6fc5c1a039bf39.stex" ]
+source_file="res://assets/images/road_tiles.png"
+dest_files=[ "res://.import/road_tiles.png-08b22420b6b41b34d7df184cb716938a.stex" ]
 
 [params]
 
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

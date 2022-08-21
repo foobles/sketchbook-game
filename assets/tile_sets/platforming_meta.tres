@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=22 format=2]
+[gd_resource type="Resource" load_steps=28 format=2]
 
 [ext_resource path="res://resource_types/tile_set_meta.gd" type="Script" id=1]
 [ext_resource path="res://assets/tile_sets/platforming.tres" type="TileSet" id=2]
@@ -6,8 +6,9 @@
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 3 )
-name = "bricks floor"
+name = "road floor"
 heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
 angle = 0.0
 is_solid_top = true
 is_solid_sides = true
@@ -15,8 +16,9 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 3 )
-name = "bricks wall"
+name = "road wall"
 heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
 angle = 0.0
 is_solid_top = true
 is_solid_sides = true
@@ -24,8 +26,9 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=3]
 script = ExtResource( 3 )
-name = "bricks half slant up base"
+name = "road half slope base"
 heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
 angle = 0.148
 is_solid_top = true
 is_solid_sides = true
@@ -33,8 +36,9 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=4]
 script = ExtResource( 3 )
-name = "bricks half slant up low"
+name = "road half slope low"
 heights = PoolIntArray( 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 )
+widths = PoolIntArray(  )
 angle = 0.148
 is_solid_top = true
 is_solid_sides = false
@@ -42,8 +46,9 @@ is_solid_bottom = false
 
 [sub_resource type="Resource" id=15]
 script = ExtResource( 3 )
-name = "bricks half slant up high"
+name = "road half slope high"
 heights = PoolIntArray( 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15 )
+widths = PoolIntArray(  )
 angle = 0.148
 is_solid_top = true
 is_solid_sides = true
@@ -51,8 +56,9 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=6]
 script = ExtResource( 3 )
-name = "bricks full slant up corner"
+name = "road full slope base"
 heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 15, 15, 15, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
 angle = 0.25
 is_solid_top = true
 is_solid_sides = true
@@ -60,62 +66,19 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=7]
 script = ExtResource( 3 )
-name = "bricks full slant up"
+name = "road full slope"
 heights = PoolIntArray( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 )
+widths = PoolIntArray(  )
 angle = 0.25
-is_solid_top = true
-is_solid_sides = true
-is_solid_bottom = true
-
-[sub_resource type="Resource" id=10]
-script = ExtResource( 3 )
-name = "bricks half slant down base"
-heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
-angle = 1.852
-is_solid_top = true
-is_solid_sides = true
-is_solid_bottom = true
-
-[sub_resource type="Resource" id=11]
-script = ExtResource( 3 )
-name = "bricks half slant down low"
-heights = PoolIntArray( 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1, 0, 0 )
-angle = 1.852
-is_solid_top = true
-is_solid_sides = true
-is_solid_bottom = true
-
-[sub_resource type="Resource" id=12]
-script = ExtResource( 3 )
-name = "bricks half slant down high"
-heights = PoolIntArray( 15, 15, 14, 14, 13, 13, 12, 12, 11, 11, 10, 10, 9, 9, 8, 8 )
-angle = 1.852
-is_solid_top = true
-is_solid_sides = true
-is_solid_bottom = true
-
-[sub_resource type="Resource" id=13]
-script = ExtResource( 3 )
-name = "bricks full slant down"
-heights = PoolIntArray( 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 )
-angle = 1.75
-is_solid_top = true
-is_solid_sides = true
-is_solid_bottom = true
-
-[sub_resource type="Resource" id=14]
-script = ExtResource( 3 )
-name = "bricks full slant down corner"
-heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
-angle = 1.75
 is_solid_top = true
 is_solid_sides = true
 is_solid_bottom = true
 
 [sub_resource type="Resource" id=16]
 script = ExtResource( 3 )
-name = "bricks curve up bottom 1"
+name = "road curve in 1"
 heights = PoolIntArray( 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5 )
+widths = PoolIntArray(  )
 angle = 0.083
 is_solid_top = true
 is_solid_sides = true
@@ -123,8 +86,9 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=17]
 script = ExtResource( 3 )
-name = "bricks curve up bottom 2"
+name = "road curve in 2"
 heights = PoolIntArray( 5, 6, 6, 7, 7, 8, 9, 9, 10, 11, 12, 12, 13, 14, 15, 16 )
+widths = PoolIntArray(  )
 angle = 0.201
 is_solid_top = true
 is_solid_sides = true
@@ -132,8 +96,9 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=18]
 script = ExtResource( 3 )
-name = "bricks curve up bottom base"
+name = "road curve in base"
 heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
 angle = 0.0
 is_solid_top = true
 is_solid_sides = true
@@ -141,8 +106,9 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=19]
 script = ExtResource( 3 )
-name = "bricks curve up top 1"
+name = "road curve out 1"
 heights = PoolIntArray( 0, 0, 1, 2, 3, 4, 4, 5, 6, 7, 7, 8, 9, 9, 10, 10 )
+widths = PoolIntArray(  )
 angle = 0.201
 is_solid_top = true
 is_solid_sides = true
@@ -150,8 +116,9 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=20]
 script = ExtResource( 3 )
-name = "bricks curve up top 2"
+name = "road curve out 2"
 heights = PoolIntArray( 11, 11, 12, 12, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 15, 15 )
+widths = PoolIntArray(  )
 angle = 0.083
 is_solid_top = true
 is_solid_sides = true
@@ -159,9 +126,120 @@ is_solid_bottom = true
 
 [sub_resource type="Resource" id=21]
 script = ExtResource( 3 )
-name = "bricks curve up top base"
+name = "road curve out base"
 heights = PoolIntArray( 15, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
 angle = 0.201
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=22]
+script = ExtResource( 3 )
+name = "road floor wall"
+heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+angle = 0.5
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=23]
+script = ExtResource( 3 )
+name = "road floor corner"
+heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+angle = 0.5
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=24]
+script = ExtResource( 3 )
+name = "road full curve in 1"
+heights = PoolIntArray( 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3 )
+widths = PoolIntArray(  )
+angle = 0.078
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=25]
+script = ExtResource( 3 )
+name = "road full curve in 2"
+heights = PoolIntArray( 3, 3, 4, 4, 5, 5, 5, 6, 7, 7, 8, 8, 9, 10, 11, 12 )
+widths = PoolIntArray(  )
+angle = 0.172
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=26]
+script = ExtResource( 3 )
+name = "road full curve in 3"
+heights = PoolIntArray( 12, 13, 14, 15, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
+angle = 0.25
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=27]
+script = ExtResource( 3 )
+name = "road full curve in 4"
+heights = PoolIntArray( 0, 0, 0, 0, 0, 2, 3, 4, 6, 7, 9, 11, 13, 16, 16, 16 )
+widths = PoolIntArray(  )
+angle = 0.337
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=28]
+script = ExtResource( 3 )
+name = "road full curve in 5"
+heights = PoolIntArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 8 )
+widths = PoolIntArray(  )
+angle = 0.422
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=29]
+script = ExtResource( 3 )
+name = "road full curve in base 1"
+heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
+angle = 0.0
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=30]
+script = ExtResource( 3 )
+name = "road full curve in base 2"
+heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
+angle = 0.0
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=31]
+script = ExtResource( 3 )
+name = "road full curve in base 3"
+heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
+angle = 0.5
+is_solid_top = true
+is_solid_sides = true
+is_solid_bottom = true
+
+[sub_resource type="Resource" id=32]
+script = ExtResource( 3 )
+name = "road full curve in base 4"
+heights = PoolIntArray( 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
+widths = PoolIntArray(  )
+angle = 0.5
 is_solid_top = true
 is_solid_sides = true
 is_solid_bottom = true
@@ -169,4 +247,4 @@ is_solid_bottom = true
 [resource]
 script = ExtResource( 1 )
 tile_set = ExtResource( 2 )
-tile_attributes = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 15 ), SubResource( 6 ), SubResource( 7 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ]
+tile_attributes = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 15 ), SubResource( 6 ), SubResource( 7 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ]
