@@ -13,6 +13,11 @@ var angle: int = 0
 
 var input_direction = 0
 
+onready var foot_sensors = [$Sensors/FootLeft, $Sensors/FootRight]
+onready var head_sensors = []
+onready var right_sensor = null
+onready var left_sensor = null
+
 
 #warning-ignore:unused_argument
 func _process(delta):
@@ -70,20 +75,21 @@ func apply_ground_speed():
 
 
 func snap_to_floor(tile_map, tile_meta_array):
-	var left_result = $Sensors/FootLeft.get_collision_info(tile_map, tile_meta_array)
-	var right_result = $Sensors/FootRight.get_collision_info(tile_map, tile_meta_array)
+	var chosen_result = null
+	for sensor in foot_sensors:
+		var cur_result = sensor.get_collision_info(tile_map, tile_meta_array)
+		if cur_result.distance > 14:
+			continue
+		if chosen_result == null || cur_result.distance < chosen_result.distance:
+			chosen_result = cur_result
 	
-	var chosen_result = \
-		left_result if left_result.distance < right_result.distance else right_result
-	
-	position += chosen_result.distance * $Sensors/FootLeft.direction_vec
-	angle = chosen_result.angle
-	
-	
-	var nearest_dir = _current_dir()
-	$Sensors.rotation_degrees = -nearest_dir * 90
-	for sensor in $Sensors.get_children():
-		sensor.set_direction_rotation(nearest_dir)
+	if chosen_result != null:
+		position += chosen_result.distance * $Sensors/FootLeft.direction_vec
+		angle = chosen_result.angle
+		var nearest_dir = _current_dir()
+		$Sensors.rotation_degrees = -nearest_dir * 90
+		for sensor in $Sensors.get_children():
+			sensor.set_direction_rotation(nearest_dir)
 
 
 const _OCT = 32
