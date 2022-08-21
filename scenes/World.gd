@@ -22,6 +22,6 @@ func _process(delta):
 
 #warning-ignore:unused_argument
 func _physics_process(delta):
-	$Player.update_ground_speed()
-	$Player.apply_ground_speed()
-	$Player.snap_to_floor($TileMap, tile_meta_array)
+	$Player.update_velocity()
+	$Player.apply_velocity()
+	$Player.snap_to_geometry($TileMap, tile_meta_array)

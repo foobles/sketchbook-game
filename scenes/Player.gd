@@ -10,13 +10,14 @@ export(float) var standing_slope_slip_threshold = 0.05078125
 
 var ground_speed: float = 0.0
 var angle: int = 0
+var velocity: Vector2 = Vector2()
 
 var input_direction = 0
 
 onready var foot_sensors = [$Sensors/FootLeft, $Sensors/FootRight]
 onready var head_sensors = []
-onready var right_sensor = null
-onready var left_sensor = null
+onready var right_sensor = $Sensors/WallRight
+onready var left_sensor = $Sensors/WallLeft
 
 
 #warning-ignore:unused_argument
@@ -45,8 +46,9 @@ func _process(delta):
 	$AnimationPlayer.playback_speed = floor(8.0 / (8.0 - abs(ground_speed)))
 		
 
-func update_ground_speed():
-	var slope_accel = sin(_get_angle_rads()) * slope_factor
+func update_velocity():
+	var angle_rads = _get_angle_rads()
+	var slope_accel = sin(angle_rads) * slope_factor
 	if !is_zero_approx(ground_speed) || abs(slope_accel) >= standing_slope_slip_threshold:
 		ground_speed -= slope_accel
 	
@@ -66,15 +68,19 @@ func update_ground_speed():
 			ground_speed -= sign(ground_speed) * walk_friction 
 		else:
 			ground_speed = 0
+			
+	velocity = ground_speed * Vector2(cos(angle_rads), -sin(angle_rads))
 	
 
+func apply_velocity():
+	position += velocity
 
-func apply_ground_speed():
-	var angle_rads = _get_angle_rads()
-	position += ground_speed * Vector2(cos(angle_rads), -sin(angle_rads))
-
-
-func snap_to_floor(tile_map, tile_meta_array):
+func snap_to_geometry(tile_map, tile_meta_array):
+	if ground_speed < 0:
+		snap_out_wall(left_sensor, tile_map, tile_meta_array)
+	elif ground_speed > 0:
+		snap_out_wall(right_sensor, tile_map, tile_meta_array)
+	
 	var chosen_result = null
 	for sensor in foot_sensors:
 		var cur_result = sensor.get_collision_info(tile_map, tile_meta_array)
@@ -91,6 +97,12 @@ func snap_to_floor(tile_map, tile_meta_array):
 		for sensor in $Sensors.get_children():
 			sensor.set_direction_rotation(nearest_dir)
 
+
+func snap_out_wall(wall_sensor, tile_map, tile_meta_array):
+	var info = wall_sensor.get_collision_info(tile_map, tile_meta_array)
+	if info.distance < 0:
+		ground_speed = 0
+		position += info.distance * wall_sensor.direction_vec
 
 const _OCT = 32
 func _current_dir():
