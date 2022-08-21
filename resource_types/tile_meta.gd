@@ -5,7 +5,7 @@ class_name TileMeta
 export(String) var name = ""
 export(PoolIntArray) var heights
 var widths: PoolIntArray
-export(float, 0, 2) var angle = 0.0
+export(int, 0, 256) var angle = 0
 
 export(bool) var is_solid_top = true
 export(bool) var is_solid_sides = true

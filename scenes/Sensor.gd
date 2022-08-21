@@ -59,15 +59,15 @@ func _get_tile_info(tile_coord, pixel_coord, tile_map, tile_meta_array):
 		else:
 			mag = meta.heights[15 - pixel_coord.x]
 		
-	var pi_rads = meta.angle
+	var actual_angle = meta.angle
 	if x_flip:
-		pi_rads *= -1
+		actual_angle = 256 - actual_angle
 	if y_flip:
-		pi_rads = 1 - pi_rads
+		actual_angle = 128 - actual_angle
 		 
 	return {
 		mag = mag, 
-		angle = pi_rads * PI 
+		angle = actual_angle
 	}
 	
 

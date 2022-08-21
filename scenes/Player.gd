@@ -9,7 +9,7 @@ export(float) var slope_factor = 0.125
 export(float) var standing_slope_slip_threshold = 0.05078125
 
 var ground_speed: float = 0.0
-var angle: float = -atan(0.5) 
+var angle: int = 0
 
 var input_direction = 0
 
@@ -20,7 +20,7 @@ func _process(delta):
 		int(Input.is_action_pressed("control_move_right")) \
 		- int(Input.is_action_pressed("control_move_left"))
 		
-	$Sprite.rotation = stepify(-angle, 0.25 * PI)
+	$Sprite.rotation = -stepify(_get_angle_rads(), 0.25*PI)
 	
 	if is_zero_approx(ground_speed):
 		if $AnimationPlayer.current_animation != "idle":
@@ -41,7 +41,7 @@ func _process(delta):
 		
 
 func update_ground_speed():
-	var slope_accel = sin(angle) * slope_factor
+	var slope_accel = sin(_get_angle_rads()) * slope_factor
 	if !is_zero_approx(ground_speed) || abs(slope_accel) >= standing_slope_slip_threshold:
 		ground_speed -= slope_accel
 	
@@ -65,7 +65,8 @@ func update_ground_speed():
 
 
 func apply_ground_speed():
-	position += ground_speed * Vector2(cos(angle), -sin(angle))
+	var angle_rads = _get_angle_rads()
+	position += ground_speed * Vector2(cos(angle_rads), -sin(angle_rads))
 
 
 func snap_to_floor(tile_map, tile_meta_array):
@@ -85,13 +86,17 @@ func snap_to_floor(tile_map, tile_meta_array):
 		sensor.set_direction_rotation(nearest_dir)
 
 
+const _OCT = 32
 func _current_dir():
-	var a = fposmod(angle / PI, 2)
-	if is_equal_approx(a, 0.25) || is_equal_approx(a, 1.75) || a < 0.25 || a > 1.75:
+	if angle <= _OCT || angle >= 7*_OCT:
 		return 0
-	elif is_equal_approx(a, 0.75) || is_equal_approx(a, 1.25) || (0.75 < a && a < 1.25):
+	elif 3*_OCT <= angle && angle <= 5*_OCT:
 		return 2
-	elif 0.25 < a && a < 0.75:
+	elif _OCT < angle && angle < 3*_OCT:
 		return 1
 	else:
 		return 3
+
+
+func _get_angle_rads():
+	return float(angle) / 128.0 * PI
