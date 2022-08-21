@@ -14,6 +14,7 @@ var angle: float = -atan(0.5)
 var input_direction = 0
 
 
+#warning-ignore:unused_argument
 func _process(delta):
 	input_direction = \
 		int(Input.is_action_pressed("control_move_right")) \

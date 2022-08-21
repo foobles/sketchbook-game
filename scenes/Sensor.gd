@@ -18,6 +18,8 @@ func _ready():
 	direction_vec = _direction_to_vec(starting_direction)
 	_starting_direction_vec = direction_vec
 
+
+#warning-ignore:unused_argument
 func _process(delta):
 	update()
 

@@ -15,11 +15,12 @@ func _ready():
 	$Camera2D.limit_top = rect.position.y 
 	$Camera2D.limit_bottom = rect.end.y
 
-
+#warning-ignore:unused_argument
 func _process(delta):
 	$Camera2D.position = $Player.position
 
 
+#warning-ignore:unused_argument
 func _physics_process(delta):
 	$Player.update_ground_speed()
 	$Player.apply_ground_speed()
