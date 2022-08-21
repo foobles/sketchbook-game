@@ -93,24 +93,26 @@ func get_collision_info(tile_map, tile_meta_array):
 	var pixel_dist = _get_pixel_dist(pixel_coord)
 	 
 	var cur_info = _get_tile_info(tile_coord, pixel_coord, tile_map, tile_meta_array)
-	match cur_info.mag:
-		0:
-			var ext_info = _get_tile_info(tile_coord + direction_vec, pixel_coord, tile_map, tile_meta_array)
-			return {
-				distance = 16 - ext_info.mag + pixel_dist,
-				angle = ext_info.angle
-			}
-		16:
-			var ret_info = _get_tile_info(tile_coord - direction_vec, pixel_coord, tile_map, tile_meta_array)
-			return {
-				distance = -(ret_info.mag + 16 - pixel_dist),
-				angle = ret_info.angle if ret_info.mag > 0 else cur_info.angle
-			}
-		_:
-			return {
-				distance = pixel_dist - cur_info.mag,
-				angle = cur_info.angle
-			}
+	
+	if auto_adjust:
+		match cur_info.mag:
+			0:
+				var ext_info = _get_tile_info(tile_coord + direction_vec, pixel_coord, tile_map, tile_meta_array)
+				return {
+					distance = 16 - ext_info.mag + pixel_dist,
+					angle = ext_info.angle
+				}
+			16:
+				var ret_info = _get_tile_info(tile_coord - direction_vec, pixel_coord, tile_map, tile_meta_array)
+				return {
+					distance = -(ret_info.mag + 16 - pixel_dist),
+					angle = ret_info.angle if ret_info.mag > 0 else cur_info.angle
+				}
+	
+	return {
+		distance = pixel_dist - cur_info.mag,
+		angle = cur_info.angle
+	}
 	
 
 static func _direction_to_vec(direction):
