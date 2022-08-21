@@ -9,6 +9,7 @@ func into_array():
 	var ret = []
 	ret.resize(tile_set.get_last_unused_tile_id())
 	for attribute in tile_attributes:
+		attribute.compute_widths()
 		var idx = tile_set.find_tile_by_name(attribute.name)
 		ret[idx] = attribute 
 
