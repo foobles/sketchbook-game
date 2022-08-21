@@ -68,11 +68,29 @@ func apply_ground_speed():
 
 
 func snap_to_floor(tile_map, tile_meta_array):
-	var left_result = $FootSensorLeft.get_collision_info(tile_map, tile_meta_array)
-	var right_result = $FootSensorRight.get_collision_info(tile_map, tile_meta_array)
+	var left_result = $Sensors/FootLeft.get_collision_info(tile_map, tile_meta_array)
+	var right_result = $Sensors/FootRight.get_collision_info(tile_map, tile_meta_array)
 	
 	var chosen_result = \
 		left_result if left_result.distance < right_result.distance else right_result
 	
-	position.y += chosen_result.distance
+	position += chosen_result.distance * $Sensors/FootLeft.direction_vec
 	angle = chosen_result.angle
+	
+	
+	var nearest_dir = _current_dir()
+	$Sensors.rotation_degrees = -nearest_dir * 90
+	for sensor in $Sensors.get_children():
+		sensor.set_direction_rotation(nearest_dir)
+
+
+func _current_dir():
+	var a = fposmod(angle / PI, 2)
+	if is_equal_approx(a, 0.25) || is_equal_approx(a, 1.75) || a < 0.25 || a > 1.75:
+		return 0
+	elif is_equal_approx(a, 0.75) || is_equal_approx(a, 1.25) || (0.75 < a && a < 1.25):
+		return 2
+	elif 0.25 < a && a < 0.75:
+		return 1
+	else:
+		return 3

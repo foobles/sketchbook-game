@@ -89,10 +89,12 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="FootSensorRight" parent="." instance=ExtResource( 3 )]
-position = Vector2( 9, 21 )
+[node name="Sensors" type="Node2D" parent="."]
+
+[node name="FootLeft" parent="Sensors" instance=ExtResource( 3 )]
+position = Vector2( -9, 19 )
 auto_adjust = true
 
-[node name="FootSensorLeft" parent="." instance=ExtResource( 3 )]
-position = Vector2( -9, 21 )
+[node name="FootRight" parent="Sensors" instance=ExtResource( 3 )]
+position = Vector2( 9, 19 )
 auto_adjust = true

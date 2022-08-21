@@ -1,29 +1,36 @@
 extends Position2D
 
 enum Direction {
-	DOWN = 0,
-	RIGHT = 1,
-	UP = 2,
-	LEFT = 3,
+	RIGHT = 0,
+	UP = 1,
+	LEFT = 2,
+	DOWN = 3,
 }
 
 export(Direction) var starting_direction = Direction.DOWN
 export(bool) var auto_adjust = false
 
+var direction_vec: Vector2
 var _starting_direction_vec: Vector2
-var _direction_vec: Vector2
 var _direction = 0
 
 func _ready():
-	_direction_vec = _direction_to_vec(starting_direction)
-	_starting_direction_vec = _direction_vec
+	direction_vec = _direction_to_vec(starting_direction)
+	_starting_direction_vec = direction_vec
 
+func _process(delta):
+	update()
 
+func _draw():
+	var pos = to_local(global_position.floor())
+	draw_rect(Rect2(pos, Vector2(1, 1)), Color.red)
+	
+	
 func set_direction_rotation(rotation_direction):
 	var rot = _direction_to_vec(rotation_direction)
 	_direction = (starting_direction + rotation_direction) % 4
-	_direction_vec.x = _starting_direction_vec.x * rot.x - _starting_direction_vec.y * rot.y
-	_direction_vec.y = _starting_direction_vec.x * rot.y + _starting_direction_vec.y * rot.x 
+	direction_vec.x = _starting_direction_vec.x * rot.x - _starting_direction_vec.y * rot.y
+	direction_vec.y = _starting_direction_vec.x * rot.y + _starting_direction_vec.y * rot.x 
 
 
 func _get_tile_info(tile_coord, pixel_coord, tile_map, tile_meta_array):
@@ -50,10 +57,15 @@ func _get_tile_info(tile_coord, pixel_coord, tile_map, tile_meta_array):
 		else:
 			mag = meta.heights[15 - pixel_coord.x]
 		
-	var angle_flip = 1 if x_flip == y_flip else -1
+	var pi_rads = meta.angle
+	if x_flip:
+		pi_rads *= -1
+	if y_flip:
+		pi_rads = 1 - pi_rads
+		 
 	return {
 		mag = mag, 
-		angle = meta.angle * PI * angle_flip
+		angle = pi_rads * PI 
 	}
 	
 
@@ -81,13 +93,13 @@ func get_collision_info(tile_map, tile_meta_array):
 	var cur_info = _get_tile_info(tile_coord, pixel_coord, tile_map, tile_meta_array)
 	match cur_info.mag:
 		0:
-			var ext_info = _get_tile_info(tile_coord + _direction_vec, pixel_coord, tile_map, tile_meta_array)
+			var ext_info = _get_tile_info(tile_coord + direction_vec, pixel_coord, tile_map, tile_meta_array)
 			return {
 				distance = 16 - ext_info.mag + pixel_dist,
 				angle = ext_info.angle
 			}
 		16:
-			var ret_info = _get_tile_info(tile_coord - _direction_vec, pixel_coord, tile_map, tile_meta_array)
+			var ret_info = _get_tile_info(tile_coord - direction_vec, pixel_coord, tile_map, tile_meta_array)
 			return {
 				distance = -(ret_info.mag + 16 - pixel_dist),
 				angle = ret_info.angle if ret_info.mag > 0 else cur_info.angle
