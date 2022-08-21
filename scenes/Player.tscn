@@ -85,9 +85,6 @@ anims/walk = SubResource( 2 )
 texture = ExtResource( 2 )
 hframes = 8
 vframes = 5
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="Sensors" type="Node2D" parent="."]
 
