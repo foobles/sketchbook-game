@@ -17,7 +17,7 @@ func _ready():
 
 #warning-ignore:unused_argument
 func _process(delta):
-	$Camera2D.position = $Player.position
+	$Camera2D.position = $Player.position.floor()
 
 
 #warning-ignore:unused_argument
