@@ -46,7 +46,7 @@ func _process(delta):
 	$AnimationPlayer.playback_speed = floor(8.0 / (8.0 - abs(ground_speed)))
 		
 
-func update_velocity():
+func update_velocity(tile_map, tile_meta_array):
 	var angle_rads = _get_angle_rads()
 	var slope_accel = sin(angle_rads) * slope_factor
 	if !is_zero_approx(ground_speed) || abs(slope_accel) >= standing_slope_slip_threshold:
@@ -71,16 +71,24 @@ func update_velocity():
 			
 	velocity = ground_speed * Vector2(cos(angle_rads), -sin(angle_rads))
 	
+	if left_sensor.direction_vec.dot(velocity) > 0:
+		prevent_wall_collision(left_sensor, tile_map, tile_meta_array)
+	elif right_sensor.direction_vec.dot(velocity) > 0:
+		prevent_wall_collision(right_sensor, tile_map, tile_meta_array)
+	
+	
+func prevent_wall_collision(wall_sensor, tile_map, tile_meta_array):
+	var info = wall_sensor.get_offset_collision_info(velocity, tile_map, tile_meta_array)
+	if info.distance < 0:
+		ground_speed = 0
+		velocity += info.distance * wall_sensor.direction_vec
+
 
 func apply_velocity():
 	position += velocity
 
-func snap_to_geometry(tile_map, tile_meta_array):
-	if ground_speed < 0:
-		snap_out_wall(left_sensor, tile_map, tile_meta_array)
-	elif ground_speed > 0:
-		snap_out_wall(right_sensor, tile_map, tile_meta_array)
-	
+
+func snap_to_floor(tile_map, tile_meta_array):
 	var chosen_result = null
 	for sensor in foot_sensors:
 		var cur_result = sensor.get_collision_info(tile_map, tile_meta_array)
@@ -91,18 +99,20 @@ func snap_to_geometry(tile_map, tile_meta_array):
 	
 	if chosen_result != null:
 		position += chosen_result.distance * $Sensors/FootLeft.direction_vec
-		angle = chosen_result.angle
-		var nearest_dir = _current_dir()
-		$Sensors.rotation_degrees = -nearest_dir * 90
-		for sensor in $Sensors.get_children():
-			sensor.set_direction_rotation(nearest_dir)
+		set_angle(chosen_result.angle)
 
 
-func snap_out_wall(wall_sensor, tile_map, tile_meta_array):
-	var info = wall_sensor.get_collision_info(tile_map, tile_meta_array)
-	if info.distance < 0:
-		ground_speed = 0
-		position += info.distance * wall_sensor.direction_vec
+func set_angle(new_angle):
+	angle = new_angle
+	var nearest_dir = _current_dir()
+	$Sensors.rotation_degrees = -nearest_dir * 90
+	for sensor in $Sensors.get_children():
+		sensor.set_direction_rotation(nearest_dir)
+		
+	var wall_sensor_y = 8 if angle == 0 else 0
+	left_sensor.position.y = wall_sensor_y
+	right_sensor.position.y = wall_sensor_y
+
 
 const _OCT = 32
 func _current_dir():

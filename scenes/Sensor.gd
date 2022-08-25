@@ -86,8 +86,8 @@ func _get_pixel_dist(pixel_coord):
 func is_horizontal():
 	return _direction == Direction.LEFT || _direction == Direction.RIGHT
 
-func get_collision_info(tile_map, tile_meta_array):
-	var map_position = tile_map.to_local(global_position).floor()
+func get_offset_collision_info(offset, tile_map, tile_meta_array):
+	var map_position = tile_map.to_local(global_position + offset).floor()
 	var tile_coord = tile_map.world_to_map(map_position)
 	var pixel_coord = Vector2(int(map_position.x) % 16, int(map_position.y) % 16)
 	var pixel_dist = _get_pixel_dist(pixel_coord)
@@ -114,6 +114,10 @@ func get_collision_info(tile_map, tile_meta_array):
 		angle = cur_info.angle
 	}
 	
+	
+func get_collision_info(tile_map, tile_meta_array):
+	return get_offset_collision_info(Vector2.ZERO, tile_map, tile_meta_array)
+
 
 static func _direction_to_vec(direction):
 	match direction:

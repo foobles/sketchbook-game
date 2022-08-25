@@ -89,15 +89,15 @@ vframes = 5
 [node name="Sensors" type="Node2D" parent="."]
 
 [node name="WallLeft" parent="Sensors" instance=ExtResource( 3 )]
-position = Vector2( -11, 0 )
+position = Vector2( -10, 0 )
 starting_direction = 2
 
 [node name="WallRight" parent="Sensors" instance=ExtResource( 3 )]
-position = Vector2( 11, 0 )
+position = Vector2( 10, 0 )
 starting_direction = 0
 
 [node name="FootLeft" parent="Sensors" instance=ExtResource( 3 )]
-position = Vector2( -8, 19 )
+position = Vector2( -9, 19 )
 auto_adjust = true
 
 [node name="FootRight" parent="Sensors" instance=ExtResource( 3 )]
