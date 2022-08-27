@@ -1,12 +1,5 @@
 extends Node2D
 
-export(float) var walk_accel = 0.046875
-export(float) var walk_decel = 0.5
-export(float) var walk_friction = 0.046875
-export(float) var max_walk_veloc = 6.0
-export(float) var slope_factor = 0.125
-
-export(float) var standing_slope_slip_threshold = 0.05078125
 
 var ground_speed: float = 0.0
 var angle: int = 0
@@ -14,11 +7,7 @@ var velocity: Vector2 = Vector2()
 
 var input_direction = 0
 
-onready var foot_sensors = [$Sensors/FootLeft, $Sensors/FootRight]
-onready var head_sensors = []
-onready var right_sensor = $Sensors/WallRight
-onready var left_sensor = $Sensors/WallLeft
-
+onready var _pose = $Pose
 
 #warning-ignore:unused_argument
 func _process(delta):
@@ -33,7 +22,7 @@ func _process(delta):
 			$AnimationPlayer.play("idle")
 	else:
 		$Sprite.flip_h = (ground_speed < 0)
-		if abs(ground_speed) >= max_walk_veloc:
+		if abs(ground_speed) >= _pose.max_walk_speed:
 			if $AnimationPlayer.current_animation != "run":
 				$AnimationPlayer.play("run")
 		else:
@@ -41,29 +30,32 @@ func _process(delta):
 				$AnimationPlayer.play("walk")
 				
 	$Sprite.global_position = global_position.floor()
-			
+	
 	
 	$AnimationPlayer.playback_speed = floor(8.0 / (8.0 - abs(ground_speed)))
-		
+	
 
 func update_velocity(tile_map, tile_meta_array):
 	var angle_rads = _get_angle_rads()
-	var slope_accel = sin(angle_rads) * slope_factor
-	if !is_zero_approx(ground_speed) || abs(slope_accel) >= standing_slope_slip_threshold:
+	var slope_accel = sin(angle_rads) * _pose.slope_factor
+	if !is_zero_approx(ground_speed) || abs(slope_accel) >= _pose.standing_slope_slip_threshold:
 		ground_speed -= slope_accel
 	
 	if input_direction != 0:
 		if sign(input_direction) != -sign(ground_speed):
-			if abs(ground_speed) < max_walk_veloc:
-				ground_speed += input_direction * walk_accel
-				ground_speed = clamp(ground_speed, -max_walk_veloc, max_walk_veloc)
+			var max_walk_speed = _pose.max_walk_speed
+			if abs(ground_speed) < max_walk_speed:
+				ground_speed += input_direction * _pose.walk_accel
+				ground_speed = clamp(ground_speed, -max_walk_speed, max_walk_speed)
 				
 		else:
+			var walk_decel = _pose.walk_decel
 			if abs(ground_speed) >= walk_decel:
 				ground_speed += input_direction * walk_decel
 			else:
 				ground_speed = input_direction * 0.5
 	else:
+		var walk_friction = _pose.walk_friction
 		if abs(ground_speed) > walk_friction:
 			ground_speed -= sign(ground_speed) * walk_friction 
 		else:
@@ -71,10 +63,10 @@ func update_velocity(tile_map, tile_meta_array):
 			
 	velocity = ground_speed * Vector2(cos(angle_rads), -sin(angle_rads))
 	
-	if left_sensor.direction_vec.dot(velocity) > 0:
-		prevent_wall_collision(left_sensor, tile_map, tile_meta_array)
-	elif right_sensor.direction_vec.dot(velocity) > 0:
-		prevent_wall_collision(right_sensor, tile_map, tile_meta_array)
+	if _pose.left_sensor.direction_vec.dot(velocity) > 0:
+		prevent_wall_collision(_pose.left_sensor, tile_map, tile_meta_array)
+	elif _pose.right_sensor.direction_vec.dot(velocity) > 0:
+		prevent_wall_collision(_pose.right_sensor, tile_map, tile_meta_array)
 	
 	
 func prevent_wall_collision(wall_sensor, tile_map, tile_meta_array):
@@ -90,7 +82,7 @@ func apply_velocity():
 
 func snap_to_floor(tile_map, tile_meta_array):
 	var chosen_result = null
-	for sensor in foot_sensors:
+	for sensor in _pose.foot_sensors:
 		var cur_result = sensor.get_collision_info(tile_map, tile_meta_array)
 		if cur_result.distance > 14:
 			continue
@@ -98,24 +90,18 @@ func snap_to_floor(tile_map, tile_meta_array):
 			chosen_result = cur_result
 	
 	if chosen_result != null:
-		position += chosen_result.distance * $Sensors/FootLeft.direction_vec
+		position += chosen_result.distance * _pose.get_foot_direction_vec()
 		set_angle(chosen_result.angle)
 
 
 func set_angle(new_angle):
 	angle = new_angle
-	var nearest_dir = _current_dir()
-	$Sensors.rotation_degrees = -nearest_dir * 90
-	for sensor in $Sensors.get_children():
-		sensor.set_direction_rotation(nearest_dir)
-		
-	var wall_sensor_y = 8 if angle == 0 else 0
-	left_sensor.position.y = wall_sensor_y
-	right_sensor.position.y = wall_sensor_y
+	_pose.update_direction(self)
+	
 
 
 const _OCT = 32
-func _current_dir():
+func get_current_direction():
 	if angle <= _OCT || angle >= 7*_OCT:
 		return 0
 	elif 3*_OCT <= angle && angle <= 5*_OCT:
