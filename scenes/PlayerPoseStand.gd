@@ -2,6 +2,10 @@ extends "res://scenes/PlayerPose.gd"
 
 
 func _init():
+	idle_anim = "idle"
+	walk_anim = "walk"
+	run_anim = "run"
+	
 	walk_accel = 12 / 256.0
 	walk_decel = 128 / 256.0
 	walk_friction = 12 / 256.0

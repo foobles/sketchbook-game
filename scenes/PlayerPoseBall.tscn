@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/PlayerPose.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/PlayerPoseBall.gd" type="Script" id=2]
+
+[node name="PlayerPoseBall" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="FootLeft" parent="." index="2"]
+position = Vector2( -7, 14 )
+
+[node name="FootRight" parent="." index="3"]
+position = Vector2( 7, 14 )

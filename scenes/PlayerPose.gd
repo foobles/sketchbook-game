@@ -4,16 +4,25 @@ onready var left_sensor = $WallLeft
 onready var right_sensor = $WallRight
 onready var foot_sensors = [$FootLeft, $FootRight]
 
-var walk_accel: float
-var walk_decel: float
-var walk_friction: float
-var slope_factor: float
-var max_walk_speed: float
-var standing_slope_slip_threshold:float
+var idle_anim: String
+var walk_anim: String
+var run_anim: String
+
+var walk_accel
+var walk_decel
+var walk_friction
+var slope_factor
+var max_walk_speed
+var standing_slope_slip_threshold
 
 
 func get_foot_direction_vec():
 	return foot_sensors[0].direction_vec
+
+
+#warning-ignore:unused_argument
+func update_constants(player):
+	pass
 
 func update_direction(player):
 	var dir = player.get_current_direction()

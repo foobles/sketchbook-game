@@ -18,24 +18,25 @@ func _process(delta):
 	$Sprite.rotation = -stepify(_get_angle_rads(), 0.25*PI)
 	
 	if is_zero_approx(ground_speed):
-		if $AnimationPlayer.current_animation != "idle":
-			$AnimationPlayer.play("idle")
+		if $AnimationPlayer.current_animation != _pose.idle_anim:
+			$AnimationPlayer.play(_pose.idle_anim)
 	else:
 		$Sprite.flip_h = (ground_speed < 0)
 		if abs(ground_speed) >= _pose.max_walk_speed:
-			if $AnimationPlayer.current_animation != "run":
-				$AnimationPlayer.play("run")
+			if $AnimationPlayer.current_animation != _pose.run_anim:
+				$AnimationPlayer.play(_pose.run_anim)
 		else:
-			if $AnimationPlayer.current_animation != "walk":
-				$AnimationPlayer.play("walk")
+			if $AnimationPlayer.current_animation != _pose.walk_anim:
+				$AnimationPlayer.play(_pose.walk_anim)
 				
 	$Sprite.global_position = global_position.floor()
 	
 	
-	$AnimationPlayer.playback_speed = floor(8.0 / (8.0 - abs(ground_speed)))
+	$AnimationPlayer.playback_speed = 60.0 / (max(0.0, floor(4.0 - abs(ground_speed))) + 1)
 	
 
 func update_velocity(tile_map, tile_meta_array):
+	_pose.update_constants(self)
 	var angle_rads = _get_angle_rads()
 	var slope_accel = sin(angle_rads) * _pose.slope_factor
 	if !is_zero_approx(ground_speed) || abs(slope_accel) >= _pose.standing_slope_slip_threshold:
