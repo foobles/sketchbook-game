@@ -37,31 +37,17 @@ func _process(delta):
 
 func update_velocity(tile_map, tile_meta_array):
 	_pose.update_constants(self)
-	var angle_rads = _get_angle_rads()
-	var slope_accel = sin(angle_rads) * _pose.slope_factor
-	if !is_zero_approx(ground_speed) || abs(slope_accel) >= _pose.standing_slope_slip_threshold:
-		ground_speed -= slope_accel
 	
-	if input_direction != 0:
-		if sign(input_direction) != -sign(ground_speed):
-			var max_walk_speed = _pose.max_walk_speed
-			if abs(ground_speed) < max_walk_speed:
-				ground_speed += input_direction * _pose.walk_accel
-				ground_speed = clamp(ground_speed, -max_walk_speed, max_walk_speed)
-				
-		else:
-			var walk_decel = _pose.walk_decel
-			if abs(ground_speed) >= walk_decel:
-				ground_speed += input_direction * walk_decel
-			else:
-				ground_speed = input_direction * 0.5
+	apply_slope_factor()
+	
+	if is_accelerating():
+		apply_acceleration()
+	elif is_decelerating():
+		apply_deceleration()
 	else:
-		var walk_friction = _pose.walk_friction
-		if abs(ground_speed) > walk_friction:
-			ground_speed -= sign(ground_speed) * walk_friction 
-		else:
-			ground_speed = 0
-			
+		apply_friction()
+		
+	var angle_rads = _get_angle_rads()
 	velocity = ground_speed * Vector2(cos(angle_rads), -sin(angle_rads))
 	
 	if _pose.left_sensor.direction_vec.dot(velocity) > 0:
@@ -69,6 +55,54 @@ func update_velocity(tile_map, tile_meta_array):
 	elif _pose.right_sensor.direction_vec.dot(velocity) > 0:
 		prevent_wall_collision(_pose.right_sensor, tile_map, tile_meta_array)
 	
+
+func apply_slope_factor():
+	var angle_rads = _get_angle_rads()
+	var slope_accel = _pose.slope_factor * sin(angle_rads)
+	if ground_speed != 0 || abs(slope_accel) >= _pose.standing_slope_slip_threshold:
+		ground_speed -= slope_accel
+
+
+func is_accelerating():
+	var walk_accel = _pose.walk_accel
+	return (
+		walk_accel != null
+		&& input_direction != 0
+		&& input_direction != -sign(ground_speed)
+	)
+
+
+func is_decelerating():
+	var walk_decel = _pose.walk_decel
+	return (
+		walk_decel != null
+		&& input_direction != 0
+		&& input_direction == -sign(ground_speed)
+	)
+
+
+func apply_acceleration():
+	var max_walk_speed = _pose.max_walk_speed
+	if abs(ground_speed) < max_walk_speed:
+		ground_speed += input_direction * _pose.walk_accel
+		ground_speed = clamp(ground_speed, -max_walk_speed, max_walk_speed)
+	
+
+func apply_deceleration():
+	var walk_decel = _pose.walk_decel
+	if abs(ground_speed) > walk_decel:
+		ground_speed += input_direction * walk_decel
+	else:
+		ground_speed = input_direction * 0.5
+
+
+func apply_friction():
+	var walk_friction = _pose.walk_friction
+	if abs(ground_speed) > walk_friction:
+		ground_speed -= sign(ground_speed) * walk_friction
+	else:
+		ground_speed = 0.0
+
 	
 func prevent_wall_collision(wall_sensor, tile_map, tile_meta_array):
 	var info = wall_sensor.get_offset_collision_info(velocity, tile_map, tile_meta_array)

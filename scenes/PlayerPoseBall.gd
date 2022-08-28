@@ -8,7 +8,7 @@ func _init():
 	walk_anim = "roll"
 	run_anim = "roll_fast"
 	
-	walk_accel = 0.0
+	walk_accel = null
 	walk_decel = 32 / 256.0
 	walk_friction = 6 / 256.0
 	max_walk_speed = 6.0
