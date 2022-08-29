@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/player_anim_ph.png" type="Texture" id=2]
-[ext_resource path="res://scenes/PlayerPoseBall.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/PlayerStateGrounded.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -124,4 +124,4 @@ texture = ExtResource( 2 )
 hframes = 8
 vframes = 5
 
-[node name="Pose" parent="." instance=ExtResource( 3 )]
+[node name="State" parent="." instance=ExtResource( 3 )]

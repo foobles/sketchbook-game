@@ -22,6 +22,4 @@ func _process(delta):
 
 #warning-ignore:unused_argument
 func _physics_process(delta):
-	$Player.update_velocity($TileMap, tile_meta_array)
-	$Player.apply_velocity()
-	$Player.snap_to_floor($TileMap, tile_meta_array)
+	$Player.tick_physics($TileMap, tile_meta_array)
