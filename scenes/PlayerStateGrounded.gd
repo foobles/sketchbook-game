@@ -133,12 +133,13 @@ func update_player(player, tile_map, tile_meta_array):
 	_inner_state.transition_inner(player, self)
 	
 	if _pose.left_sensor.direction_vec.dot(player.velocity) > 0:
-		prevent_wall_collision(player, _pose.left_sensor, tile_map, tile_meta_array)
+		player.prevent_wall_collision(_pose.left_sensor, tile_map, tile_meta_array)
 	elif _pose.right_sensor.direction_vec.dot(player.velocity) > 0:
-		prevent_wall_collision(player, _pose.right_sensor, tile_map, tile_meta_array)
+		player.prevent_wall_collision(_pose.right_sensor, tile_map, tile_meta_array)
 	
 	player.position += player.velocity
-	snap_to_floor(player, tile_map, tile_meta_array)
+	if player.snap_to_floor(_pose.foot_sensors, tile_map, tile_meta_array) != null:
+		_pose.set_direction(player.get_current_direction())
 	
 
 func apply_slope_factor(player):
@@ -187,27 +188,6 @@ func apply_friction(player):
 	else:
 		player.ground_speed = 0.0
 
-	
-func prevent_wall_collision(player, wall_sensor, tile_map, tile_meta_array):
-	var info = wall_sensor.get_offset_collision_info(player.velocity, tile_map, tile_meta_array)
-	if info.distance < 0:
-		player.ground_speed = 0
-		player.velocity += info.distance * wall_sensor.direction_vec
-		
-
-func snap_to_floor(player, tile_map, tile_meta_array):
-	var chosen_result = null
-	for sensor in _pose.foot_sensors:
-		var cur_result = sensor.get_collision_info(tile_map, tile_meta_array)
-		if cur_result.distance > 14:
-			continue
-		if chosen_result == null || cur_result.distance < chosen_result.distance:
-			chosen_result = cur_result
-	
-	if chosen_result != null:
-		player.position += chosen_result.distance * _pose.get_foot_direction_vec()
-		player.angle = chosen_result.angle
-		_pose.direction = player.get_current_direction()
 		
 
 func animate_player(player):

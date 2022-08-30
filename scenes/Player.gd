@@ -52,3 +52,31 @@ func get_angle_rads():
 
 func tick_physics(tile_map, tile_meta_array):
 	_state.update_player(self, tile_map, tile_meta_array)
+
+
+
+
+func prevent_wall_collision(wall_sensor, tile_map, tile_meta_array):
+	var info = wall_sensor.get_offset_collision_info(velocity, tile_map, tile_meta_array)
+	if info.distance < 0:
+		ground_speed = 0
+		velocity += info.distance * wall_sensor.direction_vec
+		
+
+
+func snap_to_floor(foot_sensors, tile_map, tile_meta_array):
+	var chosen_result = null
+	var chosen_sensor = null
+	for sensor in foot_sensors:
+		var cur_result = sensor.get_collision_info(tile_map, tile_meta_array)
+		if cur_result.distance > 14:
+			continue
+		if chosen_result == null || cur_result.distance < chosen_result.distance:
+			chosen_result = cur_result
+			chosen_sensor = sensor
+	
+	if chosen_result != null:
+		position += chosen_result.distance * chosen_sensor.direction_vec
+		angle = chosen_result.angle
+		
+	return chosen_result
