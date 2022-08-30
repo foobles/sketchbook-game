@@ -93,7 +93,7 @@ func apply_floor_collision(collision):
 
 
 func animate_rolling():
-	if ground_speed < RUN_SPEED:
+	if abs(ground_speed) < RUN_SPEED:
 		set_animation("roll")
 	else:
 		set_animation("roll_fast")
@@ -106,7 +106,7 @@ func animate_walking():
 		set_animation("idle")
 		set_animation_ticks(60)
 	else:
-		if ground_speed < RUN_SPEED:
+		if abs(ground_speed) < RUN_SPEED:
 			set_animation("walk")
 		else:
 			set_animation("run")
