@@ -96,12 +96,15 @@ onready var _info_stand = PoseInfoStand.new(_pose_stand)
 onready var _info_ball = PoseInfoBall.new(_pose_ball)
 
 func _set_inner_state(pose_info):
+	var old_direction = 0
 	if _pose != null:
+		old_direction = _pose.direction
 		remove_child(_pose)
 		
 	add_child(pose_info.pose)
 	
 	_pose = pose_info.pose
+	_pose.direction = old_direction
 	_inner_state = pose_info
 		
 		
@@ -204,7 +207,7 @@ func snap_to_floor(player, tile_map, tile_meta_array):
 	if chosen_result != null:
 		player.position += chosen_result.distance * _pose.get_foot_direction_vec()
 		player.angle = chosen_result.angle
-		_pose.set_direction(player.get_current_direction())
+		_pose.direction = player.get_current_direction()
 		
 
 func animate_player(player):
