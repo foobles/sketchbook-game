@@ -81,22 +81,21 @@ func prevent_wall_collision(wall_sensor, tile_map, tile_meta_array):
 		
 
 
-func snap_to_floor(foot_sensors, tile_map, tile_meta_array):
+func get_floor_collision(foot_sensors, tile_map, tile_meta_array):
 	var chosen_result = null
-	var chosen_sensor = null
 	for sensor in foot_sensors:
 		var cur_result = sensor.get_collision_info(tile_map, tile_meta_array)
 		if cur_result.distance > 14:
 			continue
 		if chosen_result == null || cur_result.distance < chosen_result.distance:
 			chosen_result = cur_result
-			chosen_sensor = sensor
-	
-	if chosen_result != null:
-		position += chosen_result.distance * chosen_sensor.direction_vec
-		angle = chosen_result.angle
 		
 	return chosen_result
+
+
+func apply_floor_collision(collision):
+	position += collision.distance * collision.sensor.direction_vec
+	angle = collision.angle
 
 
 func animate_rolling():

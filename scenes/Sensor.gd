@@ -100,18 +100,21 @@ func get_offset_collision_info(offset, tile_map, tile_meta_array):
 				var ext_info = _get_tile_info(tile_coord + direction_vec, pixel_coord, tile_map, tile_meta_array)
 				return {
 					distance = 16 - ext_info.mag + pixel_dist,
-					angle = ext_info.angle
+					angle = ext_info.angle,
+					sensor = self,
 				}
 			16:
 				var ret_info = _get_tile_info(tile_coord - direction_vec, pixel_coord, tile_map, tile_meta_array)
 				return {
 					distance = -(ret_info.mag + 16 - pixel_dist),
-					angle = ret_info.angle if ret_info.mag > 0 else cur_info.angle
+					angle = ret_info.angle if ret_info.mag > 0 else cur_info.angle,
+					sensor = self
 				}
 	
 	return {
 		distance = pixel_dist - cur_info.mag,
-		angle = cur_info.angle
+		angle = cur_info.angle,
+		sensor = self
 	}
 	
 	

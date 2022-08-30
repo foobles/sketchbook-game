@@ -132,7 +132,10 @@ func update_player(player, tile_map, tile_meta_array):
 		player.prevent_wall_collision(_pose.right_sensor, tile_map, tile_meta_array)
 	
 	player.position += player.velocity
-	if player.snap_to_floor(_pose.foot_sensors, tile_map, tile_meta_array) != null:
+	
+	var floor_collision = player.get_floor_collision(_pose.foot_sensors, tile_map, tile_meta_array)
+	if floor_collision != null:
+		player.apply_floor_collision(floor_collision)
 		_pose.set_direction(player.get_current_direction())
 	else:
 		var airborne = player.state_airborne

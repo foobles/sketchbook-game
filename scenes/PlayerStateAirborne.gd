@@ -43,7 +43,9 @@ func update_player(player, tile_set, tile_meta_array):
 	for wall_sensor in active_sensors.wall_sensors:
 		player.prevent_wall_collision(wall_sensor, tile_set, tile_meta_array)
 		
-	if player.snap_to_floor(active_sensors.foot_sensors, tile_set, tile_meta_array) != null:
+	var floor_collision = player.get_floor_collision(active_sensors.foot_sensors, tile_set, tile_meta_array)
+	if floor_collision != null:
+		player.apply_floor_collision(floor_collision)
 		player.set_state(player.state_grounded)
 	
 	
