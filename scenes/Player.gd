@@ -81,3 +81,26 @@ func snap_to_floor(foot_sensors, tile_map, tile_meta_array):
 		angle = chosen_result.angle
 		
 	return chosen_result
+
+
+func animate_rolling():
+	if ground_speed < RUN_SPEED:
+		set_animation("roll")
+	else:
+		set_animation("roll_fast")
+	set_animation_ticks(max(0, floor(4 - abs(ground_speed))))
+	sprite.rotation = 0
+
+
+func animate_walking():
+	if ground_speed == 0:
+		set_animation("idle")
+		set_animation_ticks(60)
+	else:
+		if ground_speed < RUN_SPEED:
+			set_animation("walk")
+		else:
+			set_animation("run")
+		set_animation_ticks(max(0, floor(8 - abs(ground_speed))))
+		
+	sprite.rotation = -stepify(get_angle_rads(), PI / 4)

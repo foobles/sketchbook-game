@@ -43,18 +43,7 @@ class PoseInfoStand extends PoseInfo:
 
 	
 	func animate_player(player):
-		var ground_speed = player.ground_speed
-		if ground_speed == 0:
-			player.set_animation("idle")
-			player.set_animation_ticks(60)
-		else:
-			if ground_speed < Player.RUN_SPEED:
-				player.set_animation("walk")
-			else:
-				player.set_animation("run")
-			player.set_animation_ticks(max(0, floor(8 - abs(ground_speed))))
-			
-		player.sprite.rotation = -stepify(player.get_angle_rads(), PI / 4)
+		player.animate_walking()
 		
 	
 	func transition_inner(player, grounded):
@@ -79,12 +68,8 @@ class PoseInfoBall extends PoseInfo:
 
 
 	func animate_player(player):
-		if player.ground_speed < Player.RUN_SPEED:
-			player.set_animation("roll")
-		else:
-			player.set_animation("roll_fast")
-		player.set_animation_ticks(max(0, floor(4 - abs(player.ground_speed))))
-		player.sprite.rotation = 0
+		player.animate_rolling()
+		
 
 	func transition_inner(player, grounded):
 		if player.ground_speed == 0:
