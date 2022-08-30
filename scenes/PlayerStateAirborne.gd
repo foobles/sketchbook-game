@@ -46,7 +46,7 @@ func update_player(player, tile_set, tile_meta_array):
 	var floor_collision = player.get_floor_collision(active_sensors.foot_sensors, tile_set, tile_meta_array)
 	if floor_collision != null:
 		player.apply_floor_collision(floor_collision)
-		player.set_state(player.state_grounded)
+		player.state_grounded.transition_land_from_air(player)
 	
 	
 	

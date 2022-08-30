@@ -63,6 +63,13 @@ func get_current_direction():
 		return 3
 
 
+func get_movement_direction():
+	if abs(velocity.x) > abs(velocity.y):
+		return 0 if velocity.x > 0 else 2
+	else:
+		return 1 if velocity.y < 0 else 3
+		
+
 func get_angle_rads():
 	return float(angle) / 128.0 * PI
 

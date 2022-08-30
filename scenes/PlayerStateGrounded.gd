@@ -100,6 +100,30 @@ func _ready():
 	_set_inner_state(_info_ball)
 	
 	
+func transition_land_from_air(player):
+	remove_child(_pose)
+	add_child(_pose_stand)
+	_pose = _pose_stand
+	_pose.direction = player.get_current_direction()
+	_inner_state = _info_stand
+	
+	var r_angle = player.angle
+	if r_angle > 128:
+		r_angle = 256 - r_angle
+	
+	if r_angle < 16:
+		player.ground_speed = player.velocity.x
+	else:
+		if player.get_movement_direction() % 2 == 0:
+			player.ground_speed = player.velocity.x
+		else:
+			player.ground_speed = player.velocity.y 
+			player.ground_speed *= -1 if player.angle < 128 else 1
+			player.ground_speed *= 0.5 if r_angle < 32 else 1.0
+			
+	player.set_state(self)
+		
+	
 func update_player(player, tile_map, tile_meta_array):
 	_inner_state.update_constants(player)
 	
