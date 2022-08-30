@@ -105,6 +105,15 @@ func update_player(player, tile_map, tile_meta_array):
 	
 	apply_slope_factor(player)
 	
+	if Input.is_action_just_pressed("control_jump"):
+		var airborne = player.state_airborne
+		airborne.rolling = true
+		airborne.jumping = true
+		player.set_state(airborne)
+		var angle_rads = player.get_angle_rads()
+		player.velocity += 6.5 * Vector2(-sin(angle_rads), -cos(angle_rads))
+		return
+	
 	if is_accelerating(player):
 		apply_acceleration(player)
 	elif is_decelerating(player):
@@ -125,6 +134,11 @@ func update_player(player, tile_map, tile_meta_array):
 	player.position += player.velocity
 	if player.snap_to_floor(_pose.foot_sensors, tile_map, tile_meta_array) != null:
 		_pose.set_direction(player.get_current_direction())
+	else:
+		var airborne = player.state_airborne
+		airborne.rolling = _inner_state is PoseInfoBall
+		airborne.jumping = false
+		player.set_state(airborne)
 	
 
 func apply_slope_factor(player):

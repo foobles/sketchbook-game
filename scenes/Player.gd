@@ -10,7 +10,12 @@ var input_h = 0
 var input_v = 0
 
 onready var sprite = $Sprite
-onready var _state = $State
+
+onready var state_grounded = $StateGrounded
+onready var state_airborne = $StateAirborne
+onready var _states = [state_grounded, state_airborne]
+onready var _state = state_grounded
+
 
 #warning-ignore:unused_argument
 func _process(delta):
@@ -22,8 +27,19 @@ func _process(delta):
 		int(Input.is_action_pressed("control_move_down")) \
 		- int(Input.is_action_pressed("control_move_up"))
 		
-	_state.animate_player(self)		
+	_state.animate_player(self)
 	sprite.global_position = global_position.floor()
+	
+	
+func _ready():
+	for s in _states:
+		if s != _state:
+			remove_child(s)
+	
+func set_state(new_state):
+	remove_child(_state)
+	add_child(new_state)
+	_state = new_state
 	
 
 func set_animation(anim):
