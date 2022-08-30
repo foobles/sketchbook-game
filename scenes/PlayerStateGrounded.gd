@@ -16,8 +16,13 @@ class PoseInfo:
 	var slope_factor
 	var standing_slope_slip_threshold
 	
-	# warning-ignore:unused_argument
-	func update_constants(player):
+	func update_constants(_player):
+		pass
+		
+	func animate_player(_player):
+		pass
+		
+	func transition_inner(_player, _grounded):
 		pass
 	
 	
@@ -50,6 +55,11 @@ class PoseInfoStand extends PoseInfo:
 			player.set_animation_ticks(max(0, floor(8 - abs(ground_speed))))
 			
 		player.sprite.rotation = -stepify(player.get_angle_rads(), PI / 4)
+		
+	
+	func transition_inner(player, grounded):
+		if player.ground_speed != 0 && player.input_v == 1:
+			grounded._set_inner_state(grounded._info_ball)
 
 
 class PoseInfoBall extends PoseInfo:
@@ -76,6 +86,9 @@ class PoseInfoBall extends PoseInfo:
 		player.set_animation_ticks(max(0, floor(4 - abs(player.ground_speed))))
 		player.sprite.rotation = 0
 
+	func transition_inner(player, grounded):
+		if player.ground_speed == 0:
+			grounded._set_inner_state(grounded._info_stand)
 
 var _inner_state: PoseInfo
 
@@ -84,9 +97,9 @@ onready var _info_ball = PoseInfoBall.new(_pose_ball)
 
 func _set_inner_state(pose_info):
 	if _pose != null:
-		_pose.replace_by(pose_info.pose)
-	else:
-		add_child(pose_info.pose)
+		remove_child(_pose)
+		
+	add_child(pose_info.pose)
 	
 	_pose = pose_info.pose
 	_inner_state = pose_info
@@ -113,6 +126,8 @@ func update_player(player, tile_map, tile_meta_array):
 		
 	var angle_rads = player.get_angle_rads()
 	player.velocity = player.ground_speed * Vector2(cos(angle_rads), -sin(angle_rads))
+	
+	_inner_state.transition_inner(player, self)
 	
 	if _pose.left_sensor.direction_vec.dot(player.velocity) > 0:
 		prevent_wall_collision(player, _pose.left_sensor, tile_map, tile_meta_array)
