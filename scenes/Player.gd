@@ -87,19 +87,6 @@ func prevent_wall_collision(wall_sensor, tile_map, tile_meta_array):
 		velocity += info.distance * wall_sensor.direction_vec
 		
 
-
-func get_floor_collision(foot_sensors, tile_map, tile_meta_array):
-	var chosen_result = null
-	for sensor in foot_sensors:
-		var cur_result = sensor.get_collision_info(tile_map, tile_meta_array)
-		if cur_result.distance > 14:
-			continue
-		if chosen_result == null || cur_result.distance < chosen_result.distance:
-			chosen_result = cur_result
-		
-	return chosen_result
-
-
 func apply_floor_collision(collision):
 	position += collision.distance * collision.sensor.direction_vec
 	angle = collision.angle
