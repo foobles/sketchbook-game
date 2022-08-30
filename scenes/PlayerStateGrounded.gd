@@ -134,8 +134,8 @@ func is_accelerating(player):
 	var walk_accel = _inner_state.accel
 	return (
 		walk_accel != null
-		&& player.input_direction != 0
-		&& player.input_direction != -sign(player.ground_speed)
+		&& player.input_h != 0
+		&& player.input_h != -sign(player.ground_speed)
 	)
 
 
@@ -143,23 +143,23 @@ func is_decelerating(player):
 	var walk_decel = _inner_state.decel
 	return (
 		walk_decel != null
-		&& player.input_direction != 0
-		&& player.input_direction == -sign(player.ground_speed)
+		&& player.input_h != 0
+		&& player.input_h == -sign(player.ground_speed)
 	)
 
 
 func apply_acceleration(player):
 	if abs(player.ground_speed) < RUN_SPEED:
-		player.ground_speed += player.input_direction * _inner_state.accel
+		player.ground_speed += player.input_h * _inner_state.accel
 		player.ground_speed = clamp(player.ground_speed, -RUN_SPEED, RUN_SPEED)
 	
 
 func apply_deceleration(player):
 	var walk_decel = _inner_state.decel
 	if abs(player.ground_speed) > walk_decel:
-		player.ground_speed += player.input_direction * walk_decel
+		player.ground_speed += player.input_h * walk_decel
 	else:
-		player.ground_speed = player.input_direction * 0.5
+		player.ground_speed = player.input_h * 0.5
 
 
 func apply_friction(player):

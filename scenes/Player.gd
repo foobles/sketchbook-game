@@ -5,16 +5,21 @@ var ground_speed: float = 0.0
 var angle: int = 0
 var velocity: Vector2 = Vector2()
 
-var input_direction = 0
+var input_h = 0
+var input_v = 0
 
 onready var sprite = $Sprite
 onready var _state = $State
 
 #warning-ignore:unused_argument
 func _process(delta):
-	input_direction = \
+	input_h = \
 		int(Input.is_action_pressed("control_move_right")) \
 		- int(Input.is_action_pressed("control_move_left"))
+		
+	input_v = \
+		int(Input.is_action_pressed("control_move_down")) \
+		- int(Input.is_action_pressed("control_move_up"))
 		
 	_state.animate_player(self)		
 	sprite.global_position = global_position.floor()
