@@ -1,5 +1,6 @@
 extends Node2D
 
+const RUN_SPEED = 6.0
 
 var ground_speed: float = 0.0
 var angle: int = 0

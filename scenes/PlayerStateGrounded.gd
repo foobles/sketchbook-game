@@ -1,12 +1,12 @@
 extends "res://scenes/PlayerState.gd"
 
+const Player = preload("res://scenes/Player.gd")
+
 onready var _pose_stand = $PoseStand
 onready var _pose_ball = $PoseBall
 onready var _poses = [$PoseStand, $PoseBall]
 
 var _pose = null
-
-const RUN_SPEED = 6.0
 
 class PoseInfo:
 	var pose 
@@ -48,7 +48,7 @@ class PoseInfoStand extends PoseInfo:
 			player.set_animation("idle")
 			player.set_animation_ticks(60)
 		else:
-			if ground_speed < RUN_SPEED:
+			if ground_speed < Player.RUN_SPEED:
 				player.set_animation("walk")
 			else:
 				player.set_animation("run")
@@ -79,7 +79,7 @@ class PoseInfoBall extends PoseInfo:
 
 
 	func animate_player(player):
-		if player.ground_speed < RUN_SPEED:
+		if player.ground_speed < Player.RUN_SPEED:
 			player.set_animation("roll")
 		else:
 			player.set_animation("roll_fast")
@@ -168,9 +168,10 @@ func is_decelerating(player):
 
 
 func apply_acceleration(player):
-	if abs(player.ground_speed) < RUN_SPEED:
+	var run_speed = Player.RUN_SPEED
+	if abs(player.ground_speed) < run_speed:
 		player.ground_speed += player.input_h * _inner_state.accel
-		player.ground_speed = clamp(player.ground_speed, -RUN_SPEED, RUN_SPEED)
+		player.ground_speed = clamp(player.ground_speed, -run_speed, run_speed)
 	
 
 func apply_deceleration(player):
