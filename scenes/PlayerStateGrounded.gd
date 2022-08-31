@@ -151,9 +151,9 @@ func update_player(player, tile_map, tile_meta_array):
 	_inner_state.transition_inner(player, self)
 	
 	if _pose.left_sensor.direction_vec.dot(player.velocity) > 0:
-		player.prevent_wall_collision(_pose.left_sensor, tile_map, tile_meta_array)
+		prevent_wall_collision(player, _pose.left_sensor, tile_map, tile_meta_array)
 	elif _pose.right_sensor.direction_vec.dot(player.velocity) > 0:
-		player.prevent_wall_collision(_pose.right_sensor, tile_map, tile_meta_array)
+		prevent_wall_collision(player, _pose.right_sensor, tile_map, tile_meta_array)
 	
 	player.position += player.velocity
 	snap_to_floor(player, tile_map, tile_meta_array)
@@ -177,6 +177,15 @@ func snap_to_floor(player, tile_map, tile_meta_array):
 		airborne.jumping = false
 		player.set_state(airborne)
 	
+	
+
+func prevent_wall_collision(player, wall_sensor, tile_map, tile_meta_array):
+	var info = wall_sensor.get_offset_collision_info(player.velocity, tile_map, tile_meta_array)
+	if info.distance < 0:
+		player.ground_speed = 0
+		player.velocity += info.distance * wall_sensor.direction_vec
+		
+
 
 func apply_slope_factor(player):
 	var angle_rads = player.get_angle_rads()

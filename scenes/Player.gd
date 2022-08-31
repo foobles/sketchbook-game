@@ -78,15 +78,6 @@ func tick_physics(tile_map, tile_meta_array):
 	_state.update_player(self, tile_map, tile_meta_array)
 
 
-
-
-func prevent_wall_collision(wall_sensor, tile_map, tile_meta_array):
-	var info = wall_sensor.get_offset_collision_info(velocity, tile_map, tile_meta_array)
-	if info.distance < 0:
-		ground_speed = 0
-		velocity += info.distance * wall_sensor.direction_vec
-		
-
 func apply_floor_collision(collision):
 	position += collision.distance * collision.sensor.direction_vec
 	if collision.angle != 255:

@@ -26,7 +26,7 @@ func _ready():
 	remove_child(_pose_ball)
 
 
-func update_player(player, tile_set, tile_meta_array):
+func update_player(player, tile_map, tile_meta_array):
 	if jumping && !Input.is_action_pressed("control_jump") && player.velocity.y < -4:
 		player.velocity.y = -4
 		
@@ -41,10 +41,10 @@ func update_player(player, tile_set, tile_meta_array):
 	
 	var active_sensors = get_active_sensors(player)
 	for wall_sensor in active_sensors.wall_sensors:
-		player.prevent_wall_collision(wall_sensor, tile_set, tile_meta_array)
+		exit_wall(player, wall_sensor, tile_map, tile_meta_array)
 		
 	interpolate_angle(player)
-	land_on_ground(player, active_sensors.foot_sensors, tile_set, tile_meta_array)
+	land_on_ground(player, active_sensors.foot_sensors, tile_map, tile_meta_array)
 	
 	
 func interpolate_angle(player):
@@ -53,7 +53,7 @@ func interpolate_angle(player):
 	else:
 		player.angle = 0
 	
-func land_on_ground(player, foot_sensors, tile_set, tile_meta_array):
+func land_on_ground(player, foot_sensors, tile_map, tile_meta_array):
 	var movement_direction = player.get_movement_direction()
 	var downwards_distance_threshold = -(player.velocity.y + 8)
 	
@@ -61,7 +61,7 @@ func land_on_ground(player, foot_sensors, tile_set, tile_meta_array):
 	var downwards_distance_met = false
 	
 	for sensor in foot_sensors:
-		var cur = sensor.get_collision_info(tile_set, tile_meta_array)
+		var cur = sensor.get_collision_info(tile_map, tile_meta_array)
 		if cur.distance >= downwards_distance_threshold:
 			downwards_distance_met = true
 			
@@ -84,6 +84,13 @@ func land_on_ground(player, foot_sensors, tile_set, tile_meta_array):
 	player.apply_floor_collision(collision)
 	player.state_grounded.transition_land_from_air(player)
 	
+	
+func exit_wall(player, wall_sensor, tile_map, tile_meta_array):
+	var info = wall_sensor.get_collision_info(tile_map, tile_meta_array)
+	if info.distance < 0:
+		player.ground_speed = 0
+		player.position += info.distance * wall_sensor.direction_vec
+		
 	
 	
 func get_active_sensors(player):
