@@ -43,17 +43,17 @@ func update_player(player, tile_set, tile_meta_array):
 	for wall_sensor in active_sensors.wall_sensors:
 		player.prevent_wall_collision(wall_sensor, tile_set, tile_meta_array)
 		
-	land_on_ground(player, tile_set, tile_meta_array)
+	land_on_ground(player, active_sensors.foot_sensors, tile_set, tile_meta_array)
 	
 	
-func land_on_ground(player, tile_set, tile_meta_array):
+func land_on_ground(player, foot_sensors, tile_set, tile_meta_array):
 	var movement_direction = player.get_movement_direction()
 	var downwards_distance_threshold = -(player.velocity.y + 8)
 	
 	var collision = null
 	var downwards_distance_met = false
 	
-	for sensor in _pose.foot_sensors:
+	for sensor in foot_sensors:
 		var cur = sensor.get_collision_info(tile_set, tile_meta_array)
 		if cur.distance >= downwards_distance_threshold:
 			downwards_distance_met = true
@@ -73,6 +73,7 @@ func land_on_ground(player, tile_set, tile_meta_array):
 	if movement_direction % 2 == 0 && player.velocity.y < 0:
 		return
 
+	player.angle = 0
 	player.apply_floor_collision(collision)
 	player.state_grounded.transition_land_from_air(player)
 	

@@ -89,7 +89,10 @@ func prevent_wall_collision(wall_sensor, tile_map, tile_meta_array):
 
 func apply_floor_collision(collision):
 	position += collision.distance * collision.sensor.direction_vec
-	angle = collision.angle
+	if collision.angle != 255:
+		angle = collision.angle
+	else:
+		angle = get_current_direction() * 64
 
 
 func animate_rolling():

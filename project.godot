@@ -31,8 +31,8 @@ run/main_scene="res://scenes/World.tscn"
 
 [display]
 
-window/size/width=512
-window/size/height=256
+window/size/width=320
+window/size/height=224
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
