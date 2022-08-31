@@ -43,8 +43,15 @@ func update_player(player, tile_set, tile_meta_array):
 	for wall_sensor in active_sensors.wall_sensors:
 		player.prevent_wall_collision(wall_sensor, tile_set, tile_meta_array)
 		
+	interpolate_angle(player)
 	land_on_ground(player, active_sensors.foot_sensors, tile_set, tile_meta_array)
 	
+	
+func interpolate_angle(player):
+	if 2 < player.angle && player.angle < 256 - 2:
+		player.angle += 2 * sign(player.angle - 128)
+	else:
+		player.angle = 0
 	
 func land_on_ground(player, foot_sensors, tile_set, tile_meta_array):
 	var movement_direction = player.get_movement_direction()
