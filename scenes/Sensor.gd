@@ -15,6 +15,7 @@ var _starting_direction_vec: Vector2
 var _direction = 0
 
 func _ready():
+	_direction = starting_direction
 	direction_vec = _direction_to_vec(starting_direction)
 	_starting_direction_vec = direction_vec
 
