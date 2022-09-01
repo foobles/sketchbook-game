@@ -9,6 +9,8 @@ var velocity: Vector2 = Vector2()
 var input_h = 0
 var input_v = 0
 
+var control_lock = 0
+
 onready var sprite = $Sprite
 
 onready var state_grounded = $StateGrounded
@@ -50,6 +52,9 @@ func set_animation(anim):
 func set_animation_ticks(n):
 	$AnimationPlayer.playback_speed = 60.0 / (n + 1)
 
+
+func is_control_locked():
+	return control_lock > 0
 
 const _OCT = 32
 func get_current_direction():

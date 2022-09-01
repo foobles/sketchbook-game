@@ -5,8 +5,12 @@ const Player = preload("res://scenes/Player.gd")
 onready var _pose_stand = $PoseStand
 onready var _pose_ball = $PoseBall
 onready var _poses = [$PoseStand, $PoseBall]
+onready var _control_lock_timer = $ControlLockTimer
 
 var _pose = null
+
+const SLIP_SPEED_THRESHOLD: float = 2.5
+const SLIP_ANGLE_THRESHOLD: int = 32
 
 class PoseInfo:
 	var pose 
@@ -122,7 +126,7 @@ func transition_land_from_air(player):
 			player.ground_speed *= 0.5 if r_angle < 32 else 1.0
 			
 	player.set_state(self)
-		
+
 	
 func update_player(player, tile_map, tile_meta_array):
 	_inner_state.update_constants(player)
@@ -157,6 +161,7 @@ func update_player(player, tile_map, tile_meta_array):
 	
 	player.position += player.velocity
 	snap_to_floor(player, tile_map, tile_meta_array)
+	check_slipping(player)
 
 
 func snap_to_floor(player, tile_map, tile_meta_array):
@@ -173,11 +178,10 @@ func snap_to_floor(player, tile_map, tile_meta_array):
 		_pose.set_direction(player.get_current_direction())
 	else:
 		var airborne = player.state_airborne
-		airborne.rolling = _inner_state is PoseInfoBall
+		airborne.rolling = is_rolling()
 		airborne.jumping = false
-		player.set_state(airborne)
-	
-	
+		player.set_state(airborne)	
+
 
 func prevent_wall_collision(player, wall_sensor, tile_map, tile_meta_array):
 	var info = wall_sensor.get_offset_collision_info(player.velocity, tile_map, tile_meta_array)
@@ -185,6 +189,20 @@ func prevent_wall_collision(player, wall_sensor, tile_map, tile_meta_array):
 		player.ground_speed = 0
 		player.velocity += info.distance * wall_sensor.direction_vec
 		
+
+func check_slipping(player):
+	if player.control_lock == 0:
+		if (SLIP_ANGLE_THRESHOLD < player.angle 
+			&& player.angle < 256 - SLIP_ANGLE_THRESHOLD
+			&& abs(player.ground_speed) < SLIP_SPEED_THRESHOLD
+		):
+			player.control_lock = 30
+			var airborne = player.state_airborne
+			airborne.rolling = is_rolling()
+			airborne.jumping = false
+			player.set_state(airborne)
+	else:
+		player.control_lock -= 1
 
 
 func apply_slope_factor(player):
@@ -198,6 +216,7 @@ func is_accelerating(player):
 	var walk_accel = _inner_state.accel
 	return (
 		walk_accel != null
+		&& !player.is_control_locked()
 		&& player.input_h != 0
 		&& player.input_h != -sign(player.ground_speed)
 	)
@@ -207,10 +226,14 @@ func is_decelerating(player):
 	var walk_decel = _inner_state.decel
 	return (
 		walk_decel != null
+		&& !player.is_control_locked()
 		&& player.input_h != 0
 		&& player.input_h == -sign(player.ground_speed)
 	)
 
+
+func is_rolling():
+	return _inner_state is PoseInfoBall
 
 func apply_acceleration(player):
 	var run_speed = Player.RUN_SPEED
@@ -225,7 +248,7 @@ func apply_deceleration(player):
 		player.ground_speed += player.input_h * walk_decel
 	else:
 		player.ground_speed = player.input_h * 0.5
-
+		
 
 func apply_friction(player):
 	var walk_friction = _inner_state.friction
@@ -233,7 +256,6 @@ func apply_friction(player):
 		player.ground_speed -= sign(player.ground_speed) * walk_friction
 	else:
 		player.ground_speed = 0.0
-
 		
 
 func animate_player(player):
