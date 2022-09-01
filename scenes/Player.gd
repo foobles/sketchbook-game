@@ -6,6 +6,7 @@ var ground_speed: float = 0.0
 var angle: int = 0
 var velocity: Vector2 = Vector2()
 
+var direction: int = 1
 var input_h = 0
 var input_v = 0
 
@@ -24,6 +25,9 @@ func _process(delta):
 	input_h = \
 		int(Input.is_action_pressed("control_move_right")) \
 		- int(Input.is_action_pressed("control_move_left"))
+		
+	if input_h != 0:
+		direction = input_h
 		
 	input_v = \
 		int(Input.is_action_pressed("control_move_down")) \
@@ -51,7 +55,10 @@ func set_animation(anim):
 
 func set_animation_ticks(n):
 	$AnimationPlayer.playback_speed = 60.0 / (n + 1)
-
+	
+func set_animation_reversed(r):
+	var abs_speed = abs($AnimationPlayer.playback_speed)
+	$AnimationPlayer.playback_speed = abs_speed * (-1 if r else 1)
 
 func is_control_locked():
 	return control_lock > 0
