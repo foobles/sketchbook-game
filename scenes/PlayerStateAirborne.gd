@@ -27,7 +27,7 @@ func _ready():
 
 
 func update_player(player, tile_map, tile_meta_array):
-	if jumping && !Input.is_action_pressed("control_jump") && player.velocity.y < -4:
+	if jumping && !player.jump_pressed && player.velocity.y < -4:
 		player.velocity.y = -4
 		
 	player.velocity.x += 24/256.0 * player.input_h

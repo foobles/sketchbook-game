@@ -2,7 +2,6 @@ extends Node2D
 
 var tile_meta_array = load("res://assets/tile_sets/platforming_meta.tres").into_array()
 
-
 func _ready():
 	var rect = $TileMap.get_used_rect()
 	rect.position.x *= $TileMap.cell_size.x 
@@ -15,11 +14,10 @@ func _ready():
 	$Camera2D.limit_top = rect.position.y 
 	$Camera2D.limit_bottom = rect.end.y
 
-#warning-ignore:unused_argument
-func _process(delta):
+
+func _process(_delta):
 	$Camera2D.position = $Player.position.floor()
 
 
-#warning-ignore:unused_argument
-func _physics_process(delta):
-	$Player.tick_physics($TileMap, tile_meta_array)
+func _physics_process(_delta):
+	$Player.tick($TileMap, tile_meta_array)

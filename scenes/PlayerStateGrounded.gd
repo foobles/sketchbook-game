@@ -133,7 +133,7 @@ func update_player(player, tile_map, tile_meta_array):
 	
 	apply_slope_factor(player)
 	
-	if Input.is_action_just_pressed("control_jump"):
+	if player.jump_just_pressed:
 		var airborne = player.state_airborne
 		airborne.rolling = true
 		airborne.jumping = true

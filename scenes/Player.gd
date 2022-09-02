@@ -10,6 +10,9 @@ var direction: int = 1
 var input_h = 0
 var input_v = 0
 
+var jump_pressed = false
+var jump_just_pressed = false
+
 var control_lock = 0
 
 onready var sprite = $Sprite
@@ -20,8 +23,7 @@ onready var _states = [state_grounded, state_airborne]
 onready var _state = state_grounded
 
 
-#warning-ignore:unused_argument
-func _process(delta):
+func read_input():
 	input_h = \
 		int(Input.is_action_pressed("control_move_right")) \
 		- int(Input.is_action_pressed("control_move_left"))
@@ -33,8 +35,10 @@ func _process(delta):
 		int(Input.is_action_pressed("control_move_down")) \
 		- int(Input.is_action_pressed("control_move_up"))
 		
-	_state.animate_player(self)
-	sprite.global_position = global_position.floor()
+	
+	var prev_jump_pressed = jump_pressed
+	jump_pressed = Input.is_action_pressed("control_jump") 
+	jump_just_pressed = jump_pressed && !prev_jump_pressed
 	
 	
 func _ready():
@@ -86,8 +90,11 @@ func get_angle_rads():
 	return float(angle) / 128.0 * PI
 
 
-func tick_physics(tile_map, tile_meta_array):
+func tick(tile_map, tile_meta_array):
+	read_input()
 	_state.update_player(self, tile_map, tile_meta_array)
+	_state.animate_player(self)
+	sprite.global_position = global_position.floor()
 
 
 func apply_floor_collision(collision):
