@@ -160,7 +160,7 @@ is_solid_bottom = true
 [sub_resource type="Resource" id=26]
 script = ExtResource( 3 )
 name = "road full curve in 3"
-heights = PoolIntArray( 12, 13, 14, 15, 16, 16, 16, 16, 16, 16, 16, 16 )
+heights = PoolIntArray( 12, 13, 14, 15, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 )
 angle = 32
 is_solid_top = true
 is_solid_sides = true
