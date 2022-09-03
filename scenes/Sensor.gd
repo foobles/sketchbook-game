@@ -12,10 +12,10 @@ export(bool) var auto_adjust = false
 
 var direction_vec: Vector2
 var _starting_direction_vec: Vector2
-var _direction = 0
+var direction = 0
 
 func _ready():
-	_direction = starting_direction
+	direction = starting_direction
 	direction_vec = _direction_to_vec(starting_direction)
 	_starting_direction_vec = direction_vec
 
@@ -31,7 +31,7 @@ func _draw():
 	
 func set_direction_rotation(rotation_direction):
 	var rot = _direction_to_vec(rotation_direction)
-	_direction = (starting_direction + rotation_direction) % 4
+	direction = (starting_direction + rotation_direction) % 4
 	direction_vec.x = _starting_direction_vec.x * rot.x - _starting_direction_vec.y * rot.y
 	direction_vec.y = _starting_direction_vec.x * rot.y + _starting_direction_vec.y * rot.x 
 
@@ -74,7 +74,7 @@ func _get_tile_info(tile_coord, pixel_coord, tile_map, tile_meta_array):
 	
 
 func _get_pixel_dist(pixel_coord):
-	match _direction:
+	match direction:
 		Direction.UP:
 			return pixel_coord.y
 		Direction.DOWN:
@@ -86,7 +86,7 @@ func _get_pixel_dist(pixel_coord):
 
 
 func is_horizontal():
-	return _direction == Direction.LEFT || _direction == Direction.RIGHT
+	return (direction & 1) == 0
 
 func get_offset_collision_info(offset, tile_map, tile_meta_array):
 	var map_position = tile_map.to_local(global_position + offset).floor()

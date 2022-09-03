@@ -88,9 +88,11 @@ func land_on_ground(player, foot_sensors, tile_map, tile_meta_array):
 func exit_wall(player, wall_sensor, tile_map, tile_meta_array):
 	var info = wall_sensor.get_collision_info(tile_map, tile_meta_array)
 	if info.distance < 0:
-		player.ground_speed = 0
 		player.position += info.distance * wall_sensor.direction_vec
-		
+		if player.velocity.dot(wall_sensor.direction_vec) > 0:
+			var h = wall_sensor.direction & 1
+			player.velocity.x *= h
+			player.velocity.y *= (h^1)
 	
 	
 func get_active_sensors(player):
