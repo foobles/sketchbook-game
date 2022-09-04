@@ -1,5 +1,7 @@
 extends Position2D
 
+class_name Sensor
+
 enum Direction {
 	RIGHT = 0,
 	UP = 1,

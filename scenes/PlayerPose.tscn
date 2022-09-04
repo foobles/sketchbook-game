@@ -1,23 +1,30 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/PlayerPose.gd" type="Script" id=1]
-[ext_resource path="res://scenes/Sensor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Sensor.gd" type="Script" id=2]
 
 [node name="PlayerPose" type="Node2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="WallLeft" parent="." instance=ExtResource( 2 )]
+[node name="WallLeft" type="Position2D" parent="."]
 position = Vector2( -10, 0 )
+script = ExtResource( 2 )
 starting_direction = 2
 
-[node name="WallRight" parent="." instance=ExtResource( 2 )]
+[node name="WallRight" type="Position2D" parent="."]
 position = Vector2( 10, 0 )
+script = ExtResource( 2 )
 starting_direction = 0
 
-[node name="FootLeft" parent="." instance=ExtResource( 2 )]
+[node name="FootLeft" type="Position2D" parent="."]
 position = Vector2( -9, 19 )
+script = ExtResource( 2 )
 auto_adjust = true
 
-[node name="FootRight" parent="." instance=ExtResource( 2 )]
+[node name="FootRight" type="Position2D" parent="."]
 position = Vector2( 9, 19 )
+script = ExtResource( 2 )
 auto_adjust = true
