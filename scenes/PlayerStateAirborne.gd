@@ -25,6 +25,8 @@ func _ready():
 	remove_child(_pose_stand)
 	remove_child(_pose_ball)
 
+func enter_state(player):
+	player.emit_signal("became_airborne")
 
 func update_player(player, tile_map, tile_meta_array):
 	if jumping && !player.jump_pressed && player.velocity.y < -4:

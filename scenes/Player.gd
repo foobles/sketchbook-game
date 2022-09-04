@@ -15,6 +15,12 @@ var jump_just_pressed = false
 
 var control_lock = 0
 
+# warning-ignore:unused_signal
+signal became_airborne
+# warning-ignore:unused_signal
+signal became_grounded
+
+
 onready var sprite = $Sprite
 
 onready var state_grounded = $StateGrounded
@@ -49,6 +55,7 @@ func _ready():
 func set_state(new_state):
 	remove_child(_state)
 	add_child(new_state)
+	new_state.enter_state(self)
 	_state = new_state
 	
 

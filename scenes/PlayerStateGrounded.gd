@@ -127,6 +127,10 @@ func transition_land_from_air(player):
 			
 	player.set_state(self)
 
+
+func enter_state(player):
+	player.emit_signal("became_grounded")
+	
 	
 func update_player(player, tile_map, tile_meta_array):
 	_inner_state.update_constants(player)
