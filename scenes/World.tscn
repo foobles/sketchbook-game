@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/tile_sets/platforming.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/World.gd" type="Script" id=2]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/PlayerCamera.gd" type="Script" id=4]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
@@ -17,5 +18,15 @@ tile_data = PoolIntArray( 0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, 2621
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 376, 22 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="."]
+visible = false
+anchor_mode = 0
 current = true
+script = ExtResource( 4 )
+box_left = 144
+box_right = 160
+box_center_v = 96
+box_radius_v = 32
+
+[connection signal="became_airborne" from="Player" to="Camera" method="_on_Player_became_airborne"]
+[connection signal="became_grounded" from="Player" to="Camera" method="_on_Player_became_grounded"]

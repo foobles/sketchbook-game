@@ -9,14 +9,15 @@ func _ready():
 	rect.size.x *= $TileMap.cell_size.x 
 	rect.size.y *= $TileMap.cell_size.y 
 	
-	$Camera2D.limit_left = rect.position.x 
-	$Camera2D.limit_right = rect.end.x 
-	$Camera2D.limit_top = rect.position.y 
-	$Camera2D.limit_bottom = rect.end.y
+	$Camera.limit_left = rect.position.x 
+	$Camera.limit_right = rect.end.x 
+	$Camera.limit_top = rect.position.y 
+	$Camera.limit_bottom = rect.end.y
 
 
 func _process(_delta):
-	$Camera2D.position = $Player.position.floor()
+	$Camera.track_player($Player)
+	
 
 
 func _physics_process(_delta):
