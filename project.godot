@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Hitbox",
+"language": "GDScript",
+"path": "res://scenes/Hitbox.gd"
+}, {
+"base": "Position2D",
+"class": "Sensor",
+"language": "GDScript",
+"path": "res://scenes/Sensor.gd"
+}, {
 "base": "Resource",
 "class": "TileMeta",
 "language": "GDScript",
@@ -20,6 +30,8 @@ _global_script_classes=[ {
 "path": "res://resource_types/tile_set_meta.gd"
 } ]
 _global_script_class_icons={
+"Hitbox": "",
+"Sensor": "",
 "TileMeta": "",
 "TileSetMeta": ""
 }

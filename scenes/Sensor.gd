@@ -126,8 +126,8 @@ func get_collision_info(tile_map, tile_meta_array):
 	return get_offset_collision_info(Vector2.ZERO, tile_map, tile_meta_array)
 
 
-static func _direction_to_vec(direction):
-	match direction:
+static func _direction_to_vec(dir):
+	match dir:
 		Direction.UP:
 			return Vector2.UP
 		Direction.DOWN:
