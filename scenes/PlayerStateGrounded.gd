@@ -13,8 +13,8 @@ class PoseInfo:
 	var slope_factor
 	var standing_slope_slip_threshold
 	
-	func get_pose(player):
-		return player.get(pose_name)
+	func apply_pose(player):
+		player.pose = player.get(pose_name)
 	
 	func update_constants(_player):
 		pass
@@ -75,7 +75,7 @@ var _inner_state = _info_stand
 
 func _set_inner_state(player, pose_info):
 	var old_direction = player.pose.direction
-	player.pose = pose_info.get_pose(player)
+	pose_info.apply_pose(player)
 	player.pose.direction = old_direction
 	_inner_state = pose_info
 	
