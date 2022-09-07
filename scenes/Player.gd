@@ -28,6 +28,11 @@ onready var state_airborne = $StateAirborne
 onready var _states = [state_grounded, state_airborne]
 onready var _state = state_grounded
 
+onready var pose_ball = $PoseBall
+onready var pose_stand = $PoseStand
+onready var pose = pose_stand setget set_pose
+onready var _poses = [pose_ball, pose_stand]
+
 
 func read_input():
 	input_h = \
@@ -51,13 +56,24 @@ func _ready():
 	for s in _states:
 		if s != _state:
 			remove_child(s)
-	
+			
+	for p in _poses:
+		if p != pose:
+			remove_child(p)
+			
+		
 func set_state(new_state):
 	remove_child(_state)
 	add_child(new_state)
 	new_state.enter_state(self)
 	_state = new_state
 	
+	
+func set_pose(new_pose):
+	remove_child(pose)
+	add_child(new_pose)
+	pose = new_pose
+
 
 func set_animation(anim):
 	if $AnimationPlayer.current_animation != anim:

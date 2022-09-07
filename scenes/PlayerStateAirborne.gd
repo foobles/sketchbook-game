@@ -1,32 +1,18 @@
 extends "res://scenes/PlayerState.gd"
 
-var rolling: bool setget set_rolling
+var rolling: bool
 var jumping: bool = false
 
-onready var _pose_stand = $PoseStand
-onready var _pose_ball = $PoseBall
-
-var _pose
-
-func set_rolling(r):
-	rolling = r
-	if _pose != null:
-		remove_child(_pose)
-	
-	if r:
-		_pose = _pose_ball
-	else:
-		_pose = _pose_stand
-		
-	add_child(_pose)
-	
-
-func _ready():
-	remove_child(_pose_stand)
-	remove_child(_pose_ball)
-
 func enter_state(player):
+	if rolling:
+		player.pose = player.pose_ball
+	else:
+		player.pose = player.pose_stand
+		
+	player.pose.direction = 0
+		
 	player.emit_signal("became_airborne")
+
 
 func update_player(player, tile_map, tile_meta_array):
 	if jumping && !player.jump_pressed && player.velocity.y < -4:
@@ -98,15 +84,16 @@ func exit_wall(player, wall_sensor, tile_map, tile_meta_array):
 	
 	
 func get_active_sensors(player):
+	var pose = player.pose
 	if abs(player.velocity.x) > abs(player.velocity.y):
 		return {
-			wall_sensors = [_pose.right_sensor if player.velocity.x > 0 else _pose.left_sensor],
-			foot_sensors = _pose.foot_sensors
+			wall_sensors = [pose.right_sensor if player.velocity.x > 0 else pose.left_sensor],
+			foot_sensors = pose.foot_sensors
 		}
 	else:
 		return {
-			wall_sensors = [_pose.right_sensor,  _pose.left_sensor],
-			foot_sensors = _pose.foot_sensors if player.velocity.y > 0 else []
+			wall_sensors = [pose.right_sensor,  pose.left_sensor],
+			foot_sensors = pose.foot_sensors if player.velocity.y > 0 else []
 		}
 
 

@@ -2,23 +2,19 @@ extends "res://scenes/PlayerState.gd"
 
 const Player = preload("res://scenes/Player.gd")
 
-onready var _pose_stand = $PoseStand
-onready var _pose_ball = $PoseBall
-onready var _poses = [$PoseStand, $PoseBall]
-onready var _control_lock_timer = $ControlLockTimer
-
-var _pose = null
-
 const SLIP_SPEED_THRESHOLD: float = 2.5
 const SLIP_ANGLE_THRESHOLD: int = 32
 
 class PoseInfo:
-	var pose 
+	var pose_name
 	var accel
 	var decel
 	var friction
 	var slope_factor
 	var standing_slope_slip_threshold
+	
+	func get_pose(player):
+		return player.get(pose_name)
 	
 	func update_constants(_player):
 		pass
@@ -31,20 +27,13 @@ class PoseInfo:
 	
 	
 class PoseInfoStand extends PoseInfo:
-	func _init(_pose):
-		pose = _pose
+	func _init():
+		pose_name = "pose_stand"
 		accel = 12 / 256.0 
 		decel = 128 / 256.0 
 		friction = 12 / 256.0 
 		slope_factor = 32 / 256.0
 		standing_slope_slip_threshold = 13 / 256.0
-
-
-	func update_constants(player):
-		var wall_sensor_y = 8 if player.angle != 0 else 0
-		pose.left_sensor.position.y = wall_sensor_y
-		pose.right_sensor.position.y = wall_sensor_y
-
 	
 	func animate_player(player):
 		player.animate_walking()
@@ -52,12 +41,12 @@ class PoseInfoStand extends PoseInfo:
 	
 	func transition_inner(player, grounded):
 		if player.ground_speed != 0 && player.input_v == 1:
-			grounded._set_inner_state(grounded._info_ball)
+			grounded._set_inner_state(player, grounded._info_ball)
 
 
 class PoseInfoBall extends PoseInfo:
-	func _init(_pose):
-		pose = _pose
+	func _init():
+		pose_name = "pose_ball"
 		accel = null 
 		decel = 32 / 256.0 
 		friction = 6 / 256.0 
@@ -77,40 +66,21 @@ class PoseInfoBall extends PoseInfo:
 
 	func transition_inner(player, grounded):
 		if player.ground_speed == 0:
-			grounded._set_inner_state(grounded._info_stand)
+			grounded._set_inner_state(player, grounded._info_stand)
 
-var _inner_state: PoseInfo
 
-onready var _info_stand = PoseInfoStand.new(_pose_stand)
-onready var _info_ball = PoseInfoBall.new(_pose_ball)
+var _info_stand = PoseInfoStand.new()
+var _info_ball = PoseInfoBall.new()
+var _inner_state = _info_stand
 
-func _set_inner_state(pose_info):
-	var old_direction = 0
-	if _pose != null:
-		old_direction = _pose.direction
-		remove_child(_pose)
-		
-	add_child(pose_info.pose)
-	
-	_pose = pose_info.pose
-	_pose.direction = old_direction
+func _set_inner_state(player, pose_info):
+	var old_direction = player.pose.direction
+	player.pose = pose_info.get_pose(player)
+	player.pose.direction = old_direction
 	_inner_state = pose_info
-		
-		
-func _ready():
-	for p in _poses:
-		remove_child(p)
-	
-	_set_inner_state(_info_ball)
 	
 	
 func transition_land_from_air(player):
-	remove_child(_pose)
-	add_child(_pose_stand)
-	_pose = _pose_stand
-	_pose.direction = player.get_current_direction()
-	_inner_state = _info_stand
-	
 	var r_angle = player.angle
 	if r_angle > 128:
 		r_angle = 256 - r_angle
@@ -129,6 +99,9 @@ func transition_land_from_air(player):
 
 
 func enter_state(player):
+	player.pose = player.pose_stand
+	player.pose.direction = player.get_current_direction()
+	_inner_state = _info_stand
 	player.emit_signal("became_grounded")
 	
 	
@@ -158,10 +131,11 @@ func update_player(player, tile_map, tile_meta_array):
 	
 	_inner_state.transition_inner(player, self)
 	
-	if _pose.left_sensor.direction_vec.dot(player.velocity) > 0:
-		prevent_wall_collision(player, _pose.left_sensor, tile_map, tile_meta_array)
-	elif _pose.right_sensor.direction_vec.dot(player.velocity) > 0:
-		prevent_wall_collision(player, _pose.right_sensor, tile_map, tile_meta_array)
+	var pose = player.pose
+	if pose.left_sensor.direction_vec.dot(player.velocity) > 0:
+		prevent_wall_collision(player, pose.left_sensor, tile_map, tile_meta_array)
+	elif pose.right_sensor.direction_vec.dot(player.velocity) > 0:
+		prevent_wall_collision(player, pose.right_sensor, tile_map, tile_meta_array)
 	
 	player.position += player.velocity
 	snap_to_floor(player, tile_map, tile_meta_array)
@@ -170,7 +144,7 @@ func update_player(player, tile_map, tile_meta_array):
 
 func snap_to_floor(player, tile_map, tile_meta_array):
 	var collision = null
-	for sensor in _pose.foot_sensors:
+	for sensor in player.pose.foot_sensors:
 		var cur = sensor.get_collision_info(tile_map, tile_meta_array)
 		if cur.distance > 14:
 			continue
@@ -179,7 +153,7 @@ func snap_to_floor(player, tile_map, tile_meta_array):
 
 	if collision != null:
 		player.apply_floor_collision(collision)
-		_pose.set_direction(player.get_current_direction())
+		player.pose.direction = player.get_current_direction()
 	else:
 		var airborne = player.state_airborne
 		airborne.rolling = is_rolling()

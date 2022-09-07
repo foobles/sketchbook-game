@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/player_anim_ph.png" type="Texture" id=2]
-[ext_resource path="res://scenes/PlayerStateGrounded.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/PlayerStateAirborne.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/PlayerStateAirborne.gd" type="Script" id=3]
+[ext_resource path="res://scenes/PlayerStateGrounded.gd" type="Script" id=4]
+[ext_resource path="res://scenes/PlayerPoseStand.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/PlayerPoseBall.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -125,6 +127,12 @@ texture = ExtResource( 2 )
 hframes = 8
 vframes = 5
 
-[node name="StateAirborne" parent="." instance=ExtResource( 4 )]
+[node name="PoseBall" parent="." instance=ExtResource( 6 )]
 
-[node name="StateGrounded" parent="." instance=ExtResource( 3 )]
+[node name="PoseStand" parent="." instance=ExtResource( 5 )]
+
+[node name="StateGrounded" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="StateAirborne" type="Node" parent="."]
+script = ExtResource( 3 )
