@@ -9,3 +9,6 @@ position = Vector2( -7, 14 )
 
 [node name="FootRight" parent="." index="3"]
 position = Vector2( 7, 14 )
+
+[node name="Hitbox" parent="." index="4"]
+height_radius = 14

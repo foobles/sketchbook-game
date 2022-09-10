@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/tile_sets/platforming.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/World.gd" type="Script" id=2]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/PlayerCamera.gd" type="Script" id=4]
+[ext_resource path="res://scenes/Hitbox.gd" type="Script" id=5]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
@@ -27,6 +28,12 @@ box_left = 144
 box_right = 160
 box_center_v = 96
 box_radius_v = 32
+
+[node name="Hitbox" type="Node2D" parent="."]
+position = Vector2( 584, 229 )
+script = ExtResource( 5 )
+width_radius = 50
+height_radius = 20
 
 [connection signal="became_airborne" from="Player" to="Camera" method="_on_Player_became_airborne"]
 [connection signal="became_grounded" from="Player" to="Camera" method="_on_Player_became_grounded"]
