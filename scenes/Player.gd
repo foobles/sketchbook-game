@@ -14,6 +14,7 @@ var jump_pressed = false
 var jump_just_pressed = false
 
 var control_lock = 0
+var stood_object = null
 
 # warning-ignore:unused_signal
 signal became_airborne
@@ -70,6 +71,7 @@ func set_state(new_state):
 	
 	
 func set_pose(new_pose):
+	position += (new_pose.offset - pose.offset)
 	remove_child(pose)
 	add_child(new_pose)
 	pose = new_pose
@@ -149,58 +151,3 @@ func animate_walking():
 		set_animation_ticks(max(0, floor(8 - abs(ground_speed))))
 		
 	sprite.rotation = -stepify(get_angle_rads(), PI / 4)
-
-
-const TOP_STICK_RADIUS = 4
-
-func eject_from_hitbox(obj_hb):
-	
-	var pl_hb = pose.hitbox
-	var pl_pos = pl_hb.global_position.floor() 
-	
-	var obj_pos = obj_hb.global_position.floor()
-	
-	var combined_width_radius = obj_hb.width_radius + pl_hb.width_radius + 1
-	var combined_height_radius = obj_hb.height_radius + pl_hb.height_radius
-	
-	var combined_width_diameter = 2*combined_width_radius
-	var combined_height_diameter = 2*combined_height_radius
-	
-	var left_difference = pl_pos.x - (obj_pos.x - combined_width_radius)
-	var top_difference = (pl_pos.y + TOP_STICK_RADIUS) - (obj_pos.y - combined_height_radius)
-	
-	if (left_difference < 0 
-		|| left_difference > combined_width_diameter
-		|| top_difference < 0
-		|| top_difference > combined_height_diameter
-	):
-		return
-		
-	var x_distance = left_difference if pl_pos.x < obj_pos.x else -(combined_width_diameter - left_difference) 
-	var y_distance = top_difference if pl_pos.y < obj_pos.y else -(combined_height_diameter - (top_difference - TOP_STICK_RADIUS))
-
-	var is_collision_horizontal = abs(x_distance) <= abs(y_distance)
-	if is_collision_horizontal:
-		if abs(y_distance) <= TOP_STICK_RADIUS:
-			return
-			
-		if x_distance != 0 && sign(velocity.x) == sign(x_distance):
-			velocity.x = 0
-			ground_speed = 0
-			
-		position.x -= x_distance
-	else:
-		if y_distance < 0:
-			if velocity.y < 0:
-				velocity.y = 0
-				position.y -= y_distance
-		else:
-			if y_distance >= 16:
-				return 
-						
-			var x_cmp = (obj_pos.x + obj_hb.width_radius) - pl_pos.x 
-			var obj_action_width = 1 + 2*obj_hb.width_radius
-			if (velocity.y >= 0 && obj_action_width >= x_cmp && x_cmp >= 0):
-				position.y -= (y_distance - TOP_STICK_RADIUS + 1)
-				state_grounded.transition_land_on_object(self)
-			

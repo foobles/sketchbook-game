@@ -22,4 +22,5 @@ func _process(_delta):
 
 func _physics_process(_delta):
 	$Player.tick($TileMap, tile_meta_array)
-	$Player.eject_from_hitbox($Hitbox)
+	for object in $Objects.get_children():
+		object.tick_player_interaction($Player)

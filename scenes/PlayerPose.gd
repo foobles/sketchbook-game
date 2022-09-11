@@ -1,5 +1,7 @@
 extends Node2D
 
+export(Vector2) var offset = Vector2(0, 0)
+
 onready var left_sensor = $WallLeft
 onready var right_sensor = $WallRight
 onready var foot_sensors = [$FootLeft, $FootRight]

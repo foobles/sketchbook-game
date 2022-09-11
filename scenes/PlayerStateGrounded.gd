@@ -71,7 +71,6 @@ class PoseInfoBall extends PoseInfo:
 
 var _info_stand = PoseInfoStand.new()
 var _info_ball = PoseInfoBall.new()
-var _on_object = false
 var _inner_state = _info_stand
 
 func _set_inner_state(player, pose_info):
@@ -96,15 +95,14 @@ func transition_land_from_air(player):
 			player.ground_speed *= -1 if player.angle < 128 else 1
 			player.ground_speed *= 0.5 if r_angle < 32 else 1.0
 			
-	_on_object = false
 	player.set_state(self)
 
 
-func transition_land_on_object(player):
+func transition_land_on_object(player, object):
+	player.stood_object = object
 	player.velocity.y = 0
 	player.ground_speed = player.velocity.x
 	player.angle = 0
-	_on_object = true
 	player.set_state(self)
 
 
@@ -125,6 +123,7 @@ func update_player(player, tile_map, tile_meta_array):
 		var airborne = player.state_airborne
 		airborne.rolling = true
 		airborne.jumping = true
+		player.stood_object = null
 		player.set_state(airborne)
 		var angle_rads = player.get_angle_rads()
 		player.velocity += 6.5 * Vector2(-sin(angle_rads), -cos(angle_rads))
@@ -149,10 +148,8 @@ func update_player(player, tile_map, tile_meta_array):
 		prevent_wall_collision(player, pose.right_sensor, tile_map, tile_meta_array)
 	
 	player.position += player.velocity
-	if !_on_object:
+	if player.stood_object == null:
 		snap_to_floor(player, tile_map, tile_meta_array)
-	else:
-		pass
 	check_slipping(player)
 
 
