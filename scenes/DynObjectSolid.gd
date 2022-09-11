@@ -1,16 +1,30 @@
 extends Node2D
 
+export(PoolIntArray) var slope_array
+
 const TOP_STICK_RADIUS = 4
 
 onready var hitbox = $Hitbox
 
 
 func tick_player_interaction(player):
+	var initial_hb_pos = hitbox.global_position.floor()
+	adjust_hitbox_height(player)
+	var hb_delta = hitbox.global_position.floor() - initial_hb_pos
+	
 	if player.stood_object == self:
-		check_player_on_self(player)
+		if check_player_on_self(player):
+			player.position += hb_delta
 	else:
 		eject_player(player)
 
+
+func adjust_hitbox_height(player):
+	var x_diff = int(global_position.x) - int(player.global_position.x)
+	var idx = (x_diff + len(slope_array)) / 2
+	if 0 <= idx && idx < len(slope_array):
+		hitbox.position.y = hitbox.height_radius - slope_array[idx]
+		
 
 func check_player_on_self(player):
 	var pl_hb = player.pose.hitbox
@@ -24,7 +38,10 @@ func check_player_on_self(player):
 	var left_distance = pl_pos.x - (obj_pos.x - combined_width_radius)
 	if left_distance < 0 || left_distance > combined_width_diameter:
 		player.stood_object = null
-		
+		return false
+	else:
+		return true
+
 	
 func eject_player(player):
 	var pl_hb = player.pose.hitbox
