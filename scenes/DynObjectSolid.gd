@@ -36,7 +36,7 @@ func check_player_on_self(player):
 	var combined_width_radius = obj_hb.width_radius + pl_hb.width_radius + 1
 	var combined_width_diameter = 2*combined_width_radius
 	var left_distance = pl_pos.x - (obj_pos.x - combined_width_radius)
-	if left_distance < 0 || left_distance > combined_width_diameter:
+	if left_distance <= 0 || left_distance >= combined_width_diameter:
 		player.stood_object = null
 		return false
 	else:
