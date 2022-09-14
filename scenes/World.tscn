@@ -36,12 +36,12 @@ box_radius_v = 32
 position = Vector2( 734, 91 )
 slope_array = PoolIntArray( 10, 11, 11, 12, 12, 13, 14, 14, 15, 15, 16, 16, 16, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 14, 14, 13, 12, 12, 11, 11, 10 )
 
+[node name="Hitbox" parent="Objects/DynObjectSolid" index="0"]
+width_radius = 40
+
 [node name="CurvedObject" type="Sprite" parent="Objects/DynObjectSolid"]
 position = Vector2( 0, -3 )
 texture = ExtResource( 6 )
-
-[node name="Hitbox" parent="Objects/DynObjectSolid" index="1"]
-width_radius = 40
 
 [node name="DynObjectSolid2" parent="Objects" instance=ExtResource( 5 )]
 position = Vector2( 603, 165 )

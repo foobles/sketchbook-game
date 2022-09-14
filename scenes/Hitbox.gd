@@ -21,6 +21,6 @@ func _draw():
 	var center = to_local(global_position.floor())
 	var v = Vector2(width_radius, height_radius)
 	draw_rect(
-		Rect2(center-v, 2*v),
+		Rect2(center-v, 2*v + Vector2(1, 1)),
 		Color(0.3, 0.5, 0.9, 0.3)
 	)
