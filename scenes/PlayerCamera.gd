@@ -14,7 +14,7 @@ var _v_mode = Mode.BOXED
 
 
 func track_player(player):
-	var player_camera_pos = to_local(player.global_position)
+	var player_camera_pos = to_local(player.global_position) - player.position_offset 
 	
 	var camera_motion = Vector2.ZERO
 	var speed_cap = Vector2(16, 16)
