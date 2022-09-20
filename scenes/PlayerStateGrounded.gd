@@ -6,15 +6,12 @@ const SLIP_SPEED_THRESHOLD: float = 2.5
 const SLIP_ANGLE_THRESHOLD: int = 32
 
 class PoseInfo:
-	var pose_name
+	var dimensions
 	var accel
 	var decel
 	var friction
 	var slope_factor
 	var standing_slope_slip_threshold
-	
-	func apply_pose(player):
-		player.pose = player.get(pose_name)
 	
 	func update_constants(_player):
 		pass
@@ -28,7 +25,7 @@ class PoseInfo:
 	
 class PoseInfoStand extends PoseInfo:
 	func _init():
-		pose_name = "pose_stand"
+		dimensions = Player.STAND_DIMENSIONS
 		accel = 12 / 256.0 
 		decel = 128 / 256.0 
 		friction = 12 / 256.0 
@@ -46,7 +43,7 @@ class PoseInfoStand extends PoseInfo:
 
 class PoseInfoBall extends PoseInfo:
 	func _init():
-		pose_name = "pose_ball"
+		dimensions = Player.BALL_DIMENSIONS
 		accel = null 
 		decel = 32 / 256.0 
 		friction = 6 / 256.0 
@@ -75,7 +72,7 @@ var _inner_state = _info_stand
 
 func _set_inner_state(player, pose_info):
 	var old_direction = player.pose.direction
-	pose_info.apply_pose(player)
+	player.set_dimensions(pose_info.dimensions)
 	player.pose.direction = old_direction
 	_inner_state = pose_info
 	
@@ -108,7 +105,7 @@ func transition_land_on_object(player, object):
 
 
 func enter_state(player):
-	player.pose = player.pose_stand
+	player.set_dimensions(Player.STAND_DIMENSIONS)
 	player.pose.direction = player.get_current_direction()
 	_inner_state = _info_stand
 	player.emit_signal("became_grounded")

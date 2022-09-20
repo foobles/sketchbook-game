@@ -23,17 +23,17 @@ func adjust_hitbox_height(player):
 	var x_diff = int(global_position.x) - int(player.global_position.x)
 	var idx = (x_diff + len(slope_array)) / 2
 	if 0 <= idx && idx < len(slope_array):
-		hitbox.position.y = hitbox.height_radius - slope_array[idx]
+		hitbox.position.y = hitbox.radius.y - slope_array[idx]
 		
 
 func check_player_on_self(player):
-	var pl_hb = player.pose.hitbox
-	var pl_pos = pl_hb.global_position.floor() 
+	var pl_box = Vector2(player.push_radius, player.radius.y)
+	var pl_pos = player.global_position.floor() 
 	
-	var obj_hb = hitbox
-	var obj_pos = obj_hb.global_position.floor()
+	var obj_box = hitbox.radius
+	var obj_pos = hitbox.global_position.floor()
 	
-	var combined_width_radius = obj_hb.width_radius + pl_hb.width_radius + 1
+	var combined_width_radius = obj_box.x + pl_box.x + 1
 	var combined_width_diameter = 2*combined_width_radius
 	var left_distance = pl_pos.x - (obj_pos.x - combined_width_radius)
 	if left_distance <= 0 || left_distance >= combined_width_diameter:
@@ -44,14 +44,14 @@ func check_player_on_self(player):
 
 	
 func eject_player(player):
-	var pl_hb = player.pose.hitbox
-	var pl_pos = pl_hb.global_position.floor() 
+	var pl_box = Vector2(player.push_radius, player.radius.y)
+	var pl_pos = player.global_position.floor() 
 	
-	var obj_hb = hitbox
-	var obj_pos = obj_hb.global_position.floor()
+	var obj_box = hitbox.radius
+	var obj_pos = hitbox.global_position.floor()
 	
-	var combined_width_radius = obj_hb.width_radius + pl_hb.width_radius + 1
-	var combined_height_radius = obj_hb.height_radius + pl_hb.height_radius
+	var combined_width_radius = obj_box.x + pl_box.x + 1
+	var combined_height_radius = obj_box.y + pl_box.y
 	
 	var combined_width_diameter = 2*combined_width_radius
 	var combined_height_diameter = 2*combined_height_radius
@@ -88,8 +88,8 @@ func eject_player(player):
 			if y_distance >= 16:
 				return 
 			
-			var x_cmp = (obj_pos.x + obj_hb.width_radius) - pl_pos.x 
-			var obj_action_width = 1 + 2*obj_hb.width_radius
+			var x_cmp = (obj_pos.x + obj_box.x) - pl_pos.x 
+			var obj_action_width = 1 + 2*obj_box.x
 			if (player.velocity.y >= 0 && obj_action_width >= x_cmp && x_cmp >= 0):
 				player.position.y -= (y_distance - TOP_STICK_RADIUS + 1)
 				player.state_grounded.transition_land_on_object(player, self)

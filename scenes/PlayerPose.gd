@@ -4,10 +4,12 @@ export(Vector2) var offset = Vector2(0, 0)
 
 onready var left_sensor = $WallLeft
 onready var right_sensor = $WallRight
-onready var foot_sensors = [$FootLeft, $FootRight]
+onready var left_foot_sensor = $FootLeft
+onready var right_foot_sensor = $FootRight
+onready var foot_sensors = [left_foot_sensor, right_foot_sensor]
 onready var hitbox = $Hitbox
 
-onready var _sensors = [$WallLeft, $WallRight, $FootLeft, $FootRight]
+onready var _sensors = [left_sensor, right_sensor, left_foot_sensor, right_foot_sensor]
 
 var direction = 0 setget set_direction
 

@@ -29,11 +29,21 @@ onready var state_airborne = $StateAirborne
 onready var _states = [state_grounded, state_airborne]
 onready var _state = state_grounded
 
-onready var pose_ball = $PoseBall
-onready var pose_stand = $PoseStand
-onready var pose = pose_stand setget set_pose
-onready var _poses = [pose_ball, pose_stand]
+onready var pose = $Pose
 
+var push_radius: int = 10
+var radius: Vector2
+var position_offset: Vector2 
+
+const STAND_DIMENSIONS = {
+	radius = Vector2(9, 19),
+	offset = Vector2(0, 0)
+}
+
+const BALL_DIMENSIONS = {
+	radius = Vector2(7, 14),
+	offset = Vector2(0, 5)
+}
 
 func read_input():
 	input_h = \
@@ -58,11 +68,11 @@ func _ready():
 		if s != _state:
 			remove_child(s)
 			
-	for p in _poses:
-		if p != pose:
-			remove_child(p)
-			
-		
+	set_dimensions(STAND_DIMENSIONS)
+	pose.left_sensor.position.x = -push_radius
+	pose.right_sensor.position.x = push_radius
+	
+	
 func set_state(new_state):
 	remove_child(_state)
 	add_child(new_state)
@@ -70,11 +80,15 @@ func set_state(new_state):
 	_state = new_state
 	
 	
-func set_pose(new_pose):
-	position += (new_pose.offset - pose.offset)
-	remove_child(pose)
-	add_child(new_pose)
-	pose = new_pose
+func set_dimensions(dimensions):
+	radius = dimensions.radius
+	
+	position += (dimensions.offset - position_offset)
+	position_offset = dimensions.offset
+	
+	pose.left_foot_sensor.position = Vector2(-radius.x, radius.y)
+	pose.right_foot_sensor.position = Vector2(radius.x, radius.y)
+	pose.hitbox.radius.y = radius.y - 3
 
 
 func set_animation(anim):

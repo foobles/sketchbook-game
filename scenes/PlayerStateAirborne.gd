@@ -1,16 +1,17 @@
 extends "res://scenes/PlayerState.gd"
 
+const Player = preload("res://scenes/Player.gd")
+
 var rolling: bool
 var jumping: bool = false
 
 func enter_state(player):
 	if rolling:
-		player.pose = player.pose_ball
+		player.set_dimensions(Player.BALL_DIMENSIONS)
 	else:
-		player.pose = player.pose_stand
+		player.set_dimensions(Player.STAND_DIMENSIONS)
 		
 	player.pose.direction = 0
-		
 	player.emit_signal("became_airborne")
 
 

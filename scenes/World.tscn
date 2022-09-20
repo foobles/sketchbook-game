@@ -37,7 +37,7 @@ position = Vector2( 734, 91 )
 slope_array = PoolIntArray( 10, 11, 11, 12, 12, 13, 14, 14, 15, 15, 16, 16, 16, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 14, 14, 13, 12, 12, 11, 11, 10 )
 
 [node name="Hitbox" parent="Objects/DynObjectSolid" index="0"]
-width_radius = 40
+radius = Vector2( 40, 10 )
 
 [node name="CurvedObject" type="Sprite" parent="Objects/DynObjectSolid"]
 position = Vector2( 0, -3 )
@@ -47,15 +47,13 @@ texture = ExtResource( 6 )
 position = Vector2( 603, 165 )
 
 [node name="Hitbox" parent="Objects/DynObjectSolid2" index="0"]
-width_radius = 50
-height_radius = 15
+radius = Vector2( 50, 7 )
 
 [node name="DynObjectSolid3" parent="Objects" instance=ExtResource( 5 )]
 position = Vector2( 520, 232 )
 
 [node name="Hitbox" parent="Objects/DynObjectSolid3" index="0"]
-width_radius = 60
-height_radius = 5
+radius = Vector2( 60, 15 )
 
 [connection signal="became_airborne" from="Player" to="Camera" method="_on_Player_became_airborne"]
 [connection signal="became_grounded" from="Player" to="Camera" method="_on_Player_became_grounded"]

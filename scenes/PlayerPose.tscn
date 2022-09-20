@@ -32,4 +32,4 @@ auto_adjust = true
 
 [node name="Hitbox" type="Node2D" parent="."]
 script = ExtResource( 3 )
-height_radius = 19
+radius = Vector2( 8, 10 )
