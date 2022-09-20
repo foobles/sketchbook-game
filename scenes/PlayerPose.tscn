@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/PlayerPose.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Sensor.gd" type="Script" id=2]
-[ext_resource path="res://scenes/Hitbox.gd" type="Script" id=3]
 
 [node name="PlayerPose" type="Node2D"]
 script = ExtResource( 1 )
@@ -29,7 +28,3 @@ auto_adjust = true
 position = Vector2( 9, 19 )
 script = ExtResource( 2 )
 auto_adjust = true
-
-[node name="Hitbox" type="Node2D" parent="."]
-script = ExtResource( 3 )
-radius = Vector2( 8, 10 )

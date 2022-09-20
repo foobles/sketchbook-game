@@ -30,6 +30,7 @@ onready var _states = [state_grounded, state_airborne]
 onready var _state = state_grounded
 
 onready var pose = $Pose
+onready var hitbox = $Hitbox
 
 var push_radius: int = 10
 var radius: Vector2
@@ -88,7 +89,7 @@ func set_dimensions(dimensions):
 	
 	pose.left_foot_sensor.position = Vector2(-radius.x, radius.y)
 	pose.right_foot_sensor.position = Vector2(radius.x, radius.y)
-	pose.hitbox.radius.y = radius.y - 3
+	hitbox.radius.y = radius.y - 3
 
 
 func set_animation(anim):
