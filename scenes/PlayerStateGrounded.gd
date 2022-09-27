@@ -111,7 +111,7 @@ func enter_state(player):
 	player.emit_signal("became_grounded")
 	
 	
-func update_player(player, tile_map, tile_meta_array):
+func update_player(player):
 	_inner_state.update_constants(player)
 	
 	apply_slope_factor(player)
@@ -140,20 +140,20 @@ func update_player(player, tile_map, tile_meta_array):
 	
 	var pose = player.pose
 	if pose.left_sensor.direction_vec.dot(player.velocity) > 0:
-		prevent_wall_collision(player, pose.left_sensor, tile_map, tile_meta_array)
+		prevent_wall_collision(player, pose.left_sensor)
 	elif pose.right_sensor.direction_vec.dot(player.velocity) > 0:
-		prevent_wall_collision(player, pose.right_sensor, tile_map, tile_meta_array)
+		prevent_wall_collision(player, pose.right_sensor)
 	
 	player.position += player.velocity
 	if player.stood_object == null:
-		snap_to_floor(player, tile_map, tile_meta_array)
+		snap_to_floor(player)
 	check_slipping(player)
 
 
-func snap_to_floor(player, tile_map, tile_meta_array):
+func snap_to_floor(player):
 	var collision = null
 	for sensor in player.pose.foot_sensors:
-		var cur = sensor.get_collision_info(tile_map, tile_meta_array)
+		var cur = sensor.get_collision_info()
 		if cur.distance > 14:
 			continue
 		if collision == null || cur.distance < collision.distance:
@@ -169,8 +169,8 @@ func snap_to_floor(player, tile_map, tile_meta_array):
 		player.set_state(airborne)	
 
 
-func prevent_wall_collision(player, wall_sensor, tile_map, tile_meta_array):
-	var info = wall_sensor.get_offset_collision_info(player.velocity, tile_map, tile_meta_array)
+func prevent_wall_collision(player, wall_sensor):
+	var info = wall_sensor.get_offset_collision_info(player.velocity)
 	if info.distance < 0:
 		player.ground_speed = 0
 		player.velocity += info.distance * wall_sensor.direction_vec

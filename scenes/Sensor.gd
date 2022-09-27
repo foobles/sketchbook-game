@@ -2,6 +2,8 @@ extends Position2D
 
 class_name Sensor
 
+var tiles = preload("res://singletons/tile_map_info.tres")
+
 enum Direction {
 	RIGHT = 0,
 	UP = 1,
@@ -38,17 +40,17 @@ func set_direction_rotation(rotation_direction):
 	direction_vec.y = _starting_direction_vec.x * rot.y + _starting_direction_vec.y * rot.x 
 
 
-func _get_tile_info(tile_coord, pixel_coord, tile_map, tile_meta_array):
-	var id = tile_map.get_cellv(tile_coord)
+func _get_tile_info(tile_coord, pixel_coord):
+	var id = tiles.map.get_cellv(tile_coord)
 	if id == -1: 
 		return {
 			mag = 0,
 			angle = 0,
 		}
 		
-	var x_flip = tile_map.is_cell_x_flipped(tile_coord.x, tile_coord.y)
-	var y_flip = tile_map.is_cell_y_flipped(tile_coord.x, tile_coord.y)
-	var meta = tile_meta_array[id]
+	var x_flip = tiles.map.is_cell_x_flipped(tile_coord.x, tile_coord.y)
+	var y_flip = tiles.map.is_cell_y_flipped(tile_coord.x, tile_coord.y)
+	var meta = tiles.meta[id]
 	
 	var mag
 	if is_horizontal():
@@ -90,25 +92,25 @@ func _get_pixel_dist(pixel_coord):
 func is_horizontal():
 	return (direction & 1) == 0
 
-func get_offset_collision_info(offset, tile_map, tile_meta_array):
-	var map_position = tile_map.to_local(global_position + offset).floor()
-	var tile_coord = tile_map.world_to_map(map_position)
+func get_offset_collision_info(offset):
+	var map_position = tiles.map.to_local(global_position + offset).floor()
+	var tile_coord = tiles.map.world_to_map(map_position)
 	var pixel_coord = Vector2(int(map_position.x) % 16, int(map_position.y) % 16)
 	var pixel_dist = _get_pixel_dist(pixel_coord)
 	 
-	var cur_info = _get_tile_info(tile_coord, pixel_coord, tile_map, tile_meta_array)
+	var cur_info = _get_tile_info(tile_coord, pixel_coord)
 	
 	if auto_adjust:
 		match cur_info.mag:
 			0:
-				var ext_info = _get_tile_info(tile_coord + direction_vec, pixel_coord, tile_map, tile_meta_array)
+				var ext_info = _get_tile_info(tile_coord + direction_vec, pixel_coord)
 				return {
 					distance = 16 - ext_info.mag + pixel_dist,
 					angle = ext_info.angle,
 					sensor = self,
 				}
 			16:
-				var ret_info = _get_tile_info(tile_coord - direction_vec, pixel_coord, tile_map, tile_meta_array)
+				var ret_info = _get_tile_info(tile_coord - direction_vec, pixel_coord)
 				return {
 					distance = -(ret_info.mag + 16 - pixel_dist),
 					angle = ret_info.angle if ret_info.mag > 0 else cur_info.angle,
@@ -122,8 +124,8 @@ func get_offset_collision_info(offset, tile_map, tile_meta_array):
 	}
 	
 	
-func get_collision_info(tile_map, tile_meta_array):
-	return get_offset_collision_info(Vector2.ZERO, tile_map, tile_meta_array)
+func get_collision_info():
+	return get_offset_collision_info(Vector2.ZERO)
 
 
 static func _direction_to_vec(dir):

@@ -130,9 +130,9 @@ func get_angle_rads():
 	return float(angle) / 128.0 * PI
 
 
-func tick(tile_map, tile_meta_array):
+func tick():
 	read_input()
-	_state.update_player(self, tile_map, tile_meta_array)
+	_state.update_player(self)
 	_state.animate_player(self)
 	sprite.global_position = global_position.floor()
 
