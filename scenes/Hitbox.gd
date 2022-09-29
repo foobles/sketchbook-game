@@ -7,9 +7,9 @@ export(Vector2) var radius = Vector2(10, 10) setget set_radius
 
 func _process(_delta):
 	update()
-	
+
 func set_radius(new_radius):
-	radius = new_radius 
+	radius = new_radius
 	update()
 
 
