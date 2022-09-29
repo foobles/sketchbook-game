@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/World.gd" type="Script" id=2]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/PlayerCamera.gd" type="Script" id=4]
-[ext_resource path="res://scenes/DynObjectSolid.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/EntitySolid.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/images/curved_object.png" type="Texture" id=6]
 
 [node name="World" type="Node2D"]
@@ -36,7 +36,7 @@ box_radius_v = 32
 position = Vector2( 734, 91 )
 slope_array = PoolIntArray( 10, 11, 11, 12, 12, 13, 14, 14, 15, 15, 16, 16, 16, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 14, 14, 13, 12, 12, 11, 11, 10 )
 
-[node name="Hitbox" parent="Objects/DynObjectSolid" index="0"]
+[node name="Hitbox" parent="Objects/DynObjectSolid" index="1"]
 radius = Vector2( 40, 10 )
 
 [node name="CurvedObject" type="Sprite" parent="Objects/DynObjectSolid"]
@@ -46,13 +46,13 @@ texture = ExtResource( 6 )
 [node name="DynObjectSolid2" parent="Objects" instance=ExtResource( 5 )]
 position = Vector2( 603, 165 )
 
-[node name="Hitbox" parent="Objects/DynObjectSolid2" index="0"]
+[node name="Hitbox" parent="Objects/DynObjectSolid2" index="1"]
 radius = Vector2( 50, 7 )
 
 [node name="DynObjectSolid3" parent="Objects" instance=ExtResource( 5 )]
 position = Vector2( 520, 232 )
 
-[node name="Hitbox" parent="Objects/DynObjectSolid3" index="0"]
+[node name="Hitbox" parent="Objects/DynObjectSolid3" index="1"]
 radius = Vector2( 60, 15 )
 
 [connection signal="became_airborne" from="Player" to="Camera" method="_on_Player_became_airborne"]

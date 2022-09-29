@@ -1,4 +1,4 @@
-extends Node2D
+extends "res://scenes/Entity.gd"
 
 const RUN_SPEED = 6.0
 
@@ -21,16 +21,12 @@ signal became_airborne
 # warning-ignore:unused_signal
 signal became_grounded
 
-
-onready var sprite = $Sprite
-
 onready var state_grounded = $StateGrounded
 onready var state_airborne = $StateAirborne
 onready var _states = [state_grounded, state_airborne]
 onready var _state = state_grounded
-
 onready var pose = $Pose
-onready var hitbox = $Hitbox
+
 
 var push_radius: int = 10
 var radius: Vector2

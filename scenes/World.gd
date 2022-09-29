@@ -19,8 +19,8 @@ func _ready():
 	tiles.set_info($TileMap, tile_meta_array)
 
 func _physics_process(_delta):
-	$Player.tick()
-	for object in $Objects.get_children():
-		object.tick_player_interaction($Player)
+	var tree = get_tree()
+	tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick")
+	tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick_player_interaction", $Player)
 		
 	$Camera.track_player($Player)

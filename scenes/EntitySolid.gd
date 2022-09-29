@@ -1,10 +1,8 @@
-extends Node2D
+extends "res://scenes/Entity.gd"
 
 export(PoolIntArray) var slope_array
 
 const TOP_STICK_RADIUS = 4
-
-onready var hitbox = $Hitbox
 
 
 func tick_player_interaction(player):
