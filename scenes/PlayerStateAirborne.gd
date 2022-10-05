@@ -12,7 +12,7 @@ func enter_state(player):
 		player.set_dimensions(Player.STAND_DIMENSIONS)
 		
 	player.pose.direction = 0
-	player.emit_signal("became_airborne")
+	player.set_grounded(false)
 
 
 func update_player(player):

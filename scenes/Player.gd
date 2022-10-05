@@ -21,6 +21,8 @@ signal became_airborne
 # warning-ignore:unused_signal
 signal became_grounded
 
+var is_grounded 
+
 onready var state_grounded = $StateGrounded
 onready var state_airborne = $StateAirborne
 onready var _states = [state_grounded, state_airborne]
@@ -162,3 +164,12 @@ func animate_walking():
 		set_animation_ticks(max(0, floor(8 - abs(ground_speed))))
 		
 	sprite.rotation = -stepify(get_angle_rads(), PI / 4)
+
+func set_grounded(g):
+	if g != is_grounded:
+		if g:
+			emit_signal("became_grounded")
+		else:
+			emit_signal("became_airborne")
+			
+	is_grounded = g

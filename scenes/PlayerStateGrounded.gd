@@ -107,8 +107,8 @@ func transition_land_on_object(player, object):
 func enter_state(player):
 	player.set_dimensions(Player.STAND_DIMENSIONS)
 	player.pose.direction = player.get_current_direction()
-	_inner_state = _info_stand
-	player.emit_signal("became_grounded")
+	_inner_state = _info_stand	
+	player.set_grounded(true)
 	
 	
 func update_player(player):
