@@ -2,6 +2,12 @@ extends "res://scenes/PlayerState.gd"
 
 const Player = preload("res://scenes/Player.gd")
 
+const AIR_ACCEL = 24/256.0 
+const AIR_DRAG_FACTOR = 1/32.0
+const AIR_GRAVITY = 56 / 256.0
+
+const JUMP_CONTROL_VELOC = -4
+
 var rolling: bool
 var jumping: bool = false
 
@@ -16,17 +22,17 @@ func enter_state(player):
 
 
 func update_player(player):
-	if jumping && !player.jump_pressed && player.velocity.y < -4:
-		player.velocity.y = -4
+	if jumping && !player.jump_pressed && player.velocity.y < JUMP_CONTROL_VELOC:
+		player.velocity.y = JUMP_CONTROL_VELOC
 		
-	player.velocity.x += 24/256.0 * player.input_h
+	player.velocity.x += AIR_ACCEL * player.input_h
 	
 	if -4 < player.velocity.y && player.velocity.y < 0:
-		player.velocity.x -= player.velocity.x / 32.0
+		player.velocity.x -= player.velocity.x * AIR_DRAG_FACTOR
 		
 	player.position += player.velocity
 	
-	player.velocity.y += 56 / 256.0
+	player.velocity.y += AIR_GRAVITY
 	
 	var active_sensors = get_active_sensors(player)
 	for wall_sensor in active_sensors.wall_sensors:
