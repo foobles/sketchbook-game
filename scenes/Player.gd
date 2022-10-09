@@ -63,18 +63,12 @@ func read_input():
 	
 	
 func _ready():
-	for s in _states:
-		if s != _state:
-			remove_child(s)
-			
 	set_dimensions(STAND_DIMENSIONS)
 	pose.left_sensor.position.x = -push_radius
 	pose.right_sensor.position.x = push_radius
 	
 	
 func set_state(new_state):
-	remove_child(_state)
-	add_child(new_state)
 	new_state.enter_state(self)
 	_state = new_state
 	
