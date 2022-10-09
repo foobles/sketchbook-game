@@ -1,6 +1,6 @@
-extends "res://scenes/PlayerState.gd"
+extends "res://scenes/entities/player/PlayerState.gd"
 
-const Player = preload("res://scenes/Player.gd")
+const Player = preload("res://scenes/entities/player/Player.gd")
 
 const SLIP_SPEED_THRESHOLD: float = 2.5
 const SLIP_ANGLE_THRESHOLD: int = 32

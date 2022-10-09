@@ -2,9 +2,9 @@
 
 [ext_resource path="res://assets/tile_sets/platforming.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/World.gd" type="Script" id=2]
-[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/entities/player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/PlayerCamera.gd" type="Script" id=4]
-[ext_resource path="res://scenes/EntitySolid.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/entities/EntitySolid.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/images/curved_object.png" type="Texture" id=6]
 
 [node name="World" type="Node2D"]

@@ -1,6 +1,6 @@
-extends "res://scenes/PlayerState.gd"
+extends "res://scenes/entities/player/PlayerState.gd"
 
-const Player = preload("res://scenes/Player.gd")
+const Player = preload("res://scenes/entities/player/Player.gd")
 
 const AIR_ACCEL = 24/256.0 
 const AIR_DRAG_FACTOR = 1/32.0

@@ -1,4 +1,4 @@
-extends "res://scenes/Entity.gd"
+extends "res://scenes/entities/Entity.gd"
 
 export(PoolIntArray) var slope_array
 

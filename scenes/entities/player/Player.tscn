@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://scenes/Player.gd" type="Script" id=1]
+[ext_resource path="res://scenes/entities/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/player_anim_ph.png" type="Texture" id=2]
-[ext_resource path="res://scenes/PlayerStateAirborne.gd" type="Script" id=3]
-[ext_resource path="res://scenes/PlayerStateGrounded.gd" type="Script" id=4]
-[ext_resource path="res://scenes/PlayerPose.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/Entity.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/entities/player/PlayerStateAirborne.gd" type="Script" id=3]
+[ext_resource path="res://scenes/entities/player/PlayerStateGrounded.gd" type="Script" id=4]
+[ext_resource path="res://scenes/entities/player/PlayerPose.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/entities/Entity.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Animation" id=1]
 length = 0.001

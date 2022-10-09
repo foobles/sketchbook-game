@@ -1,4 +1,4 @@
-extends "res://scenes/Entity.gd"
+extends "res://scenes/entities/Entity.gd"
 
 const RUN_SPEED = 6.0
 
