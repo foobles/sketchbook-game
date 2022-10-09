@@ -6,6 +6,7 @@ const AIR_ACCEL = 24/256.0
 const AIR_DRAG_FACTOR = 1/32.0
 const AIR_GRAVITY = 56 / 256.0
 
+const JUMP_SPEED = 6.5
 const JUMP_CONTROL_VELOC = -4
 
 var rolling: bool
@@ -48,6 +49,22 @@ func interpolate_angle(player):
 	else:
 		player.angle = 0
 	
+	
+func transition_jump(player):
+	rolling = true
+	jumping = true
+	player.stood_object = null
+	var angle_rads = player.get_angle_rads()
+	player.velocity += JUMP_SPEED * Vector2(-sin(angle_rads), -cos(angle_rads))
+	player.set_state(self)
+	
+
+func transition_no_floor(player, was_rolling):
+	rolling = was_rolling
+	jumping = false
+	player.set_state(self)
+	
+
 func land_on_ground(player, foot_sensors):
 	var movement_direction = player.get_movement_direction()
 	var downwards_distance_threshold = -(player.velocity.y + 8)

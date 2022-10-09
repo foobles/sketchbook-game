@@ -117,13 +117,7 @@ func update_player(player):
 	apply_slope_factor(player)
 	
 	if player.jump_just_pressed:
-		var airborne = player.state_airborne
-		airborne.rolling = true
-		airborne.jumping = true
-		player.stood_object = null
-		player.set_state(airborne)
-		var angle_rads = player.get_angle_rads()
-		player.velocity += 6.5 * Vector2(-sin(angle_rads), -cos(angle_rads))
+		player.state_airborne.transition_jump(player)
 		return
 	
 	if is_accelerating(player):
@@ -163,10 +157,7 @@ func snap_to_floor(player):
 		player.apply_floor_collision(collision)
 		player.pose.direction = player.get_current_direction()
 	else:
-		var airborne = player.state_airborne
-		airborne.rolling = is_rolling()
-		airborne.jumping = false
-		player.set_state(airborne)	
+		player.state_airborne.transition_no_floor(player, is_rolling())
 
 
 func prevent_wall_collision(player, wall_sensor):
