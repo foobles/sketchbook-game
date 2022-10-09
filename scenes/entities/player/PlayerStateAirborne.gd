@@ -45,7 +45,7 @@ func update_player(player):
 	
 func interpolate_angle(player):
 	if 2 < player.angle && player.angle < 256 - 2:
-		player.angle += 2 * sign(player.angle - 128)
+		player.angle += -2 if player.angle < 128 else 2
 	else:
 		player.angle = 0
 	
