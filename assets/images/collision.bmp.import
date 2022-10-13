@@ -1,0 +1,13 @@
+[remap]
+
+importer="sketchbook.collisionmap"
+type="Resource"
+path="res://.import/collision.bmp-2d8e8dfd990fea951847b2913aecca4d.res"
+
+[deps]
+
+source_file="res://assets/images/collision.bmp"
+dest_files=[ "res://.import/collision.bmp-2d8e8dfd990fea951847b2913aecca4d.res" ]
+
+[params]
+
