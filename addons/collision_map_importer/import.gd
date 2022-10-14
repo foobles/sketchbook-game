@@ -55,12 +55,31 @@ func import(
 	var collision_map = CollisionMap.new()
 	collision_map.data = []
 	
+	var texture = ImageTexture.new()
+	texture.create_from_image(
+		image,
+		Texture.FLAG_MIPMAPS | Texture.FLAG_REPEAT
+	)
+	
+	var tileset = TileSet.new() 
+	var tile_id = 0
 	for y in range(height / 16):
 		for x in range(width / 16):
 			_add_block(collision_map, image, x*16, y*16)
+			tileset.create_tile(tile_id)
+			tileset.tile_set_texture(tile_id, texture)
+			tileset.tile_set_region(tile_id, Rect2(x*16, y*16, 16, 16))
+			tileset.tile_set_tile_mode(tile_id, TileSet.SINGLE_TILE)
+			tile_id += 1
 		
-	return ResourceSaver.save("%s.%s" % [save_path, get_save_extension()], collision_map)
+	err = ResourceSaver.save("%s.%s" % [save_path, get_save_extension()], collision_map)
+	if err != OK:
+		return err
 	
+	var tileset_path = "%s_tiles.res" % [source_file.get_basename()]
+	err = ResourceSaver.save(tileset_path, tileset)
+	gen_files.append(tileset_path)
+
 
 func _add_block(collision_map, image, block_x, block_y):
 	var block = CollisionBlock.new()

@@ -1,4 +1,3 @@
-tool
 extends Resource
 
 export(PoolByteArray) var heights 
