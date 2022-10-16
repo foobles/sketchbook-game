@@ -32,7 +32,15 @@ func get_preset_name(preset):
 			return "[unknown]"
 
 func get_import_options(preset):
-	return []
+	return [
+		{
+			name = "flagged_tiles",
+			default_value = PoolByteArray()
+		}
+	]
+	
+func get_option_visibility(option, options):
+	return true 
 
 func import(
 	source_file, 
@@ -72,12 +80,17 @@ func import(
 			tileset.tile_set_tile_mode(tile_id, TileSet.SINGLE_TILE)
 			tile_id += 1
 		
+	for flagged_tile_idx in options.flagged_tiles:
+		collision_map.data[flagged_tile_idx].angle = 255
+		
 	err = ResourceSaver.save("%s.%s" % [save_path, get_save_extension()], collision_map)
 	if err != OK:
 		return err
 	
 	var tileset_path = "%s_tiles.res" % [source_file.get_basename()]
 	err = ResourceSaver.save(tileset_path, tileset)
+	if err != OK:
+		return err
 	gen_files.append(tileset_path)
 
 
@@ -85,33 +98,32 @@ func _add_block(collision_map, image, block_x, block_y):
 	var block = CollisionBlock.new()
 	var heights = PoolByteArray() 
 	var widths = PoolByteArray()
-	var leftmost_nonzero_x = 16
+	var top_right_path_x = 0
+	var bottom_left_path_y = 0
 	for x in range(16):
 		var y = 0
 		while y < 16:
 			var px = image.get_pixel(block_x + x, block_y + y)
+			if px == Color.red:
+				top_right_path_x = x 
 			if px != Color.black: 
-				break 
+				break  
 			y += 1
 		heights.append(16 - y) 
-		if leftmost_nonzero_x == 16 && y != 16:
-			leftmost_nonzero_x = x 
 			
 	for y in range(16):
 		var x = 0
 		while x < 16:
 			var px = image.get_pixel(block_x + x, block_y + y)
+			if px == Color.red:
+				bottom_left_path_y = y 
 			if px != Color.black: 
 				break 
 			x += 1
 		widths.append(16 - x)
 	
-	var block_width = 15 
-	var block_height = heights[15] 
-	if leftmost_nonzero_x != 16:
-		block_width -= leftmost_nonzero_x
-		block_height -= heights[leftmost_nonzero_x]
-		
+	var block_width = top_right_path_x - (16 - widths[bottom_left_path_y])
+	var block_height = bottom_left_path_y - (16 - heights[top_right_path_x])
 	block.widths = widths 
 	block.heights = heights
 	block.angle = round(atan2(block_height, block_width)/(2*PI)*256)
