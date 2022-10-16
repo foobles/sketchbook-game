@@ -1,0 +1,16 @@
+[remap]
+
+importer="sketchbook.collisionmap"
+type="Resource"
+path="res://.import/collision.bmp-0acde0c12a244d3f1c3a1c24ea7a5b1e.res"
+
+[deps]
+
+files=[ "res://assets/tile_sets/collision_tiles.res" ]
+
+source_file="res://assets/tile_sets/collision.bmp"
+dest_files=[ "res://.import/collision.bmp-0acde0c12a244d3f1c3a1c24ea7a5b1e.res", "res://assets/tile_sets/collision_tiles.res" ]
+
+[params]
+
+flagged_tiles=PoolByteArray( 1 )
