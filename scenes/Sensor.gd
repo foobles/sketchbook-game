@@ -3,6 +3,7 @@ extends Position2D
 class_name Sensor
 
 var tiles = preload("res://singletons/tile_map_info.tres")
+var collision_table = preload("res://assets/tile_sets/collision.bmp")
 
 enum Direction {
 	RIGHT = 0,
@@ -41,16 +42,16 @@ func set_direction_rotation(rotation_direction):
 
 
 func _get_tile_info(tile_coord, pixel_coord):
-	var id = tiles.map.get_cellv(tile_coord)
+	var id = tiles.collision.get_cellv(tile_coord)
 	if id == -1: 
 		return {
 			mag = 0,
 			angle = 0,
 		}
 		
-	var x_flip = tiles.map.is_cell_x_flipped(tile_coord.x, tile_coord.y)
-	var y_flip = tiles.map.is_cell_y_flipped(tile_coord.x, tile_coord.y)
-	var meta = tiles.meta[id]
+	var x_flip = tiles.collision.is_cell_x_flipped(tile_coord.x, tile_coord.y)
+	var y_flip = tiles.collision.is_cell_y_flipped(tile_coord.x, tile_coord.y)
+	var meta = collision_table.data[id]
 	
 	var mag
 	if is_horizontal():

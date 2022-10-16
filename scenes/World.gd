@@ -11,10 +11,10 @@ func _ready():
 	rect.size.x *= $TileMap.cell_size.x 
 	rect.size.y *= $TileMap.cell_size.y 
 	
-	$Camera.limit_left = rect.position.x 
-	$Camera.limit_right = rect.end.x 
-	$Camera.limit_top = rect.position.y 
-	$Camera.limit_bottom = rect.end.y
+	#$Camera.limit_left = rect.position.x 
+	#$Camera.limit_right = rect.end.x 
+	#$Camera.limit_top = rect.position.y 
+	#Camera.limit_bottom = rect.end.y
 	
 	tiles.set_info($TileMap, tile_meta_array)
 
