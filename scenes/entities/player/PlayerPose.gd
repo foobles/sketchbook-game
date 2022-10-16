@@ -16,5 +16,9 @@ func set_direction(dir):
 	for sensor in get_children():
 		sensor.set_direction_rotation(dir)
 
+func set_layer(n):
+	for sensor in get_children():
+		sensor.layer = n 
+
 func get_foot_direction_vec():
 	return foot_sensors[0].direction_vec

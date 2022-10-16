@@ -14,6 +14,7 @@ enum Direction {
 
 export(Direction) var starting_direction = Direction.DOWN
 export(bool) var auto_adjust = false
+export(int, 0, 1) var layer = 0
 
 var direction_vec: Vector2
 var _starting_direction_vec: Vector2
@@ -42,15 +43,16 @@ func set_direction_rotation(rotation_direction):
 
 
 func _get_tile_info(tile_coord, pixel_coord):
-	var id = tiles.collision.get_cellv(tile_coord)
+	var collision_map = tiles.collisions[layer]
+	var id = collision_map.get_cellv(tile_coord)
 	if id == -1: 
 		return {
 			mag = 0,
 			angle = 0,
 		}
 		
-	var x_flip = tiles.collision.is_cell_x_flipped(tile_coord.x, tile_coord.y)
-	var y_flip = tiles.collision.is_cell_y_flipped(tile_coord.x, tile_coord.y)
+	var x_flip = collision_map.is_cell_x_flipped(tile_coord.x, tile_coord.y)
+	var y_flip = collision_map.is_cell_y_flipped(tile_coord.x, tile_coord.y)
 	var meta = collision_table.data[id]
 	
 	var mag
