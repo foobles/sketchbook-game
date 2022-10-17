@@ -40,7 +40,5 @@ func tick_player_interaction(player):
 			return 
 		if dir < 0:
 			player.pose.set_layer(negative_direction_layer)
-			print("set layer to ", negative_direction_layer)
 		elif dir > 0:
 			player.pose.set_layer(positive_direction_layer)
-			print("set layer to ", positive_direction_layer)
