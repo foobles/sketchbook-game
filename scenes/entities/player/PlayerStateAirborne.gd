@@ -9,8 +9,13 @@ const AIR_GRAVITY = 56 / 256.0
 const JUMP_SPEED = 6.5
 const JUMP_CONTROL_VELOC = -4
 
+const WALL_JUMP_REACTION_TIME = 5
+const WALL_JUMP_BUFFER_TIME = 5
+
 var rolling: bool
 var jumping: bool = false
+var wall_jump_timer = 0
+var wall_jump_velocity = 0
 
 func enter_state(player):
 	if rolling:
@@ -26,6 +31,15 @@ func update_player(player):
 	if jumping && !player.jump_pressed && player.velocity.y < JUMP_CONTROL_VELOC:
 		player.velocity.y = JUMP_CONTROL_VELOC
 		
+	if player.jump_just_pressed:
+		if wall_jump_timer == 0:
+			wall_jump_timer = WALL_JUMP_BUFFER_TIME
+		else:
+			wall_jump(player, wall_jump_velocity)
+	if wall_jump_timer > 0:
+		wall_jump_timer -= 1
+		
+	
 	player.velocity.x += AIR_ACCEL * player.input_h
 	
 	if -4 < player.velocity.y && player.velocity.y < 0:
@@ -102,10 +116,25 @@ func exit_wall(player, wall_sensor):
 	if info.distance < 0:
 		player.position += info.distance * wall_sensor.direction_vec
 		if player.velocity.dot(wall_sensor.direction_vec) > 0:
-			var h = wall_sensor.direction & 1
-			player.velocity.x *= h
-			player.velocity.y *= (h^1)
+			
+			
+			if wall_jump_timer == 0:
+				wall_jump_timer = WALL_JUMP_REACTION_TIME 
+				wall_jump_velocity = -player.velocity.x
+				var h = wall_sensor.direction & 1
+				player.velocity.x *= h
+				player.velocity.y *= (h^1)
+			else:
+				wall_jump(player, -player.velocity.x)
+				
 	
+	
+func wall_jump(player, vx):
+	wall_jump_timer = 0
+	#300.0/256
+	vx = clamp(vx , -JUMP_SPEED, JUMP_SPEED)
+	player.velocity.x = vx
+	player.velocity.y = player.velocity.y * 0.25 -abs(vx)
 	
 func get_active_sensors(player):
 	var pose = player.pose
