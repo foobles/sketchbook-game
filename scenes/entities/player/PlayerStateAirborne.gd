@@ -16,6 +16,8 @@ var rolling: bool
 var jumping: bool = false
 var wall_jump_timer = 0
 var wall_jump_velocity = 0
+var wall_jump_state 
+enum WallJumpState { BUFFERED, REACTION }
 
 func enter_state(player):
 	if rolling:
@@ -34,7 +36,8 @@ func update_player(player):
 	if player.jump_just_pressed:
 		if wall_jump_timer == 0:
 			wall_jump_timer = WALL_JUMP_BUFFER_TIME
-		else:
+			wall_jump_state = WallJumpState.BUFFERED
+		elif wall_jump_state == WallJumpState.REACTION:
 			wall_jump(player, wall_jump_velocity)
 	if wall_jump_timer > 0:
 		wall_jump_timer -= 1
@@ -121,15 +124,18 @@ func exit_wall(player, wall_sensor):
 			if wall_jump_timer == 0:
 				wall_jump_timer = WALL_JUMP_REACTION_TIME 
 				wall_jump_velocity = -player.velocity.x
+				wall_jump_state = WallJumpState.REACTION
 				var h = wall_sensor.direction & 1
 				player.velocity.x *= h
 				player.velocity.y *= (h^1)
-			else:
+			elif wall_jump_state == WallJumpState.BUFFERED:
 				wall_jump(player, -player.velocity.x)
 				
 	
 	
 func wall_jump(player, vx):
+	if !rolling:
+		return
 	wall_jump_timer = 0
 	#300.0/256
 	vx = clamp(vx , -JUMP_SPEED, JUMP_SPEED)
