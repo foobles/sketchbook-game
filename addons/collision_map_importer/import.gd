@@ -87,7 +87,7 @@ func import(
 	if err != OK:
 		return err
 	
-	var tileset_path = "%s_tiles.res" % [source_file.get_basename()]
+	var tileset_path = "%s_tiles.generated.res" % [source_file.get_basename()]
 	err = ResourceSaver.save(tileset_path, tileset)
 	if err != OK:
 		return err
