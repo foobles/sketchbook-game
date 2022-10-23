@@ -57,7 +57,11 @@ func update_player(player):
 		exit_wall(player, wall_sensor)
 		
 	interpolate_angle(player)
-	land_on_ground(player, active_sensors.foot_sensors)
+	if land_on_surface(player, active_sensors.foot_sensors, +1) && player.velocity.y > 0:
+		player.state_grounded.transition_land_from_air_floor(player)
+	if land_on_surface(player, active_sensors.head_sensors, -1) && player.velocity.y < 0:
+		player.state_grounded.transition_land_from_air_ceiling(player)
+
 	
 	
 func interpolate_angle(player):
@@ -82,17 +86,18 @@ func transition_no_floor(player, was_rolling):
 	player.set_state(self)
 	
 
-func land_on_ground(player, foot_sensors):
+func land_on_surface(player, sensors, y_direction_sign):
 	var movement_direction = player.get_movement_direction()
-	var downwards_distance_threshold = -(player.velocity.y + 8)
+	var y_direction = 2 + y_direction_sign
+	var distance_threshold = -(y_direction_sign * player.velocity.y + 8)
 	
 	var collision = null
-	var downwards_distance_met = false
+	var distance_met = false
 	
-	for sensor in foot_sensors:
+	for sensor in sensors:
 		var cur = sensor.get_collision_info()
-		if cur.distance >= downwards_distance_threshold:
-			downwards_distance_met = true
+		if cur.distance >= distance_threshold:
+			distance_met = true
 			
 		if cur.distance >= 0:
 			continue
@@ -101,19 +106,18 @@ func land_on_ground(player, foot_sensors):
 			collision = cur 
 			
 	if collision == null:
-		return
+		return false
 			
-	if movement_direction == 3 && !downwards_distance_met:
-		return
+	if movement_direction == y_direction && !distance_met:
+		return false
 		
-	if movement_direction % 2 == 0 && player.velocity.y < 0:
-		return
+	if movement_direction % 2 == 0 && y_direction_sign * player.velocity.y < 0:
+		return false
 
 	player.angle = 0
 	player.apply_floor_collision(collision)
-	player.state_grounded.transition_land_from_air(player)
-	
-	
+	return true
+
 func exit_wall(player, wall_sensor):
 	var info = wall_sensor.get_collision_info()
 	if info.distance < 0:
@@ -147,12 +151,14 @@ func get_active_sensors(player):
 	if abs(player.velocity.x) > abs(player.velocity.y):
 		return {
 			wall_sensors = [pose.right_sensor if player.velocity.x > 0 else pose.left_sensor],
-			foot_sensors = pose.foot_sensors
+			foot_sensors = pose.foot_sensors,
+			head_sensors = pose.head_sensors
 		}
 	else:
 		return {
 			wall_sensors = [pose.right_sensor,  pose.left_sensor],
-			foot_sensors = pose.foot_sensors if player.velocity.y > 0 else []
+			foot_sensors = pose.foot_sensors if player.velocity.y > 0 else [],
+			head_sensors = pose.head_sensors if player.velocity.y < 0 else []
 		}
 
 

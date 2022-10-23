@@ -28,3 +28,15 @@ auto_adjust = true
 position = Vector2( 9, 19 )
 script = ExtResource( 2 )
 auto_adjust = true
+
+[node name="HeadLeft" type="Position2D" parent="."]
+position = Vector2( -9, -19 )
+script = ExtResource( 2 )
+starting_direction = 1
+auto_adjust = true
+
+[node name="HeadRight" type="Position2D" parent="."]
+position = Vector2( 9, -19 )
+script = ExtResource( 2 )
+starting_direction = 1
+auto_adjust = true

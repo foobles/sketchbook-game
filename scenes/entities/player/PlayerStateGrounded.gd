@@ -77,7 +77,7 @@ func _set_inner_state(player, pose_info):
 	_inner_state = pose_info
 	
 	
-func transition_land_from_air(player):
+func transition_land_from_air_floor(player):
 	var r_angle = player.angle
 	if r_angle > 128:
 		r_angle = 256 - r_angle
@@ -95,6 +95,19 @@ func transition_land_from_air(player):
 	player.set_state(self)
 
 
+func transition_land_from_air_ceiling(player):
+	var r_angle = player.angle
+	if r_angle > 128:
+		r_angle = 256 - r_angle
+	
+	if 64 <= r_angle && r_angle < 96:
+		player.ground_speed = player.velocity.y
+		player.ground_speed *= -1 if player.angle < 128 else 1
+		player.set_state(self)
+	else:
+		player.velocity.y = 0
+		
+		
 func transition_land_on_object(player, object):
 	player.stood_object = object
 	player.velocity.y = 0

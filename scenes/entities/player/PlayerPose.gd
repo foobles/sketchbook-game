@@ -6,7 +6,10 @@ onready var left_sensor = $WallLeft
 onready var right_sensor = $WallRight
 onready var left_foot_sensor = $FootLeft
 onready var right_foot_sensor = $FootRight
+onready var left_head_sensor = $HeadLeft
+onready var right_head_sensor = $HeadRight
 onready var foot_sensors = [left_foot_sensor, right_foot_sensor]
+onready var head_sensors = [left_head_sensor, right_head_sensor]
 
 var direction = 0 setget set_direction
 

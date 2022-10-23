@@ -81,6 +81,10 @@ func set_dimensions(dimensions):
 	
 	pose.left_foot_sensor.position = Vector2(-radius.x, radius.y)
 	pose.right_foot_sensor.position = Vector2(radius.x, radius.y)
+	
+	pose.left_head_sensor.position = Vector2(-radius.x, -radius.y) 
+	pose.right_head_sensor.position = Vector2(radius.x, -radius.y)
+	
 	hitbox.radius.y = radius.y - 3
 
 
