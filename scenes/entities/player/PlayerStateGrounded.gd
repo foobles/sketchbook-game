@@ -129,7 +129,7 @@ func update_player(player):
 	
 	apply_slope_factor(player)
 	
-	if player.jump_just_pressed:
+	if player.jump_just_pressed && is_head_clear_for_jump(player):
 		player.state_airborne.transition_jump(player)
 		return
 	
@@ -231,6 +231,13 @@ func apply_acceleration(player):
 		player.ground_speed += player.input_h * _inner_state.accel
 		player.ground_speed = clamp(player.ground_speed, -run_speed, run_speed)
 	
+
+func is_head_clear_for_jump(player):
+	for sensor in player.pose.head_sensors:
+		if sensor.get_collision_info().distance <= 0:
+			return false
+	return true
+
 
 func apply_deceleration(player):
 	var walk_decel = _inner_state.decel
