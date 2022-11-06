@@ -187,10 +187,7 @@ func check_slipping(player):
 			&& abs(player.ground_speed) < SLIP_SPEED_THRESHOLD
 		):
 			player.control_lock = 30
-			var airborne = player.state_airborne
-			airborne.rolling = is_rolling()
-			airborne.jumping = false
-			player.set_state(airborne)
+			player.state_airborne.transition_no_floor(player, is_rolling())
 	else:
 		player.control_lock -= 1
 
