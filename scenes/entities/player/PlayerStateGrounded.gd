@@ -4,6 +4,7 @@ const Player = preload("res://scenes/entities/player/Player.gd")
 
 const SLIP_SPEED_THRESHOLD: float = 2.5
 const SLIP_ANGLE_THRESHOLD: int = 32
+const ROLL_SPEED_THRESHOLD: float = 0.5
 
 class PoseInfo:
 	var dimensions
@@ -24,6 +25,9 @@ class PoseInfo:
 	
 	
 class PoseInfoStand extends PoseInfo:
+	enum { STATE_STAND, STATE_WALK, STATE_LOOK_DOWN, STATE_LOOK_UP}
+	var sub_state = STATE_STAND
+	
 	func _init():
 		dimensions = Player.STAND_DIMENSIONS
 		accel = 12 / 256.0 
@@ -33,13 +37,30 @@ class PoseInfoStand extends PoseInfo:
 		standing_slope_slip_threshold = 13 / 256.0
 	
 	func animate_player(player):
-		player.animate_walking()
-		
+		match sub_state:
+			STATE_STAND:
+				player.animate_standing()
+			STATE_WALK:
+				player.animate_walking()
+			STATE_LOOK_UP:
+				player.animate_look_up()
+			STATE_LOOK_DOWN:
+				player.animate_look_down()
 	
 	func transition_inner(player, grounded):
-		if player.ground_speed != 0 && player.input_v == 1:
-			grounded._set_inner_state(player, grounded._info_ball)
-
+		if player.input_h != 0:
+			sub_state = STATE_WALK
+		elif player.input_v == 1:
+			if abs(player.velocity.x) >= ROLL_SPEED_THRESHOLD:
+				grounded._set_inner_state(player, grounded._info_ball)
+			else:
+				sub_state = STATE_LOOK_DOWN
+		elif player.ground_speed == 0:
+			if player.input_v == -1:
+				sub_state = STATE_LOOK_UP
+			else:
+				sub_state = STATE_STAND 
+		
 
 class PoseInfoBall extends PoseInfo:
 	func _init():
@@ -62,7 +83,8 @@ class PoseInfoBall extends PoseInfo:
 		
 
 	func transition_inner(player, grounded):
-		if player.ground_speed == 0:
+		if abs(player.ground_speed) < ROLL_SPEED_THRESHOLD:
+			grounded._info_stand.sub_state = PoseInfoStand.STATE_STAND
 			grounded._set_inner_state(player, grounded._info_stand)
 
 

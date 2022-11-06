@@ -151,17 +151,25 @@ func animate_rolling():
 
 
 func animate_walking():
-	if ground_speed == 0:
-		set_animation("idle")
-		set_animation_ticks(60)
+	if abs(ground_speed) < RUN_SPEED:
+		set_animation("walk")
 	else:
-		if abs(ground_speed) < RUN_SPEED:
-			set_animation("walk")
-		else:
-			set_animation("run")
-		set_animation_ticks(max(0, floor(8 - abs(ground_speed))))
-		
+		set_animation("run")
+	set_animation_ticks(max(0, floor(8 - abs(ground_speed))))
 	sprite.rotation = -stepify(get_angle_rads(), PI / 4)
+	
+func animate_standing():
+	set_animation("idle")
+	sprite.rotation = 0
+	
+func animate_look_up():
+	set_animation("look_up")
+	sprite.rotation = 0
+	
+func animate_look_down():
+	set_animation("look_down")
+	sprite.rotation = 0
+
 
 func set_grounded(g):
 	if g != is_grounded:
