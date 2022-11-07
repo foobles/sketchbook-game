@@ -26,7 +26,9 @@ class PoseInfo:
 	
 class PoseInfoStand extends PoseInfo:
 	enum { STATE_STAND, STATE_WALK, STATE_LOOK_DOWN, STATE_LOOK_UP}
+	const LOOK_DELAY = 120
 	var sub_state = STATE_STAND
+	var look_delay_timer = 0
 	
 	func _init():
 		dimensions = Player.STAND_DIMENSIONS
@@ -54,12 +56,29 @@ class PoseInfoStand extends PoseInfo:
 			if abs(player.velocity.x) >= ROLL_SPEED_THRESHOLD:
 				grounded._set_inner_state(player, grounded._info_ball)
 			else:
+				update_look_timer(player, STATE_LOOK_DOWN, +1)
 				sub_state = STATE_LOOK_DOWN
 		elif player.ground_speed == 0:
 			if player.input_v == -1:
+				update_look_timer(player, STATE_LOOK_UP, -1)
 				sub_state = STATE_LOOK_UP
 			else:
-				sub_state = STATE_STAND 
+				sub_state = STATE_STAND
+				
+		match sub_state:
+			STATE_LOOK_DOWN, STATE_LOOK_UP:
+				pass
+			_:
+				player.look_direction = 0
+			
+	func update_look_timer(player, state, direction):
+		if sub_state == state:
+			if look_delay_timer > 0:
+				look_delay_timer -= 1
+				if look_delay_timer == 0:
+					player.look_direction = direction
+		else:
+			look_delay_timer = LOOK_DELAY
 		
 
 class PoseInfoBall extends PoseInfo:
@@ -152,6 +171,7 @@ func update_player(player):
 	apply_slope_factor(player)
 	
 	if player.jump_just_pressed && is_head_clear_for_jump(player):
+		player.look_direction = 0
 		player.state_airborne.transition_jump(player)
 		return
 	

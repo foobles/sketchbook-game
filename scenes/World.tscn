@@ -22,6 +22,8 @@ box_left = 144
 box_right = 160
 box_center_v = 96
 box_radius_v = 32
+look_up = 104
+look_down = 88
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 320, 230 )

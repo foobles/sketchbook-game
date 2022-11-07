@@ -4,6 +4,8 @@ export(int) var box_left
 export(int) var box_right
 export(int) var box_center_v
 export(int) var box_radius_v
+export(int) var look_up
+export(int) var look_down
 
 enum Mode {
 	CENTER,
@@ -12,9 +14,21 @@ enum Mode {
 
 var _v_mode = Mode.BOXED 
 
+var focus_offset = Vector2.ZERO
+
 
 func track_player(player):
-	var player_camera_pos = to_local(player.global_position) - player.position_offset 
+	match player.look_direction:
+		-1:
+			if focus_offset.y > -look_up:
+				focus_offset.y -= 2
+		0:
+			focus_offset.y -= 2*sign(focus_offset.y)
+		+1:
+			if focus_offset.y < look_down:
+				focus_offset.y += 2
+	
+	var player_camera_pos = to_local(player.global_position) - player.position_offset + focus_offset
 	
 	var camera_motion = Vector2.ZERO
 	var speed_cap = Vector2(16, 16)
@@ -38,6 +52,9 @@ func track_player(player):
 				camera_motion.y = -(box_top - player_camera_pos.y)
 			elif player_camera_pos.y > box_bottom:
 				camera_motion.y = (player_camera_pos.y - box_bottom)
+	
+	if focus_offset != Vector2.ZERO:
+		speed_cap.y = 2
 	
 	position.x += clamp(camera_motion.x, -speed_cap.x, speed_cap.x)
 	position.y += clamp(camera_motion.y, -speed_cap.y, speed_cap.y)
@@ -70,3 +87,5 @@ func _on_Player_became_airborne():
 
 func _on_Player_became_grounded():
 	_v_mode = Mode.CENTER
+	
+

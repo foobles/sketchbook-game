@@ -15,6 +15,7 @@ var jump_just_pressed = false
 
 var control_lock = 0
 var stood_object = null
+var look_direction = 0
 
 # warning-ignore:unused_signal
 signal became_airborne
