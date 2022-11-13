@@ -15,6 +15,7 @@ const WALL_JUMP_BUFFER_TIME = 5
 enum {
 	MODE_ROLLING
 	MODE_UPRIGHT
+	MODE_REVVING
 }
 
 var mode
@@ -28,7 +29,7 @@ func enter_state(player):
 	match mode:
 		MODE_ROLLING:
 			player.set_dimensions(Player.BALL_DIMENSIONS)
-		MODE_UPRIGHT:
+		MODE_UPRIGHT, MODE_REVVING:
 			player.set_dimensions(Player.STAND_DIMENSIONS)
 	player.pose.direction = 0
 	player.set_grounded(false)
@@ -173,3 +174,5 @@ func animate_player(player):
 			player.animate_rolling()
 		MODE_UPRIGHT:
 			player.animate_walking()
+		MODE_REVVING:
+			player.animate_revving()

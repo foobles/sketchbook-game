@@ -27,8 +27,9 @@ var is_rolling
 
 onready var state_grounded_upright = $StateGroundedUpright
 onready var state_grounded_rolling = $StateGroundedRolling
+onready var state_grounded_revving = $StateGroundedRevving
 onready var state_airborne = $StateAirborne
-onready var _state = state_grounded_upright
+onready var _state = state_grounded_revving
 onready var pose = $Pose
 
 
@@ -101,6 +102,10 @@ func set_animation_ticks(n):
 func set_animation_reversed(r):
 	var abs_speed = abs($AnimationPlayer.playback_speed)
 	$AnimationPlayer.playback_speed = abs_speed * (-1 if r else 1)
+	
+func restart_animation():
+	$AnimationPlayer.seek(0)
+
 
 func is_control_locked():
 	return control_lock > 0
@@ -180,6 +185,10 @@ func animate_look_down():
 	set_animation("look_down")
 	sprite.rotation = 0
 
+func animate_revving():
+	set_animation("rev")
+	set_animation_ticks(0)
+	sprite.rotation = 0
 
 func set_grounded(g):
 	if g != is_grounded:

@@ -17,8 +17,12 @@ func enter_state(player):
 func update_player(player):
 	apply_slope_factor_upright(player, SLOPE_FACTOR, STANDING_SLOPE_SLIDE_ANGLE_THRESHOLD)
 	
-	if check_jump(player):
-		return
+	if player.ground_speed != 0 || player.input_v != 1:
+		if check_jump(player):
+			return
+	else:
+		if player.jump_just_pressed:
+			player.set_state(player.state_grounded_revving)
 	
 	if is_accelerating(player):
 		apply_acceleration(player, ACCEL)
