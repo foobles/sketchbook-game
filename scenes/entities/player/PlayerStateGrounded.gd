@@ -1,6 +1,7 @@
 extends "res://scenes/entities/player/PlayerState.gd"
 
 const Player = preload("res://scenes/entities/player/Player.gd")
+const Airborne = preload("res://scenes/entities/player/PlayerStateAirborne.gd")
 
 const SLIP_SPEED_THRESHOLD: float = 2.5
 const SLIP_ANGLE_THRESHOLD: int = 32
@@ -43,11 +44,11 @@ func prevent_wall_collision_from_active_sensor(player):
 		prevent_wall_collision(player, pose.right_sensor)
 
 
-func check_slipping(player, rolling, slip_speed_threshold, slip_angle_threshold):
+func check_slipping(player, rolling):
 	if player.control_lock == 0:
-		if (slip_angle_threshold < player.angle 
-			&& player.angle < 256 - slip_angle_threshold
-			&& abs(player.ground_speed) < slip_speed_threshold
+		if (SLIP_ANGLE_THRESHOLD < player.angle 
+			&& player.angle < 256 - SLIP_ANGLE_THRESHOLD 
+			&& abs(player.ground_speed) < SLIP_SPEED_THRESHOLD
 		):
 			player.control_lock = 30
 			player.state_airborne.transition_no_floor(player, rolling)

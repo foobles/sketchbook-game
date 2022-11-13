@@ -12,7 +12,12 @@ const JUMP_CONTROL_VELOC = -4
 const WALL_JUMP_REACTION_TIME = 5
 const WALL_JUMP_BUFFER_TIME = 5
 
-var rolling: bool
+enum {
+	MODE_ROLLING
+	MODE_UPRIGHT
+}
+
+var mode
 var jumping: bool = false
 var wall_jump_timer = 0
 var wall_jump_velocity = 0
@@ -20,11 +25,11 @@ var wall_jump_state
 enum WallJumpState { BUFFERED, REACTION }
 
 func enter_state(player):
-	if rolling:
-		player.set_dimensions(Player.BALL_DIMENSIONS)
-	else:
-		player.set_dimensions(Player.STAND_DIMENSIONS)
-		
+	match mode:
+		MODE_ROLLING:
+			player.set_dimensions(Player.BALL_DIMENSIONS)
+		MODE_UPRIGHT:
+			player.set_dimensions(Player.STAND_DIMENSIONS)
 	player.pose.direction = 0
 	player.set_grounded(false)
 
@@ -72,7 +77,7 @@ func interpolate_angle(player):
 	
 	
 func transition_jump(player):
-	rolling = true
+	mode = MODE_ROLLING
 	jumping = true
 	player.stood_object = null
 	var angle_rads = player.get_angle_rads()
@@ -80,8 +85,8 @@ func transition_jump(player):
 	player.set_state(self)
 	
 
-func transition_no_floor(player, was_rolling):
-	rolling = was_rolling
+func transition_no_floor(player, new_mode):
+	mode = new_mode
 	jumping = false
 	player.set_state(self)
 	
@@ -138,7 +143,7 @@ func exit_wall(player, wall_sensor):
 	
 	
 func wall_jump(player, vx):
-	if !rolling:
+	if mode != MODE_ROLLING:
 		return
 	wall_jump_timer = 0
 	#300.0/256
@@ -163,7 +168,8 @@ func get_active_sensors(player):
 
 
 func animate_player(player):
-	if rolling:
-		player.animate_rolling()
-	else:
-		player.animate_walking()
+	match mode:
+		MODE_ROLLING:
+			player.animate_rolling()
+		MODE_UPRIGHT:
+			player.animate_walking()

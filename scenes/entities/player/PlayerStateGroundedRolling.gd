@@ -5,7 +5,7 @@ const FRICTION = 6 / 256.0
 const SLOPE_FACTOR_ROLL_UP = 20 / 256.0
 const SLOPE_FACTOR_ROLL_DOWN = 80 / 256.0
 
-const IS_ROLLING = true
+const AIRBORNE_MODE = Airborne.MODE_ROLLING
 
 func enter_state(player):
 	.enter_state(player)
@@ -29,8 +29,8 @@ func update_player(player):
 	prevent_wall_collision_from_active_sensor(player)
 	player.position += player.velocity
 	if player.stood_object == null:
-		snap_to_floor(player, IS_ROLLING)
-	check_slipping(player, IS_ROLLING, SLIP_SPEED_THRESHOLD, SLIP_ANGLE_THRESHOLD)
+		snap_to_floor(player, AIRBORNE_MODE)
+	check_slipping(player, AIRBORNE_MODE)
 	
 	
 func animate_player(player):

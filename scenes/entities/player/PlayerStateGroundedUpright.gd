@@ -6,7 +6,8 @@ const TOP_RUN_SPEED = 6.0
 const FRICTION = 12 / 256.0 
 const SLOPE_FACTOR = 32 / 256.0
 const STANDING_SLOPE_SLIDE_ANGLE_THRESHOLD = 13 / 256.0
-const IS_ROLLING = false
+
+const AIRBORNE_MODE = Airborne.MODE_UPRIGHT
 
 
 func enter_state(player):
@@ -33,8 +34,8 @@ func update_player(player):
 	prevent_wall_collision_from_active_sensor(player)
 	player.position += player.velocity
 	if player.stood_object == null:
-		snap_to_floor(player, IS_ROLLING)
-	check_slipping(player, IS_ROLLING, SLIP_SPEED_THRESHOLD, SLIP_ANGLE_THRESHOLD)
+		snap_to_floor(player, AIRBORNE_MODE)
+	check_slipping(player, AIRBORNE_MODE)
 	
 	
 func animate_player(player):
