@@ -23,11 +23,12 @@ signal became_airborne
 signal became_grounded
 
 var is_grounded 
+var is_rolling
 
-onready var state_grounded = $StateGrounded
+onready var state_grounded_upright = $StateGroundedUpright
+onready var state_grounded_rolling = $StateGroundedRolling
 onready var state_airborne = $StateAirborne
-onready var _states = [state_grounded, state_airborne]
-onready var _state = state_grounded
+onready var _state = state_grounded_upright
 onready var pose = $Pose
 
 
@@ -140,6 +141,14 @@ func apply_floor_collision(collision):
 		angle = collision.angle
 	else:
 		angle = get_current_direction() * 64
+
+	
+func transition_land_on_object(object):
+	stood_object = object
+	velocity.y = 0
+	ground_speed = velocity.x
+	angle = 0
+	set_state(state_grounded_upright)
 
 
 func animate_rolling():

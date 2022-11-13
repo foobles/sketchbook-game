@@ -58,9 +58,9 @@ func update_player(player):
 		
 	interpolate_angle(player)
 	if land_on_surface(player, active_sensors.foot_sensors, +1) && player.velocity.y > 0:
-		player.state_grounded.transition_land_from_air_floor(player)
+		player.state_grounded_upright.transition_land_from_air_floor(player)
 	if land_on_surface(player, active_sensors.head_sensors, -1) && player.velocity.y < 0:
-		player.state_grounded.transition_land_from_air_ceiling(player)
+		player.state_grounded_upright.transition_land_from_air_ceiling(player)
 
 	
 	

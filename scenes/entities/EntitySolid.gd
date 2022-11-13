@@ -90,6 +90,6 @@ func eject_player(player):
 			var obj_action_width = 1 + 2*obj_box.x
 			if (player.velocity.y >= 0 && obj_action_width >= x_cmp && x_cmp >= 0):
 				player.position.y -= (y_distance - TOP_STICK_RADIUS + 1)
-				player.state_grounded.transition_land_on_object(player, self)
+				player.transition_land_on_object(self)
 
 
