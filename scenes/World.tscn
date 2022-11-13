@@ -104,6 +104,7 @@ __meta__ = {
 
 [connection signal="became_airborne" from="Player" to="Camera" method="_on_Player_became_airborne"]
 [connection signal="became_grounded" from="Player" to="Camera" method="_on_Player_became_grounded"]
+[connection signal="rev_released" from="Player" to="Camera" method="_on_Player_rev_released"]
 
 [editable path="Objects/DynObjectSolid"]
 [editable path="Objects/DynObjectSolid2"]

@@ -21,6 +21,8 @@ var look_direction = 0
 signal became_airborne
 # warning-ignore:unused_signal
 signal became_grounded
+# warning-ignore:unused_signal
+signal rev_released
 
 var is_grounded 
 var is_rolling
@@ -32,6 +34,9 @@ onready var state_airborne = $StateAirborne
 onready var _state = state_grounded_revving
 onready var pose = $Pose
 
+const POSITION_ARR_SIZE = 120
+var position_arr_idx = 0
+var position_arr = PoolVector2Array()
 
 var push_radius: int = 10
 var radius: Vector2
@@ -69,6 +74,7 @@ func _ready():
 	set_dimensions(STAND_DIMENSIONS)
 	pose.left_sensor.position.x = -push_radius
 	pose.right_sensor.position.x = push_radius
+	position_arr.resize(POSITION_ARR_SIZE)
 	
 	
 func set_state(new_state):
@@ -135,6 +141,8 @@ func get_angle_rads():
 
 func tick():
 	read_input()
+	position_arr[position_arr_idx] = global_position
+	position_arr_idx = (position_arr_idx + 1) % POSITION_ARR_SIZE
 	_state.update_player(self)
 	_state.animate_player(self)
 	sprite.global_position = global_position.floor()

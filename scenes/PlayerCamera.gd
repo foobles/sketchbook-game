@@ -1,5 +1,7 @@
 extends Camera2D
 
+const Player = preload("res://scenes/entities/player/Player.gd")
+
 export(int) var box_left
 export(int) var box_right
 export(int) var box_center_v
@@ -15,6 +17,7 @@ enum Mode {
 var _v_mode = Mode.BOXED 
 
 var focus_offset = Vector2.ZERO
+var _lag_timer = 0
 
 
 func track_player(player):
@@ -28,7 +31,8 @@ func track_player(player):
 			if focus_offset.y < look_down:
 				focus_offset.y += 2
 	
-	var player_camera_pos = to_local(player.global_position) - player.position_offset + focus_offset
+	var global_player_pos = get_effective_global_player_pos(player)
+	var player_camera_pos = to_local(global_player_pos) - player.position_offset + focus_offset
 	
 	var camera_motion = Vector2.ZERO
 	var speed_cap = Vector2(16, 16)
@@ -62,6 +66,15 @@ func track_player(player):
 	position = position.floor()
 	
 	
+func get_effective_global_player_pos(player):
+	if _lag_timer == 0:
+		return player.global_position
+	else:
+		var i = posmod(player.position_arr_idx - _lag_timer, Player.POSITION_ARR_SIZE) 
+		_lag_timer -= 1
+		return player.position_arr[i]
+		
+	
 func _draw():
 	var box_top = box_center_v - box_radius_v
 	var box_width = box_right - box_left
@@ -88,4 +101,5 @@ func _on_Player_became_airborne():
 func _on_Player_became_grounded():
 	_v_mode = Mode.CENTER
 	
-
+func _on_Player_rev_released(lag):
+	_lag_timer = lag

@@ -21,7 +21,7 @@ func update_player(player):
 	if player.input_v != 1:
 		player.ground_speed = player.direction * (8 + floor(revs) / 2)
 		player.set_state(player.state_grounded_rolling)
-		
+		player.emit_signal("rev_released", 32 - floor(revs))
 		
 func animate_player(player):
 	player.animate_revving()
