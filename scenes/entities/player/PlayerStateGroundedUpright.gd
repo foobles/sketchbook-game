@@ -5,7 +5,7 @@ const DECEL = 128 / 256.0
 const TOP_RUN_SPEED = 6.0
 const FRICTION = 12 / 256.0 
 const SLOPE_FACTOR = 32 / 256.0
-const SLOPE_SLIP_ANGLE_THRESHOLD = 13 / 256.0
+const STANDING_SLOPE_SLIDE_ANGLE_THRESHOLD = 13 / 256.0
 const IS_ROLLING = false
 
 
@@ -14,7 +14,7 @@ func enter_state(player):
 	player.set_dimensions(Player.STAND_DIMENSIONS)
 
 func update_player(player):
-	apply_slope_factor_upright(player, SLOPE_FACTOR, SLOPE_SLIP_ANGLE_THRESHOLD)
+	apply_slope_factor_upright(player, SLOPE_FACTOR, STANDING_SLOPE_SLIDE_ANGLE_THRESHOLD)
 	
 	if check_jump(player):
 		return
