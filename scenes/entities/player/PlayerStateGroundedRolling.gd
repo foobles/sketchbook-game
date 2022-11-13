@@ -22,8 +22,7 @@ func update_player(player):
 		apply_deceleration(player, DECEL)
 	apply_friction(player, FRICTION)
 		
-	var angle_rads = player.get_angle_rads()
-	player.velocity = player.ground_speed * Vector2(cos(angle_rads), -sin(angle_rads))
+	transfer_ground_speed_to_velocity(player)
 	
 	check_stop_rolling(player)
 	

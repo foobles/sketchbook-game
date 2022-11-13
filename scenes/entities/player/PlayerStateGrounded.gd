@@ -85,7 +85,13 @@ func apply_acceleration(player, accel):
 	if abs(player.ground_speed) < run_speed:
 		player.ground_speed += player.input_h * accel
 		player.ground_speed = clamp(player.ground_speed, -run_speed, run_speed)
-	
+
+
+func transfer_ground_speed_to_velocity(player):
+	var angle_rads = player.get_angle_rads()
+	player.velocity = player.ground_speed * Vector2(cos(angle_rads), -sin(angle_rads))
+	player.velocity.x = clamp(player.velocity.x, -16, 16)
+
 
 func is_head_clear_for_jump(player):
 	for sensor in player.pose.head_sensors:
