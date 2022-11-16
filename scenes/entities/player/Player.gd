@@ -141,10 +141,10 @@ func get_angle_rads():
 
 func tick():
 	read_input()
-	position_arr[position_arr_idx] = global_position
-	position_arr_idx = (position_arr_idx + 1) % POSITION_ARR_SIZE
 	_state.update_player(self)
 	_state.animate_player(self)
+	position_arr_idx = (position_arr_idx + 1) % POSITION_ARR_SIZE
+	position_arr[position_arr_idx] = global_position - position_offset
 	sprite.global_position = global_position.floor()
 
 

@@ -32,7 +32,7 @@ func track_player(player):
 				focus_offset.y += 2
 	
 	var global_player_pos = get_effective_global_player_pos(player)
-	var player_camera_pos = to_local(global_player_pos) - player.position_offset + focus_offset
+	var player_camera_pos = to_local(global_player_pos) + focus_offset
 	
 	var camera_motion = Vector2.ZERO
 	var speed_cap = Vector2(16, 16)
@@ -67,12 +67,10 @@ func track_player(player):
 	
 	
 func get_effective_global_player_pos(player):
-	if _lag_timer == 0:
-		return player.global_position
-	else:
-		var i = posmod(player.position_arr_idx - _lag_timer, Player.POSITION_ARR_SIZE) 
+	if _lag_timer > 0:
 		_lag_timer -= 1
-		return player.position_arr[i]
+	var i = posmod(player.position_arr_idx - _lag_timer, Player.POSITION_ARR_SIZE) 
+	return player.position_arr[i]
 		
 	
 func _draw():
