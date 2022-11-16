@@ -15,8 +15,9 @@ func update_player(player):
 		revs = min(revs + 2, 8)
 	
 	revs -= floor(revs / 0.125) / 256
-		
-	snap_to_floor(player, AIRBORNE_STATE)
+	
+	if player.stood_object == null:
+		snap_to_floor(player, AIRBORNE_STATE)
 		
 	if player.input_v != 1:
 		player.ground_speed = player.direction * (8 + floor(revs) / 2)
