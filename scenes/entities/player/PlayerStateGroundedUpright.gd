@@ -12,14 +12,16 @@ const AIRBORNE_MODE = Airborne.MODE_UPRIGHT
 const LOOK_DELAY = 120
 
 enum SubState {
-	IDLING, WALKING, LOOKING_UP, LOOKING_DOWN
+	IDLING, WALKING, LOOKING_UP, LOOKING_DOWN, PUSHING
 }
 
 var sub_state
 var look_timer = 0
+var push_direction = 0 
 
 func enter_state(player):
 	.enter_state(player)
+	sub_state = SubState.WALKING
 	player.set_dimensions(Player.STAND_DIMENSIONS)
 
 func update_player(player):
@@ -46,7 +48,9 @@ func update_player(player):
 	
 	check_rolling(player)
 	
-	prevent_wall_collision_from_active_sensor(player)
+	if prevent_wall_collision_from_active_sensor(player):
+		start_pushing(player)
+		
 	player.position += player.velocity
 	if player.stood_object == null:
 		snap_to_floor(player, AIRBORNE_MODE)
@@ -64,12 +68,15 @@ func animate_player(player):
 			player.animate_look_up()
 		SubState.LOOKING_DOWN:
 			player.animate_look_down()
+		SubState.PUSHING:
+			player.animate_pushing()
 	update_animation_direction(player)
 
 
 func update_sub_state(player):
 	if player.input_h != 0:
-		sub_state = SubState.WALKING
+		if !(sub_state == SubState.PUSHING && player.direction == push_direction):
+			sub_state = SubState.WALKING
 	elif abs(player.ground_speed) < 0.5 && player.input_v == 1:
 		sub_state = SubState.LOOKING_DOWN
 	elif player.ground_speed == 0:
@@ -77,11 +84,16 @@ func update_sub_state(player):
 			sub_state = SubState.LOOKING_UP
 		else:
 			sub_state = SubState.IDLING
+			
+
+func start_pushing(player):
+	sub_state = SubState.PUSHING
+	push_direction = player.direction
 	
 
 func update_look_direction(player):
 	match sub_state:
-		SubState.IDLING, SubState.WALKING:
+		SubState.IDLING, SubState.WALKING, SubState.PUSHING:
 			look_timer = 0
 		SubState.LOOKING_UP:
 			update_look_timer(player, -1)
@@ -96,9 +108,7 @@ func update_look_timer(player, look_direction):
 	if look_timer == LOOK_DELAY:
 		player.look_direction = look_direction
 	
-
-
-
+	
 func apply_slope_factor_upright(player, slope_factor, slip_threshold):
 	var angle_rads = player.get_angle_rads()
 	var slope_accel = slope_factor * sin(angle_rads)

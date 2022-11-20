@@ -145,7 +145,10 @@ func tick():
 	_state.animate_player(self)
 	position_arr_idx = (position_arr_idx + 1) % POSITION_ARR_SIZE
 	position_arr[position_arr_idx] = global_position - position_offset
+	
 	sprite.global_position = global_position.floor()
+	if direction == 1:
+		sprite.global_position.x += 1
 
 
 func apply_floor_collision(collision):
@@ -197,6 +200,12 @@ func animate_revving():
 	set_animation("rev")
 	set_animation_ticks(0)
 	sprite.rotation = 0
+
+func animate_pushing():
+	set_animation("push")
+	set_animation_ticks(30)
+	sprite.rotation = 0
+
 
 func set_grounded(g):
 	if g != is_grounded:

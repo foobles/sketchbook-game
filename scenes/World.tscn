@@ -42,7 +42,7 @@ position = Vector2( 0, -3 )
 texture = ExtResource( 6 )
 
 [node name="DynObjectSolid2" parent="Objects" instance=ExtResource( 5 )]
-position = Vector2( 603, 165 )
+position = Vector2( 576, 196 )
 
 [node name="Hitbox" parent="Objects/DynObjectSolid2" index="1"]
 radius = Vector2( 50, 7 )

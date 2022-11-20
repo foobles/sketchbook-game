@@ -75,6 +75,7 @@ func eject_player(player):
 		if x_distance != 0 && sign(player.velocity.x) == sign(x_distance):
 			player.velocity.x = 0
 			player.ground_speed = 0
+			player.state_grounded_upright.start_pushing(player)
 
 		player.position.x -= x_distance
 	else:

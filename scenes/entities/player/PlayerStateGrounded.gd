@@ -34,15 +34,18 @@ func prevent_wall_collision(player, wall_sensor):
 	if info.distance < 0:
 		player.ground_speed = 0
 		player.velocity += info.distance * wall_sensor.direction_vec
+		return true
+	else:
+		return false
 	
 	
 func prevent_wall_collision_from_active_sensor(player):
 	var pose = player.pose
 	if pose.left_sensor.direction_vec.dot(player.velocity) > 0:
-		prevent_wall_collision(player, pose.left_sensor)
+		return prevent_wall_collision(player, pose.left_sensor)
 	elif pose.right_sensor.direction_vec.dot(player.velocity) > 0:
-		prevent_wall_collision(player, pose.right_sensor)
-
+		return prevent_wall_collision(player, pose.right_sensor)
+	
 
 func check_slipping(player, rolling):
 	if player.control_lock == 0:
