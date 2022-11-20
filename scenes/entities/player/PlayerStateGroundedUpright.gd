@@ -9,20 +9,31 @@ const STANDING_SLOPE_SLIDE_ANGLE_THRESHOLD = 13 / 256.0
 
 const AIRBORNE_MODE = Airborne.MODE_UPRIGHT
 
+const LOOK_DELAY = 120
+
+enum SubState {
+	IDLING, WALKING, LOOKING_UP, LOOKING_DOWN
+}
+
+var sub_state
+var look_timer = 0
 
 func enter_state(player):
 	.enter_state(player)
 	player.set_dimensions(Player.STAND_DIMENSIONS)
 
 func update_player(player):
+	player.look_direction = 0
+	update_sub_state(player)
+		
+	if sub_state == SubState.LOOKING_DOWN && player.jump_just_pressed:
+		player.set_state(player.state_grounded_revving)
+		return
+	
 	apply_slope_factor_upright(player, SLOPE_FACTOR, STANDING_SLOPE_SLIDE_ANGLE_THRESHOLD)
 	
-	if player.ground_speed != 0 || player.input_v != 1:
-		if check_jump(player):
-			return
-	else:
-		if player.jump_just_pressed:
-			player.set_state(player.state_grounded_revving)
+	if check_jump(player):
+		return
 	
 	if is_accelerating(player):
 		apply_acceleration(player, ACCEL)
@@ -40,14 +51,52 @@ func update_player(player):
 	if player.stood_object == null:
 		snap_to_floor(player, AIRBORNE_MODE)
 	check_slipping(player, AIRBORNE_MODE)
+	update_look_direction(player)
 	
 	
 func animate_player(player):
-	if player.ground_speed == 0:
-		player.animate_standing()
-	else:
-		player.animate_walking()
+	match sub_state:
+		SubState.IDLING:
+			player.animate_standing()
+		SubState.WALKING:
+			player.animate_walking()
+		SubState.LOOKING_UP:
+			player.animate_look_up()
+		SubState.LOOKING_DOWN:
+			player.animate_look_down()
 	update_animation_direction(player)
+
+
+func update_sub_state(player):
+	if player.input_h != 0:
+		sub_state = SubState.WALKING
+	elif abs(player.ground_speed) < 0.5 && player.input_v == 1:
+		sub_state = SubState.LOOKING_DOWN
+	elif player.ground_speed == 0:
+		if player.input_v == -1:
+			sub_state = SubState.LOOKING_UP
+		else:
+			sub_state = SubState.IDLING
+	
+
+func update_look_direction(player):
+	match sub_state:
+		SubState.IDLING, SubState.WALKING:
+			look_timer = 0
+		SubState.LOOKING_UP:
+			update_look_timer(player, -1)
+		SubState.LOOKING_DOWN:
+			update_look_timer(player, +1)
+		
+		
+func update_look_timer(player, look_direction):
+	if look_timer < LOOK_DELAY:
+		look_timer += 1
+
+	if look_timer == LOOK_DELAY:
+		player.look_direction = look_direction
+	
+
 
 
 func apply_slope_factor_upright(player, slope_factor, slip_threshold):
