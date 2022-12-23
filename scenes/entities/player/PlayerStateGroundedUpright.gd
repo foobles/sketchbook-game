@@ -25,6 +25,7 @@ func enter_state(player):
 	player.set_dimensions(Player.STAND_DIMENSIONS)
 
 func update_player(player):
+	player.update_facing_direction()
 	player.look_direction = 0
 	update_sub_state(player)
 		
@@ -75,7 +76,7 @@ func animate_player(player):
 
 func update_sub_state(player):
 	if player.input_h != 0:
-		if !(sub_state == SubState.PUSHING && player.direction == push_direction):
+		if !(sub_state == SubState.PUSHING && player.facing_direction == push_direction):
 			sub_state = SubState.WALKING
 	elif abs(player.ground_speed) < 0.5 && player.input_v == 1:
 		sub_state = SubState.LOOKING_DOWN
@@ -88,7 +89,7 @@ func update_sub_state(player):
 
 func start_pushing(player):
 	sub_state = SubState.PUSHING
-	push_direction = player.direction
+	push_direction = player.facing_direction
 	
 
 func update_look_direction(player):

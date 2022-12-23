@@ -119,5 +119,5 @@ func apply_friction(player, friction):
 		
 		
 func update_animation_direction(player):
-	player.sprite.flip_h = (sign(player.direction) == -1)
-	player.set_animation_reversed((player.direction * player.ground_speed) < 0)
+	player.sprite.flip_h = (sign(player.facing_direction) == -1)
+	player.set_animation_reversed((player.facing_direction * player.ground_speed) < 0)

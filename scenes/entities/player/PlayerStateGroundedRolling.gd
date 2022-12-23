@@ -13,6 +13,7 @@ func enter_state(player):
 	
 
 func update_player(player):
+	player.update_facing_direction()
 	apply_slope_factor_rolling(player, SLOPE_FACTOR_ROLL_UP, SLOPE_FACTOR_ROLL_DOWN)
 	
 	if check_jump(player):

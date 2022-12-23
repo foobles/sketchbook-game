@@ -6,7 +6,7 @@ var ground_speed: float = 0.0
 var angle: int = 0
 var velocity: Vector2 = Vector2()
 
-var direction: int = 1
+var facing_direction: int = 1
 var input_h = 0
 var input_v = 0
 
@@ -57,9 +57,6 @@ func read_input():
 		int(Input.is_action_pressed("control_move_right")) \
 		- int(Input.is_action_pressed("control_move_left"))
 		
-	if input_h != 0:
-		direction = input_h
-		
 	input_v = \
 		int(Input.is_action_pressed("control_move_down")) \
 		- int(Input.is_action_pressed("control_move_up"))
@@ -68,6 +65,11 @@ func read_input():
 	var prev_jump_pressed = jump_pressed
 	jump_pressed = Input.is_action_pressed("control_jump") 
 	jump_just_pressed = jump_pressed && !prev_jump_pressed
+	
+
+func update_facing_direction():
+	if input_h != 0:
+		facing_direction = input_h
 	
 	
 func _ready():
@@ -147,7 +149,7 @@ func tick():
 	position_arr[position_arr_idx] = global_position - position_offset
 	
 	sprite.global_position = global_position.floor()
-	if direction == 1:
+	if facing_direction == 1:
 		sprite.global_position.x += 1
 
 
