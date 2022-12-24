@@ -71,6 +71,10 @@ func update_facing_direction():
 	if input_h != 0:
 		facing_direction = input_h
 	
+func update_position_array():
+	position_arr_idx = (position_arr_idx + 1) % POSITION_ARR_SIZE
+	position_arr[position_arr_idx] = global_position - position_offset
+	
 	
 func _ready():
 	set_dimensions(STAND_DIMENSIONS)
@@ -145,9 +149,6 @@ func tick():
 	read_input()
 	_state.update_player(self)
 	_state.animate_player(self)
-	position_arr_idx = (position_arr_idx + 1) % POSITION_ARR_SIZE
-	position_arr[position_arr_idx] = global_position - position_offset
-	
 	sprite.global_position = global_position.floor()
 	if facing_direction == 1:
 		sprite.global_position.x += 1

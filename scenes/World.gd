@@ -22,5 +22,7 @@ func _physics_process(_delta):
 	var tree = get_tree()
 	tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick")
 	tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick_player_interaction", $Player)
-		
+	
+	$Player.update_position_array()
 	$Camera.track_player($Player)
+	
