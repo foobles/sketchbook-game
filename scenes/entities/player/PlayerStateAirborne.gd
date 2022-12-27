@@ -36,6 +36,8 @@ func enter_state(player):
 
 
 func update_player(player):
+	update_facing_direction_airborne(player)
+	
 	if jumping && !player.jump_pressed && player.velocity.y < JUMP_CONTROL_VELOC:
 		player.velocity.y = JUMP_CONTROL_VELOC
 		
@@ -167,6 +169,11 @@ func get_active_sensors(player):
 			head_sensors = pose.head_sensors if player.velocity.y < 0 else []
 		}
 
+
+func update_facing_direction_airborne(player):
+	if player.input_h != 0:
+		player.facing_direction = player.input_h
+		
 
 func animate_player(player):
 	match mode:

@@ -25,7 +25,8 @@ func enter_state(player):
 	player.set_dimensions(Player.STAND_DIMENSIONS)
 
 func update_player(player):
-	player.update_facing_direction()
+	update_facing_direction_grounded(player)
+	
 	player.look_direction = 0
 	update_sub_state(player)
 		

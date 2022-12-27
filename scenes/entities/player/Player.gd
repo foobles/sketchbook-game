@@ -66,10 +66,6 @@ func read_input():
 	jump_pressed = Input.is_action_pressed("control_jump") 
 	jump_just_pressed = jump_pressed && !prev_jump_pressed
 	
-
-func update_facing_direction():
-	if input_h != 0:
-		facing_direction = input_h
 	
 func update_position_array():
 	position_arr_idx = (position_arr_idx + 1) % POSITION_ARR_SIZE
