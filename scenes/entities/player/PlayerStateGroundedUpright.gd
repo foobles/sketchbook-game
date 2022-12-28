@@ -12,7 +12,7 @@ const AIRBORNE_MODE = Airborne.MODE_UPRIGHT
 const LOOK_DELAY = 120
 
 enum SubState {
-	IDLING, WALKING, LOOKING_UP, LOOKING_DOWN, PUSHING
+	IDLING, WALKING, LOOKING_UP, LOOKING_DOWN, PUSHING, SKIDDING
 }
 
 var sub_state
@@ -72,6 +72,8 @@ func animate_player(player):
 			player.animate_look_down()
 		SubState.PUSHING:
 			player.animate_pushing()
+		SubState.SKIDDING:
+			player.animate_skidding()
 	update_animation_direction(player)
 
 
@@ -79,6 +81,8 @@ func update_sub_state(player):
 	if player.input_h != 0:
 		if !(sub_state == SubState.PUSHING && player.facing_direction == push_direction):
 			sub_state = SubState.WALKING
+		if player.input_h == -sign(player.ground_speed) && abs(player.ground_speed) >= 4:
+			sub_state = SubState.SKIDDING
 	elif abs(player.ground_speed) < 0.5 && player.input_v == 1:
 		sub_state = SubState.LOOKING_DOWN
 	elif player.ground_speed == 0:

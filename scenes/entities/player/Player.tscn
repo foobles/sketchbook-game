@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scenes/entities/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/player_anim_ph.png" type="Texture" id=2]
@@ -161,6 +161,24 @@ tracks/0/keys = {
 "values": [ 24, 25, 26, 27 ]
 }
 
+[sub_resource type="Animation" id=11]
+resource_name = "skid"
+length = 2.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 14, 15 ]
+}
+
 [sub_resource type="Animation" id=6]
 resource_name = "walk"
 length = 6.0
@@ -200,6 +218,7 @@ anims/rev = SubResource( 9 )
 anims/roll = SubResource( 3 )
 anims/roll_fast = SubResource( 4 )
 anims/run = SubResource( 5 )
+anims/skid = SubResource( 11 )
 anims/walk = SubResource( 6 )
 
 [node name="Pose" parent="." index="3" instance=ExtResource( 5 )]

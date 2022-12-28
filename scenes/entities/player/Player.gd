@@ -204,6 +204,11 @@ func animate_pushing():
 	set_animation("push")
 	set_animation_ticks(30)
 	sprite.rotation = 0
+	
+func animate_skidding():
+	set_animation("skid")
+	set_animation_ticks(8)
+	sprite.rotation = 0
 
 
 func set_grounded(g):
