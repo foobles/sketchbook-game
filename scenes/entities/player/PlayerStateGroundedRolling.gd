@@ -5,7 +5,7 @@ const FRICTION = 6 / 256.0
 const SLOPE_FACTOR_ROLL_UP = 20 / 256.0
 const SLOPE_FACTOR_ROLL_DOWN = 80 / 256.0
 
-const AIRBORNE_MODE = Airborne.MODE_ROLLING
+const AIRBORNE_MODE = AirborneNormal.MODE_ROLLING
 
 func enter_state(player):
 	.enter_state(player)

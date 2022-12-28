@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/entities/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/player_anim_ph.png" type="Texture" id=2]
-[ext_resource path="res://scenes/entities/player/PlayerStateAirborne.gd" type="Script" id=3]
+[ext_resource path="res://scenes/entities/player/PlayerStateAirborneNormal.gd" type="Script" id=3]
 [ext_resource path="res://scenes/entities/player/PlayerStateGroundedUpright.gd" type="Script" id=4]
 [ext_resource path="res://scenes/entities/player/PlayerPose.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/entities/Entity.tscn" type="PackedScene" id=6]
@@ -223,7 +223,7 @@ anims/walk = SubResource( 6 )
 
 [node name="Pose" parent="." index="3" instance=ExtResource( 5 )]
 
-[node name="StateAirborne" type="Node" parent="." index="4"]
+[node name="StateAirborneNormal" type="Node" parent="." index="4"]
 script = ExtResource( 3 )
 
 [node name="StateGroundedUpright" type="Node" parent="." index="5"]

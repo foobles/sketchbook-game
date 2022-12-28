@@ -1,7 +1,7 @@
 extends "res://scenes/entities/player/PlayerState.gd"
 
 const Player = preload("res://scenes/entities/player/Player.gd")
-const Airborne = preload("res://scenes/entities/player/PlayerStateAirborne.gd")
+const AirborneNormal = preload("res://scenes/entities/player/PlayerStateAirborneNormal.gd")
 
 const SLIP_SPEED_THRESHOLD: float = 2.5
 const SLIP_ANGLE_THRESHOLD: int = 32
@@ -25,7 +25,7 @@ func snap_to_floor(player, rolling):
 		player.apply_floor_collision(collision)
 		player.pose.direction = player.get_current_direction()
 	else:
-		player.state_airborne.transition_no_floor(player, rolling)
+		player.state_airborne_normal.transition_no_floor(player, rolling)
 		pass
 
 
@@ -54,7 +54,7 @@ func check_slipping(player, rolling):
 			&& abs(player.ground_speed) < SLIP_SPEED_THRESHOLD
 		):
 			player.control_lock = 30
-			player.state_airborne.transition_no_floor(player, rolling)
+			player.state_airborne_normal.transition_no_floor(player, rolling)
 	else:
 		player.control_lock -= 1
 
@@ -62,7 +62,7 @@ func check_slipping(player, rolling):
 func check_jump(player):
 	if player.jump_just_pressed && is_head_clear_for_jump(player):
 		player.look_direction = 0
-		player.state_airborne.transition_jump(player)
+		player.state_airborne_normal.transition_jump(player)
 		return true
 	else:
 		return false

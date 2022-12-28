@@ -1,7 +1,7 @@
 extends "res://scenes/entities/player/PlayerStateGrounded.gd"
 
 var revs = 0
-const AIRBORNE_STATE = Airborne.MODE_REVVING
+const AIRBORNE_MODE = AirborneNormal.MODE_REVVING
 
 func enter_state(player):
 	.enter_state(player)
@@ -17,7 +17,7 @@ func update_player(player):
 	revs -= floor(revs / 0.125) / 256
 	
 	if player.stood_object == null:
-		snap_to_floor(player, AIRBORNE_STATE)
+		snap_to_floor(player, AIRBORNE_MODE)
 		
 	if player.input_v != 1:
 		player.ground_speed = player.facing_direction * (8 + floor(revs) / 2)

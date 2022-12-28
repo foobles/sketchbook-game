@@ -30,7 +30,7 @@ var is_rolling
 onready var state_grounded_upright = $StateGroundedUpright
 onready var state_grounded_rolling = $StateGroundedRolling
 onready var state_grounded_revving = $StateGroundedRevving
-onready var state_airborne = $StateAirborne
+onready var state_airborne_normal = $StateAirborneNormal
 onready var _state = state_grounded_revving
 onready var pose = $Pose
 
