@@ -1,13 +1,18 @@
 extends "res://scenes/entities/player/PlayerState.gd"
 
+const Player = preload("res://scenes/entities/player/Player.gd")
+
+func enter_state(player):
+	player.pose.direction = 0
+	player.set_grounded(false)
+
 
 func interpolate_angle(player):
 	if 2 < player.angle && player.angle < 256 - 2:
 		player.angle += -2 if player.angle < 128 else 2
 	else:
 		player.angle = 0
-	
-	
+
 
 func land_on_surface(player, sensors, y_direction_sign):
 	var movement_direction = player.get_movement_direction()

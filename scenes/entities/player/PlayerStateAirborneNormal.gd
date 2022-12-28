@@ -1,7 +1,5 @@
 extends "res://scenes/entities/player/PlayerStateAirborne.gd"
 
-const Player = preload("res://scenes/entities/player/Player.gd")
-
 const AIR_ACCEL = 24/256.0 
 const AIR_DRAG_FACTOR = 1/32.0
 const AIR_GRAVITY = 56 / 256.0
@@ -26,13 +24,12 @@ var wall_jump_state
 enum WallJumpState { BUFFERED, REACTION }
 
 func enter_state(player):
+	.enter_state(player)
 	match mode:
 		MODE_ROLLING:
 			player.set_dimensions(Player.BALL_DIMENSIONS)
 		MODE_UPRIGHT, MODE_REVVING:
 			player.set_dimensions(Player.STAND_DIMENSIONS)
-	player.pose.direction = 0
-	player.set_grounded(false)
 
 
 func update_player(player):

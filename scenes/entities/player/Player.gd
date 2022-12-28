@@ -14,6 +14,7 @@ var jump_pressed = false
 var jump_just_pressed = false
 
 var control_lock = 0
+var invul_frames = 0
 var stood_object = null
 var look_direction = 0
 
@@ -31,6 +32,7 @@ onready var state_grounded_upright = $StateGroundedUpright
 onready var state_grounded_rolling = $StateGroundedRolling
 onready var state_grounded_revving = $StateGroundedRevving
 onready var state_airborne_normal = $StateAirborneNormal
+onready var state_airborne_hurt = $StateAirborneHurt
 onready var _state = state_grounded_revving
 onready var pose = $Pose
 
@@ -143,6 +145,7 @@ func get_angle_rads():
 
 func tick():
 	read_input()
+	update_invul_frames()
 	_state.update_player(self)
 	_state.animate_player(self)
 	sprite.global_position = global_position.floor()
@@ -157,7 +160,21 @@ func apply_floor_collision(collision):
 	else:
 		angle = get_current_direction() * 64
 
+
+func inflict_damage(source):
+	if invul_frames == 0:
+		state_airborne_hurt.transition_damage(self, source.position.x)
 	
+	
+func update_invul_frames():
+	if invul_frames > 0:
+		invul_frames -= 1
+		# using position_arr_idx is a bit of a hack but it works for now
+		sprite.visible = (position_arr_idx & 4 == 0)
+	else:
+		sprite.visible = true
+		
+		
 func transition_land_on_object(object):
 	stood_object = object
 	velocity.y = 0
@@ -207,6 +224,11 @@ func animate_pushing():
 	
 func animate_skidding():
 	set_animation("skid")
+	set_animation_ticks(8)
+	sprite.rotation = 0
+	
+func animate_hurt():
+	set_animation("hurt")
 	set_animation_ticks(8)
 	sprite.rotation = 0
 
