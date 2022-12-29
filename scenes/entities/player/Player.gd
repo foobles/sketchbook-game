@@ -166,6 +166,9 @@ func inflict_damage(source):
 		state_airborne_hurt.transition_damage(self, source.position.x)
 	
 	
+func force_inflict_damage(source):
+	state_airborne_hurt.transition_damage(self, source.position.x)
+	
 func update_invul_frames():
 	if invul_frames > 0:
 		invul_frames -= 1
