@@ -82,7 +82,6 @@ func update_player(player):
 func transition_jump(player):
 	mode = MODE_ROLLING
 	jumping = true
-	player.stood_object = null
 	var angle_rads = player.get_angle_rads()
 	player.velocity += JUMP_SPEED * Vector2(-sin(angle_rads), -cos(angle_rads))
 	player.set_state(self)

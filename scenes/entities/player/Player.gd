@@ -241,3 +241,8 @@ func set_grounded(g):
 			emit_signal("became_airborne")
 			
 	is_grounded = g
+
+
+func leave_stood_object():
+	if stood_object != null:
+		stood_object.unground_player(self)

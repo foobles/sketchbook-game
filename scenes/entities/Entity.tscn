@@ -3,7 +3,6 @@
 [ext_resource path="res://scenes/Hitbox.gd" type="Script" id=1]
 [ext_resource path="res://scenes/entities/Entity.gd" type="Script" id=2]
 
-
 [node name="Entity" type="Node2D" groups=["entities"]]
 script = ExtResource( 2 )
 

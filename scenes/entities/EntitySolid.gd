@@ -4,6 +4,10 @@ export(PoolIntArray) var slope_array
 
 const TOP_STICK_RADIUS = 4
 
+signal player_collided_horizontal()
+signal player_landed_top()
+signal player_ungrounded_top()
+signal player_collided_bottom()
 
 func tick_player_interaction(player):
 	var initial_hb_pos = hitbox.global_position.floor()
@@ -35,7 +39,7 @@ func check_player_on_self(player):
 	var combined_width_diameter = 2*combined_width_radius
 	var left_distance = pl_pos.x - (obj_pos.x - combined_width_radius)
 	if left_distance <= 0 || left_distance >= combined_width_diameter:
-		player.stood_object = null
+		unground_player(player)
 		return false
 	else:
 		return true
@@ -76,21 +80,28 @@ func eject_player(player):
 			player.velocity.x = 0
 			player.ground_speed = 0
 			player.state_grounded_upright.start_pushing(player)
-
+			emit_signal("player_collided_horizontal")
+			
 		player.position.x -= x_distance
+		
 	else:
 		if y_distance < 0:
 			if player.velocity.y < 0:
 				player.velocity.y = 0
 				player.position.y -= y_distance
+				emit_signal("player_collided_bottom")
 		else:
 			if y_distance >= 16:
 				return
-
+				
 			var x_cmp = (obj_pos.x + obj_box.x) - pl_pos.x
 			var obj_action_width = 1 + 2*obj_box.x
 			if (player.velocity.y >= 0 && obj_action_width >= x_cmp && x_cmp >= 0):
 				player.position.y -= (y_distance - TOP_STICK_RADIUS + 1)
 				player.transition_land_on_object(self)
+				emit_signal("player_landed_top")
 
 
+func unground_player(player):
+	player.stood_object = null
+	emit_signal("player_ungrounded_top")

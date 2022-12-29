@@ -5,6 +5,7 @@ const Player = preload("res://scenes/entities/player/Player.gd")
 func enter_state(player):
 	player.pose.direction = 0
 	player.set_grounded(false)
+	player.leave_stood_object()
 
 
 func interpolate_angle(player):
