@@ -5,6 +5,9 @@
 
 [node name="Entity" type="Node2D" groups=["entities"]]
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="Sprite" parent="."]
 
