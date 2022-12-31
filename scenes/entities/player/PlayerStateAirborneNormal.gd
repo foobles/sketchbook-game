@@ -30,6 +30,8 @@ func enter_state(player):
 			player.set_dimensions(Player.BALL_DIMENSIONS)
 		MODE_UPRIGHT, MODE_REVVING:
 			player.set_dimensions(Player.STAND_DIMENSIONS)
+			
+	player.is_rolling = (mode == MODE_ROLLING || mode == MODE_REVVING)
 
 
 func update_player(player):

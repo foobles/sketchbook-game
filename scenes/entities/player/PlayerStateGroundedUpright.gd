@@ -23,6 +23,7 @@ func enter_state(player):
 	.enter_state(player)
 	sub_state = SubState.WALKING
 	player.set_dimensions(Player.STAND_DIMENSIONS)
+	player.is_rolling = false
 
 func update_player(player):
 	update_facing_direction_grounded(player)

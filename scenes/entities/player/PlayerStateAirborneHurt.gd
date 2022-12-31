@@ -8,6 +8,7 @@ const RECOVERY_INVUL_FRAMES = 120
 func enter_state(player):
 	.enter_state(player)
 	player.set_dimensions(Player.BALL_DIMENSIONS)
+	player.is_rolling = false
 
 
 func update_player(player):

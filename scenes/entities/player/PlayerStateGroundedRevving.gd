@@ -6,6 +6,7 @@ const AIRBORNE_MODE = AirborneNormal.MODE_REVVING
 func enter_state(player):
 	.enter_state(player)
 	player.set_dimensions(Player.STAND_DIMENSIONS)
+	player.is_rolling = true
 	player.ground_speed = 0
 	player.velocity = Vector2.ZERO
 	revs = 0

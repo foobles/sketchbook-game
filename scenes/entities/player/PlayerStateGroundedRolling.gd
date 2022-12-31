@@ -10,7 +10,7 @@ const AIRBORNE_MODE = AirborneNormal.MODE_ROLLING
 func enter_state(player):
 	.enter_state(player)
 	player.set_dimensions(Player.BALL_DIMENSIONS)
-	
+	player.is_rolling = true
 
 func update_player(player):
 	update_facing_direction_grounded(player)
