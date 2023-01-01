@@ -95,13 +95,25 @@ position = Vector2( 927, 65 )
 position = Vector2( 384, 144 )
 
 [node name="EntityEnemyTest2" parent="Objects" instance=ExtResource( 11 )]
-position = Vector2( 342, 110 )
+position = Vector2( 335, 104 )
 
 [node name="EntityEnemyTest3" parent="Objects" instance=ExtResource( 11 )]
 position = Vector2( 433, 174 )
 
 [node name="EntityEnemyTest4" parent="Objects" instance=ExtResource( 11 )]
 position = Vector2( 294, 65 )
+
+[node name="EntityEnemyTest5" parent="Objects" instance=ExtResource( 11 )]
+position = Vector2( 1218, 197 )
+
+[node name="EntityEnemyTest6" parent="Objects" instance=ExtResource( 11 )]
+position = Vector2( 1268, 198 )
+
+[node name="EntityEnemyTest7" parent="Objects" instance=ExtResource( 11 )]
+position = Vector2( 1885, 293 )
+
+[node name="EntityEnemyTest8" parent="Objects" instance=ExtResource( 11 )]
+position = Vector2( 93, 111 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )

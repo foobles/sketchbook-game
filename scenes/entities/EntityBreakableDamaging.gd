@@ -1,5 +1,7 @@
 extends "res://scenes/entities/Entity.gd"
 
+const EntityParticleExplosion = preload("res://scenes/entities/EntityParticleExplosion.tscn")
+
 func tick_player_interaction(player):
 	if hitbox.collides_with(player.hitbox):
 		if player.is_rolling:
@@ -15,4 +17,6 @@ func tick_player_interaction(player):
 
 
 func on_destroyed(_player):
-	pass
+	var explosion = EntityParticleExplosion.instance()
+	get_parent().add_child(explosion)
+	explosion.position = position
