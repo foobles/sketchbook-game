@@ -186,6 +186,10 @@ func transition_land_on_object(object):
 	set_state(state_grounded_upright)
 
 
+func transition_become_airborne():
+	_state.become_airborne(self)
+
+
 func animate_rolling():
 	if abs(ground_speed) < RUN_SPEED:
 		set_animation("roll")

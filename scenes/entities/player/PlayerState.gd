@@ -9,3 +9,7 @@ func update_player(_player):
 
 func animate_player(_player):
 	pass
+	
+
+func become_airborne(_player):
+	pass

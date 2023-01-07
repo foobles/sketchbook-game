@@ -30,8 +30,8 @@ func update_player(player):
 	prevent_wall_collision_from_active_sensor(player)
 	player.position += player.velocity
 	if player.stood_object == null:
-		snap_to_floor(player, AIRBORNE_MODE)
-	check_slipping(player, AIRBORNE_MODE)
+		snap_to_floor(player)
+	check_slipping(player)
 	
 	
 func animate_player(player):

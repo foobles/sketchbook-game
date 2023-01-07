@@ -12,7 +12,11 @@ func enter_state(player):
 	player.set_grounded(true)
 
 
-func snap_to_floor(player, rolling):
+func become_airborne(player):
+	player.state_airborne_normal.transition_no_floor(player, self.AIRBORNE_MODE)
+
+
+func snap_to_floor(player):
 	var collision = null
 	for sensor in player.pose.foot_sensors:
 		var cur = sensor.get_collision_info()
@@ -25,8 +29,7 @@ func snap_to_floor(player, rolling):
 		player.apply_floor_collision(collision)
 		player.pose.direction = player.get_current_direction()
 	else:
-		player.state_airborne_normal.transition_no_floor(player, rolling)
-		pass
+		player.transition_become_airborne()
 
 
 func prevent_wall_collision(player, wall_sensor):
@@ -47,14 +50,14 @@ func prevent_wall_collision_from_active_sensor(player):
 		return prevent_wall_collision(player, pose.right_sensor)
 	
 
-func check_slipping(player, rolling):
+func check_slipping(player):
 	if player.control_lock == 0:
 		if (SLIP_ANGLE_THRESHOLD < player.angle 
 			&& player.angle < 256 - SLIP_ANGLE_THRESHOLD 
 			&& abs(player.ground_speed) < SLIP_SPEED_THRESHOLD
 		):
 			player.control_lock = 30
-			player.state_airborne_normal.transition_no_floor(player, rolling)
+			player.transition_become_airborne()
 	else:
 		player.control_lock -= 1
 

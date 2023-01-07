@@ -56,8 +56,8 @@ func update_player(player):
 		
 	player.position += player.velocity
 	if player.stood_object == null:
-		snap_to_floor(player, AIRBORNE_MODE)
-	check_slipping(player, AIRBORNE_MODE)
+		snap_to_floor(player)
+	check_slipping(player)
 	update_look_direction(player)
 	
 	
