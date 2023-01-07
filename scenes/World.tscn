@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/tile_sets/platforming.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/World.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scenes/entities/EntityPathSwitcher.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/entities/EntitySpikes.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/entities/enemies/EntityEnemyTest.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/entities/EntitySpring.tscn" type="PackedScene" id=12]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
@@ -114,6 +115,19 @@ position = Vector2( 1885, 293 )
 
 [node name="EntityEnemyTest8" parent="Objects" instance=ExtResource( 11 )]
 position = Vector2( 93, 111 )
+
+[node name="EntitySpring" parent="Objects" instance=ExtResource( 12 )]
+position = Vector2( 25, 240 )
+push_direction = 0
+
+[node name="EntitySpring2" parent="Objects" instance=ExtResource( 12 )]
+position = Vector2( 483, 208 )
+push_power = 1
+
+[node name="EntitySpring3" parent="Objects" instance=ExtResource( 12 )]
+position = Vector2( 151, 192 )
+push_direction = 2
+push_power = 1
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )

@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/images/spring.png" type="Texture" id=1]
+[ext_resource path="res://scenes/entities/EntitySolid.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/entities/EntitySpring.gd" type="Script" id=3]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "trigger_strong"
+length = 0.153
+step = 0.017
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.017, 0.051, 0.136 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 0, 2, 0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "trigger_weak"
+length = 0.153
+step = 0.017
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.017, 0.051, 0.136 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 3, 5, 3 ]
+}
+
+[node name="EntitySpring" instance=ExtResource( 2 )]
+script = ExtResource( 3 )
+push_direction = 1
+push_power = 0
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource( 1 )
+offset = Vector2( 0, -7 )
+hframes = 3
+vframes = 2
+
+[node name="Hitbox" parent="." index="1"]
+radius = Vector2( 15, 8 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+playback_process_mode = 0
+anims/RESET = SubResource( 1 )
+anims/trigger_strong = SubResource( 2 )
+anims/trigger_weak = SubResource( 3 )
