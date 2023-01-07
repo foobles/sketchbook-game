@@ -34,6 +34,9 @@ func _ready():
 
 func trigger_push(player):
 	var push_speed = get_push_speed()
+	
+	if player.is_grounded && push_direction & 1 == 0:
+		player.control_lock = CONTROL_LOCK_FRAMES
 	player.transition_become_airborne()
 	match push_direction:
 		Direction.RIGHT:

@@ -73,16 +73,14 @@ func check_jump(player):
 
 func is_accelerating(player):
 	return (
-		!player.is_control_locked()
-		&& player.input_h != 0
+		player.input_h != 0
 		&& player.input_h != -sign(player.ground_speed)
 	)
 
 
 func is_decelerating(player):
 	return (
-		!player.is_control_locked()
-		&& player.input_h != 0
+		player.input_h != 0
 		&& player.input_h == -sign(player.ground_speed)
 	)
 
