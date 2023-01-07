@@ -182,11 +182,14 @@ func update_invul_frames():
 		
 		
 func transition_land_on_object(object):
-	stood_object = object
 	velocity.y = 0
-	ground_speed = velocity.x
-	angle = 0
-	set_state(state_grounded_upright)
+	if pose.direction == 0:
+		stood_object = object
+		ground_speed = velocity.x
+		angle = 0
+		set_state(state_grounded_upright)
+	else:
+		ground_speed = 0
 
 
 func transition_become_airborne():

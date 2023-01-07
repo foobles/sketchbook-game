@@ -88,6 +88,7 @@ func eject_player(player):
 		if y_distance < 0:
 			if player.velocity.y < 0:
 				player.velocity.y = 0
+				player.ground_speed = 0
 				player.position.y -= y_distance
 				emit_signal("player_collided_bottom", player)
 		else:
