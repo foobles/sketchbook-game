@@ -126,20 +126,20 @@ func is_control_locked():
 const _OCT = 32
 func get_current_direction():
 	if angle <= _OCT || angle >= 7*_OCT:
-		return 0
+		return Direction.RIGHT
 	elif 3*_OCT <= angle && angle <= 5*_OCT:
-		return 2
+		return Direction.LEFT
 	elif _OCT < angle && angle < 3*_OCT:
-		return 1
+		return Direction.UP
 	else:
-		return 3
+		return Direction.DOWN
 
 
 func get_movement_direction():
 	if abs(velocity.x) > abs(velocity.y):
-		return 0 if velocity.x > 0 else 2
+		return Direction.RIGHT if velocity.x > 0 else Direction.LEFT
 	else:
-		return 1 if velocity.y < 0 else 3
+		return Direction.UP if velocity.y < 0 else Direction.DOWN
 		
 
 func get_angle_rads():
@@ -183,7 +183,7 @@ func update_invul_frames():
 		
 func transition_land_on_object(object):
 	velocity.y = 0
-	if pose.direction == 0:
+	if pose.direction == Direction.RIGHT:
 		stood_object = object
 		ground_speed = velocity.x
 		angle = 0

@@ -4,19 +4,12 @@ extends "res://scenes/entities/EntitySolid.gd"
 const PULL_IN_DISTANCE = 8
 const CONTROL_LOCK_FRAMES = 16
 
-enum Direction {
-	RIGHT = 0,
-	UP = 1,
-	LEFT = 2,
-	DOWN = 3
-}
-
 enum Power {
 	STRONG,
 	WEAK
 }
 
-export(Direction) var push_direction = Direction.UP setget set_push_direction 
+export(int, "right", "up", "left", "down") var push_direction = Direction.UP setget set_push_direction 
 export(Power) var push_power = Power.STRONG setget set_push_power
 
 const _HB_WIDTH = 15

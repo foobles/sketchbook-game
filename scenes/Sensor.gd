@@ -5,14 +5,8 @@ class_name Sensor
 var tiles = preload("res://singletons/tile_map_info.tres")
 var collision_table = preload("res://assets/tile_sets/collision.bmp")
 
-enum Direction {
-	RIGHT = 0,
-	UP = 1,
-	LEFT = 2,
-	DOWN = 3,
-}
 
-export(Direction) var starting_direction = Direction.DOWN
+export(int, "right", "up", "left", "down") var starting_direction = Direction.DOWN
 export(bool) var auto_adjust = false
 export(int, 0, 1) var layer = 0
 
@@ -22,7 +16,7 @@ var direction = 0
 
 func _ready():
 	direction = starting_direction
-	direction_vec = _direction_to_vec(starting_direction)
+	direction_vec = Direction.to_vec(starting_direction)
 	_starting_direction_vec = direction_vec
 
 
@@ -36,7 +30,7 @@ func _draw():
 	
 	
 func set_direction_rotation(rotation_direction):
-	var rot = _direction_to_vec(rotation_direction)
+	var rot = Direction.to_vec(rotation_direction)
 	direction = (starting_direction + rotation_direction) % 4
 	direction_vec.x = _starting_direction_vec.x * rot.x - _starting_direction_vec.y * rot.y
 	direction_vec.y = _starting_direction_vec.x * rot.y + _starting_direction_vec.y * rot.x 
@@ -93,7 +87,7 @@ func _get_pixel_dist(pixel_coord):
 
 
 func is_horizontal():
-	return (direction & 1) == 0
+	return Direction.is_horizontal(direction)
 
 func get_offset_collision_info(offset):
 	var map_position = tiles.map.to_local(global_position + offset).floor()
@@ -129,15 +123,3 @@ func get_offset_collision_info(offset):
 	
 func get_collision_info():
 	return get_offset_collision_info(Vector2.ZERO)
-
-
-static func _direction_to_vec(dir):
-	match dir:
-		Direction.UP:
-			return Vector2.UP
-		Direction.DOWN:
-			return Vector2.DOWN
-		Direction.LEFT:
-			return Vector2.LEFT
-		Direction.RIGHT:
-			return Vector2.RIGHT

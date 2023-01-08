@@ -136,7 +136,7 @@ func transition_land_from_air_floor(player):
 	if r_angle < 16:
 		player.ground_speed = player.velocity.x
 	else:
-		if player.get_movement_direction() % 2 == 0:
+		if Direction.is_horizontal(player.get_movement_direction()):
 			player.ground_speed = player.velocity.x
 		else:
 			player.ground_speed = player.velocity.y 

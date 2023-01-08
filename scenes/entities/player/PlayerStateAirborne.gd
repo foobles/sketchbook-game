@@ -3,7 +3,7 @@ extends "res://scenes/entities/player/PlayerState.gd"
 const Player = preload("res://scenes/entities/player/Player.gd")
 
 func enter_state(player):
-	player.pose.direction = 0
+	player.pose.direction = Direction.RIGHT
 	player.set_grounded(false)
 	player.leave_stood_object()
 
