@@ -133,7 +133,7 @@ push_power = 1
 position = Vector2( 2400, 551 )
 
 [node name="EntitySpring5" parent="Objects" instance=ExtResource( 12 )]
-position = Vector2( 1402, 176 )
+position = Vector2( 1400, 176 )
 push_direction = 0
 push_power = 1
 

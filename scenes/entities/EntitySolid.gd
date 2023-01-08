@@ -48,7 +48,9 @@ func check_player_on_self(player):
 func eject_player(player):
 	var pl_box = Vector2(player.push_radius, player.radius.y)
 	var pl_pos = player.global_position.floor()
-
+	if Direction.is_vertical(player.pose.direction):
+		pl_box = Vector2(pl_box.y, pl_box.x)
+		
 	var obj_box = hitbox.radius
 	var obj_pos = hitbox.global_position.floor()
 
@@ -80,8 +82,8 @@ func eject_player(player):
 			player.velocity.x = 0
 			player.ground_speed = 0
 			player.state_grounded_upright.start_pushing(player)
-			emit_signal("player_collided_horizontal", player)
 			
+		emit_signal("player_collided_horizontal", player)
 		player.position.x -= x_distance
 		
 	else:
