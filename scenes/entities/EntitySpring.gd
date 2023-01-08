@@ -26,29 +26,23 @@ func _ready():
 			
 
 func trigger_push(player):
-	var push_speed = get_push_speed()
+	var push_vec = Direction.to_vec(push_direction)
+	player.position -= push_vec * PULL_IN_DISTANCE
 	
-	if player.is_grounded && push_direction & 1 == 0:
+	var directions_aligned = (player.pose.direction ^ push_direction) & 1 == 0
+	if player.is_grounded && directions_aligned:
+		player.ground_speed = get_push_speed()
+		if player.pose.direction != push_direction:
+			player.ground_speed *= -1
+		
+		player.facing_direction = sign(player.ground_speed)
 		player.control_lock = CONTROL_LOCK_FRAMES
-	player.transition_become_airborne()
-	match push_direction:
-		Direction.RIGHT:
-			player.velocity.x = push_speed
-			player.position.x -= PULL_IN_DISTANCE
-			player.facing_direction = +1
-			
-		Direction.UP:
-			player.velocity.y = -push_speed
-			player.position.y += PULL_IN_DISTANCE
-			
-		Direction.LEFT:
-			player.velocity.x = -push_speed
-			player.position.x += PULL_IN_DISTANCE
-			player.facing_direction = -1
-			
-		Direction.DOWN:
-			player.velocity.y = push_speed
-			player.position.y -= PULL_IN_DISTANCE
+	else:
+		player.transition_become_airborne()
+		var perp_v = player.velocity.cross(push_vec) * Vector2(push_vec.y, -push_vec.x)
+		var push_v = get_push_speed() * push_vec
+		player.velocity = perp_v + push_v
+		player.control_lock = 0
 	
 	match push_power:
 		Power.WEAK: $AnimationPlayer.play("trigger_weak")
