@@ -68,7 +68,7 @@ func read_input():
 	jump_pressed = Input.is_action_pressed("control_jump") 
 	jump_just_pressed = jump_pressed && !prev_jump_pressed
 	
-	if is_control_locked():
+	if is_grounded && is_control_locked():
 		input_h = 0
 		
 	

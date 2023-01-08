@@ -42,7 +42,6 @@ func trigger_push(player):
 		var perp_v = player.velocity.cross(push_vec) * Vector2(push_vec.y, -push_vec.x)
 		var push_v = get_push_speed() * push_vec
 		player.velocity = perp_v + push_v
-		player.control_lock = 0
 	
 	match push_power:
 		Power.WEAK: $AnimationPlayer.play("trigger_weak")
