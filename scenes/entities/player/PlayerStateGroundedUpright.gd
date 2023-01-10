@@ -9,6 +9,7 @@ const STANDING_SLOPE_SLIDE_ANGLE_THRESHOLD = 13 / 256.0
 
 const AIRBORNE_MODE = AirborneNormal.MODE_UPRIGHT
 
+const SKID_SPEED = 4
 const LOOK_DELAY = 120
 
 enum SubState {
@@ -79,11 +80,16 @@ func animate_player(player):
 
 
 func update_sub_state(player):
-	if player.input_h != 0:
-		if !(sub_state == SubState.PUSHING && player.facing_direction == push_direction):
+	# todo: untangle spaghetti
+	if sub_state == SubState.PUSHING:
+		if player.input_h != push_direction:
 			sub_state = SubState.WALKING
-		if player.input_h == -sign(player.ground_speed) && abs(player.ground_speed) >= 4:
-			sub_state = SubState.SKIDDING
+	elif player.input_h != 0:
+		if player.input_h == -sign(player.ground_speed):
+			if abs(player.ground_speed) >= SKID_SPEED:
+				sub_state = SubState.SKIDDING
+		else:
+			sub_state = SubState.WALKING
 	elif abs(player.ground_speed) < 0.5 && player.input_v == 1:
 		sub_state = SubState.LOOKING_DOWN
 	elif player.ground_speed == 0:
