@@ -46,7 +46,7 @@ func track_player(player):
 		Mode.CENTER:
 			camera_motion.y = (player_camera_pos.y - box_center_v)
 			
-			if player.ground_speed < 8:
+			if abs(player.ground_speed) < 8:
 				speed_cap.y = 6
 		
 		Mode.BOXED:
