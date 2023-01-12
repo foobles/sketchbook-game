@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scenes/entities/player/Player.gd" type="Script" id=1]
-[ext_resource path="res://assets/images/player_anim_ph.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/entities/player_anim_ph.png" type="Texture" id=2]
 [ext_resource path="res://scenes/entities/player/PlayerStateAirborneNormal.gd" type="Script" id=3]
 [ext_resource path="res://scenes/entities/player/PlayerStateGroundedUpright.gd" type="Script" id=4]
 [ext_resource path="res://scenes/entities/player/PlayerPose.tscn" type="PackedScene" id=5]

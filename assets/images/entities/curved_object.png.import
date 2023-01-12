@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/curved_object.png-f6f3659ed2bda9b1c2e230f29b29f838.stex"
+path="res://.import/curved_object.png-06534f9ef1d93d5f2562d1fe416ee89b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/curved_object.png"
-dest_files=[ "res://.import/curved_object.png-f6f3659ed2bda9b1c2e230f29b29f838.stex" ]
+source_file="res://assets/images/entities/curved_object.png"
+dest_files=[ "res://.import/curved_object.png-06534f9ef1d93d5f2562d1fe416ee89b.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/spring.png-9e9407a84360035b6e51c1e89c206c30.stex"
+path="res://.import/spring.png-cefe1a999a94eb6cdb55d9a7a9ac37a4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/spring.png"
-dest_files=[ "res://.import/spring.png-9e9407a84360035b6e51c1e89c206c30.stex" ]
+source_file="res://assets/images/entities/spring.png"
+dest_files=[ "res://.import/spring.png-cefe1a999a94eb6cdb55d9a7a9ac37a4.stex" ]
 
 [params]
 

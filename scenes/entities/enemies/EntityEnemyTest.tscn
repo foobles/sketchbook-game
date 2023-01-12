@@ -2,7 +2,8 @@
 
 [ext_resource path="res://scenes/entities/EntityBreakableDamaging.gd" type="Script" id=1]
 [ext_resource path="res://scenes/entities/Entity.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/images/enemy_test.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/entities/enemy_test.png" type="Texture" id=3]
+
 
 [node name="EntityEnemyTest" instance=ExtResource( 2 )]
 script = ExtResource( 1 )

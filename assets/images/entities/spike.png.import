@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/player_anim_ph.png-3b406b5e76bce1de7e206544859104a4.stex"
+path="res://.import/spike.png-59edba0d97c910680706b818486c7056.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player_anim_ph.png"
-dest_files=[ "res://.import/player_anim_ph.png-3b406b5e76bce1de7e206544859104a4.stex" ]
+source_file="res://assets/images/entities/spike.png"
+dest_files=[ "res://.import/spike.png-59edba0d97c910680706b818486c7056.stex" ]
 
 [params]
 

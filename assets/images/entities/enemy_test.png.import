@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/player.png-ec09cb0aaea6691df1670eb512b00cb9.stex"
+path="res://.import/enemy_test.png-5e54e7b84b0946e809d75a0c2b3f64fb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/player.png"
-dest_files=[ "res://.import/player.png-ec09cb0aaea6691df1670eb512b00cb9.stex" ]
+source_file="res://assets/images/entities/enemy_test.png"
+dest_files=[ "res://.import/enemy_test.png-5e54e7b84b0946e809d75a0c2b3f64fb.stex" ]
 
 [params]
 
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0
