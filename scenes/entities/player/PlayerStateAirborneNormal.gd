@@ -98,7 +98,7 @@ func transition_no_floor(player, new_mode):
 	
 	
 func wall_jump(player, vx):
-	if mode != MODE_ROLLING:
+	if !player.wall_jump_enabled || mode != MODE_ROLLING:
 		return
 	wall_jump_timer = 0
 	#300.0/256

@@ -32,8 +32,7 @@ func update_player(player):
 	player.look_direction = 0
 	update_sub_state(player)
 		
-	if sub_state == SubState.LOOKING_DOWN && player.jump_just_pressed:
-		player.set_state(player.state_grounded_revving)
+	if check_revving(player):
 		return
 	
 	apply_slope_factor_upright(player, SLOPE_FACTOR, STANDING_SLOPE_SLIDE_ANGLE_THRESHOLD)
@@ -130,9 +129,21 @@ func apply_slope_factor_upright(player, slope_factor, slip_threshold):
 
 
 func check_rolling(player):
+	if !player.roll_enabled:
+		return
 	if player.input_v == 1 && abs(player.ground_speed) >= ROLL_SPEED_THRESHOLD:
 		player.set_state(player.state_grounded_rolling)
 
+
+func check_revving(player):
+	if (player.rev_enabled 
+		&& sub_state == SubState.LOOKING_DOWN 
+		&& player.jump_just_pressed
+	):
+		player.set_state(player.state_grounded_revving)
+		return true
+	else:
+		return false
 
 func transition_land_from_air_floor(player):
 	var r_angle = player.angle

@@ -28,6 +28,10 @@ signal rev_released
 var is_grounded 
 var is_rolling
 
+var roll_enabled = true
+var rev_enabled = true
+var wall_jump_enabled = true
+
 onready var state_grounded_upright = $StateGroundedUpright
 onready var state_grounded_rolling = $StateGroundedRolling
 onready var state_grounded_revving = $StateGroundedRevving
