@@ -45,7 +45,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Sketchbook"
-run/main_scene="res://scenes/World.tscn"
+run/main_scene="res://scenes/Main.tscn"
 
 [display]
 
@@ -56,7 +56,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/collision_map_importer/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/bitmap_font_importer/plugin.cfg", "res://addons/collision_map_importer/plugin.cfg" )
 
 [gui]
 
