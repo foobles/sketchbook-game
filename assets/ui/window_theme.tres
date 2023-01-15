@@ -1,7 +1,34 @@
-[gd_resource type="Theme" load_steps=2 format=2]
+[gd_resource type="Theme" load_steps=5 format=2]
 
 [ext_resource path="res://assets/ui/font.png" type="BitmapFont" id=1]
+[ext_resource path="res://assets/ui/window_border.png" type="Texture" id=2]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 2 )
+region_rect = Rect2( 4, 24, 16, 8 )
+margin_left = 4.0
+margin_right = 4.0
+expand_margin_left = 4.0
+expand_margin_right = 4.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 2 )
+region_rect = Rect2( 24, 4, 8, 16 )
+margin_top = 4.0
+margin_bottom = 4.0
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [resource]
 default_font = ExtResource( 1 )
+HBoxContainer/constants/separation = 0
+HSeparator/constants/separation = 8
+HSeparator/styles/separator = SubResource( 1 )
 Label/constants/line_spacing = 0
+VBoxContainer/constants/separation = 0
+VSeparator/constants/separation = 8
+VSeparator/styles/separator = SubResource( 2 )
