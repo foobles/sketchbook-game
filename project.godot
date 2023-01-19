@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Sensor.gd"
 }, {
+"base": "Reference",
+"class": "StringUtil",
+"language": "GDScript",
+"path": "res://util/StringUtil.gd"
+}, {
 "base": "Resource",
 "class": "TileMeta",
 "language": "GDScript",
@@ -38,6 +43,7 @@ _global_script_class_icons={
 "Direction": "",
 "Hitbox": "",
 "Sensor": "",
+"StringUtil": "",
 "TileMeta": "",
 "TileSetMeta": ""
 }
