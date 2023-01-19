@@ -8,6 +8,12 @@ onready var item_description_label = $"%ItemDescription"
 onready var item_image = $"%ItemImage"
 onready var ok_selection = $"%OkSelection"
 
+func show_item_info(item):
+	set_acquisition_type(item.item_type)
+	set_item_name(item.name)
+	set_item_description(item.description)
+	set_item_image_texture(item.info_card_texture)
+
 func set_item_name(text):
 	item_name_label.text = StringUtil.pad_even("\"%s\"" % [text])
 	
