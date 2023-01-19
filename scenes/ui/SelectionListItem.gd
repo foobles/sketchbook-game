@@ -1,8 +1,8 @@
 tool
 extends NinePatchRect
 
-const UNSELECTED_NINEPATCH_ORIGIN = Vector2(36, 4)
-const SELECTED_NINEPATCH_ORIGIN = Vector2(52, 4)
+const UNSELECTED_NINEPATCH_ORIGIN = Vector2(32, 0)
+const SELECTED_NINEPATCH_ORIGIN = Vector2(32, 16)
 
 const UNSELECTED_TEXT_COLOR = Color8(0xff, 0xff, 0xff)
 const SELECTED_TEXT_COLOR = Color8(0x00, 0x84, 0xff)
@@ -12,7 +12,7 @@ export(bool) var selected = false setget set_selected
 export(String) var text = "" setget set_text
 
 func _ready():
-	rect_min_size.y = 16
+	rect_min_size = Vector2(8, 16)
 
 func set_selected(new_selected):
 	selected = new_selected
