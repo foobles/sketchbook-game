@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/entities/EntitySolidBreakable.gd" type="Script" id=1]
+[ext_resource path="res://scenes/entities/EntitySolid.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Hitbox.gd" type="Script" id=3]
+[ext_resource path="res://scenes/Sensor.gd" type="Script" id=5]
+
+[node name="EntitySolidBreakable" instance=ExtResource( 2 )]
+script = ExtResource( 1 )
+
+[node name="DestructionHitbox" type="Node2D" parent="." index="2"]
+visible = false
+script = ExtResource( 3 )
+
+[node name="FallSensor" type="Position2D" parent="." index="3"]
+position = Vector2( 0, 10 )
+script = ExtResource( 5 )
