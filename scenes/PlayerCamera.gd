@@ -68,6 +68,7 @@ func track_player(player):
 	
 func get_effective_global_player_pos(player):
 	if _lag_timer > 0:
+		update()
 		_lag_timer -= 1
 	var i = posmod(player.position_arr_idx - _lag_timer, Player.POSITION_ARR_SIZE) 
 	return player.position_arr[i]
@@ -89,7 +90,13 @@ func _draw():
 		Vector2(box_right, box_center_v),
 		Color.green
 	)
-
+	
+	# TODO: dependency injection
+	var player = $"../Player"
+	for i in range(_lag_timer):
+		var pos_idx = posmod(player.position_arr_idx - i, Player.POSITION_ARR_SIZE)
+		var pos = to_local(player.position_arr[pos_idx])
+		draw_rect(Rect2(pos, Vector2(1, 1)), Color.cyan)
 
 
 func _on_Player_became_airborne():
