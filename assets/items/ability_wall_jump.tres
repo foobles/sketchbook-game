@@ -1,11 +1,11 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://assets/ui/wall_jump_info.png" type="Texture" id=1]
-[ext_resource path="res://resource_types/item_info.gd" type="Script" id=2]
+[ext_resource path="res://scenes/items/ItemWallJump.gd" type="Script" id=2]
 
 [resource]
 script = ExtResource( 2 )
 item_type = "Ability"
 name = "Wall Jump"
-description = "Jump just as you hit a wall midair to rebound. Gain more height the more momentum you have."
+description = "Wall jump description here"
 info_card_texture = ExtResource( 1 )

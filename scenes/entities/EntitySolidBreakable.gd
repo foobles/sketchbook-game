@@ -30,7 +30,6 @@ func tick_player_interaction(player):
 			if player.is_rolling:
 				player.velocity.y *= -1
 				self.on_destroyed(player)
-				self.queue_free()
 		else: 
 			if player.global_position.y >= global_position.y + hitbox.radius.y:
 				player.velocity.y *= -1
@@ -50,3 +49,4 @@ func on_destroyed(_player):
 	var explosion = EntityParticleExplosion.instance()
 	get_parent().add_child(explosion)
 	explosion.position = position
+	queue_free()

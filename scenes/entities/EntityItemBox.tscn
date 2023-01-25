@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/entities/EntitySolidBreakable.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/entities/EntityItemBox.gd" type="Script" id=2]
+[ext_resource path="res://assets/images/entities/item_box.png" type="Texture" id=3]
+
+[node name="EntityItemBox" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+contents = null
+facing_direction = 0
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource( 3 )
+offset = Vector2( 0, -2 )
+hframes = 2
+
+[node name="Hitbox" parent="." index="1"]
+radius = Vector2( 12, 13 )
