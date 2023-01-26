@@ -128,7 +128,7 @@ push_direction = 0
 push_power = 1
 
 [node name="EntityItemBox" parent="Objects" instance=ExtResource( 13 )]
-position = Vector2( 246, 50 )
+position = Vector2( 318, 149 )
 contents = ExtResource( 14 )
 facing_direction = 1
 

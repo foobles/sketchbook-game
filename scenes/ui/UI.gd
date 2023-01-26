@@ -58,7 +58,7 @@ func open_menu(menu_scene):
 	
 	
 func close_menu():
-	if menu != null:
+	if menu != null && mode != AnimationMode.CLOSING:
 		begin_hide_tiles_animation()
 
 
@@ -67,16 +67,18 @@ func begin_show_tiles_animation():
 	tile_show_timer = TILE_ANIMATION_DELAY
 	tiles_shown = 0
 	material.set_shader_param("tiles_from_center_visible", tiles_shown)
+	viewport.gui_disable_input = true
 
 
 func begin_hide_tiles_animation():
 	mode = AnimationMode.CLOSING
 	tile_show_timer = TILE_ANIMATION_DELAY
 	tiles_shown = material.get_shader_param("tiles_from_center_visible")
+	viewport.gui_disable_input = true
 
 
 func open_menu_finished():
-	pass
+	viewport.gui_disable_input = false
 	
 func close_menu_finished():
 	assert(menu != null)
