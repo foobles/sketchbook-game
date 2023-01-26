@@ -9,6 +9,7 @@ pause_mode = 2
 script = ExtResource( 2 )
 
 [node name="UI" parent="." instance=ExtResource( 3 )]
+pause_mode = 2
 
 [node name="World" parent="." instance=ExtResource( 1 )]
 pause_mode = 1

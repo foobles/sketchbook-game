@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://assets/materials/menu_open_shader.material" type="Material" id=1]
 [ext_resource path="res://scenes/ui/UI.gd" type="Script" id=2]
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource( 2 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+material = ExtResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+usage = 0
+render_target_update_mode = 3
