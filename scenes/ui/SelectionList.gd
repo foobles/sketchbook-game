@@ -20,26 +20,26 @@ func _ready():
 
 
 func _input(event):
-	var item_count = len(items)
-	if Engine.editor_hint || !active || item_count == 0:
+	if Engine.editor_hint || !active || len(items) == 0:
 		return
 		
-	var new_selection = selected_item
 	if event.is_action_pressed("ui_up"):
-		new_selection -= 1
+		change_selected_item(selected_item - 1)
 	elif event.is_action_pressed("ui_down"):
-		new_selection += 1
+		change_selected_item(selected_item + 1)
 	elif event.is_action_pressed("ui_accept"):
 		emit_signal("item_selected", selected_item)
-		return
 	else:
 		return
 		
-	$SelectionList.get_child(selected_item).selected = false
-	selected_item = clamp(new_selection, 0, item_count - 1)
-	$SelectionList.get_child(selected_item).selected = true
 	get_tree().set_input_as_handled()
 	
+	
+func change_selected_item(new_selection):
+	$SelectionList.get_child(selected_item).selected = false
+	selected_item = clamp(new_selection, 0, len(items) - 1)
+	$SelectionList.get_child(selected_item).selected = true
+
 
 func set_items(new_items):
 	items = new_items
