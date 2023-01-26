@@ -6,6 +6,8 @@ const Item = preload("res://scenes/ui/SelectionListItem.tscn")
 export(bool) var active = false
 export(PoolStringArray) var items = PoolStringArray() setget set_items
 
+signal item_selected(item_index)
+
 var selected_item = 0
 
 func _ready():
@@ -27,6 +29,9 @@ func _input(event):
 		new_selection -= 1
 	elif event.is_action_pressed("ui_down"):
 		new_selection += 1
+	elif event.is_action_pressed("ui_accept"):
+		emit_signal("item_selected", selected_item)
+		return
 	else:
 		return
 		

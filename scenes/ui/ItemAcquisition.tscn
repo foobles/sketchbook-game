@@ -105,3 +105,5 @@ margin_bottom = 160.0
 rect_min_size = Vector2( 0, 24 )
 active = true
 items = PoolStringArray( "Ok!" )
+
+[connection signal="item_selected" from="VBoxContainer/OkSelection" to="." method="_on_OkSelection_item_selected"]

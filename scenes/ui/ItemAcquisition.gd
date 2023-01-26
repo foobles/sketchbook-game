@@ -25,3 +25,7 @@ func set_acquisition_type(type_name):
 
 func set_item_image_texture(texture):
 	item_image.texture = texture
+
+
+func _on_OkSelection_item_selected(_item_index):
+	get_tree().current_scene.ui.close_menu()
