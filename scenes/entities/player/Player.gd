@@ -210,12 +210,22 @@ func animate_rolling():
 
 
 func animate_walking():
-	if abs(ground_speed) < RUN_SPEED:
-		set_animation("walk")
+	var oct = ((angle + 48) & 0xFF) >> 5 
+	if oct & 1:
+		if abs(ground_speed) < RUN_SPEED: 
+			set_animation("walk")
+		else:
+			set_animation("run")
 	else:
-		set_animation("run")
+		oct += facing_direction - 1
+		if abs(ground_speed) < RUN_SPEED: 
+			set_animation("walk_diagonal")
+		else:
+			set_animation("run_diagonal")
+		
 	set_animation_ticks(max(0, floor(8 - abs(ground_speed))))
-	sprite.rotation = -stepify(get_angle_rads(), PI / 4)
+	sprite.rotation_degrees = -(oct >> 1) * 90
+
 	
 func animate_standing():
 	set_animation("idle")
