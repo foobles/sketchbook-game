@@ -37,7 +37,7 @@ onready var state_grounded_rolling = $StateGroundedRolling
 onready var state_grounded_revving = $StateGroundedRevving
 onready var state_airborne_normal = $StateAirborneNormal
 onready var state_airborne_hurt = $StateAirborneHurt
-onready var _state = state_grounded_revving
+onready var _state = state_grounded_upright
 onready var pose = $Pose
 
 const POSITION_ARR_SIZE = 120

@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/tile_sets/platforming.tres" type="TileSet" id=1]
+[ext_resource path="res://scenes/maps/Map.gd" type="Script" id=2]
+[ext_resource path="res://scenes/entities/player/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/PlayerCamera.gd" type="Script" id=4]
+[ext_resource path="res://assets/tile_sets/collision_tiles.generated.res" type="TileSet" id=7]
+[ext_resource path="res://assets/materials/mat_collision_map.material" type="Material" id=8]
+
+[node name="Map" type="Node2D"]
+pause_mode = 1
+script = ExtResource( 2 )
+
+[node name="Camera" type="Camera2D" parent="."]
+visible = false
+anchor_mode = 0
+current = true
+script = ExtResource( 4 )
+box_left = 144
+box_right = 160
+box_center_v = 96
+box_radius_v = 32
+look_up = 104
+look_down = 88
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+cell_quadrant_size = 4
+format = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionMap0" type="TileMap" parent="TileMap"]
+modulate = Color( 1, 1, 0.498039, 0.498039 )
+material = ExtResource( 8 )
+tile_set = ExtResource( 7 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 393217, 1, 0, 393234, 1, 0, 458753, 1, 0, 458770, 1, 0, 524289, 1, 0, 524290, 536870927, 0, 524305, 15, 0, 524306, 1, 0, 589825, 1, 0, 589826, 1, 0, 589827, 1, 0, 589828, 1, 0, 589829, 1, 0, 589830, 1, 0, 589831, 1, 0, 589832, 1, 0, 589833, 1, 0, 589834, 1, 0, 589835, 1, 0, 589836, 1, 0, 589837, 1, 0, 589838, 1, 0, 589839, 1, 0, 589840, 1, 0, 589841, 1, 0, 589842, 1, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionMap1" type="TileMap" parent="TileMap"]
+modulate = Color( 1, 0.498039, 1, 0.498039 )
+material = ExtResource( 8 )
+tile_set = ExtResource( 7 )
+cell_size = Vector2( 16, 16 )
+format = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Objects" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 157, 67 )
+
+[connection signal="became_airborne" from="Player" to="Camera" method="_on_Player_became_airborne"]
+[connection signal="became_grounded" from="Player" to="Camera" method="_on_Player_became_grounded"]
+[connection signal="rev_released" from="Player" to="Camera" method="_on_Player_rev_released"]
