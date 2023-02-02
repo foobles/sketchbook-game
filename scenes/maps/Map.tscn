@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/tile_sets/platforming.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/maps/Map.gd" type="Script" id=2]
 [ext_resource path="res://scenes/entities/player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/PlayerCamera.gd" type="Script" id=4]
+[ext_resource path="res://assets/tile_sets/direction_mask.tres" type="TileSet" id=5]
 [ext_resource path="res://assets/tile_sets/collision_tiles.generated.res" type="TileSet" id=7]
 [ext_resource path="res://assets/materials/mat_collision_map.material" type="Material" id=8]
 
@@ -43,10 +44,26 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="DirectionMask" type="TileMap" parent="TileMap/CollisionMap0"]
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 16, 16 )
+format = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="CollisionMap1" type="TileMap" parent="TileMap"]
 modulate = Color( 1, 0.498039, 1, 0.498039 )
 material = ExtResource( 8 )
 tile_set = ExtResource( 7 )
+cell_size = Vector2( 16, 16 )
+format = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DirectionMask" type="TileMap" parent="TileMap/CollisionMap1"]
+tile_set = ExtResource( 5 )
 cell_size = Vector2( 16, 16 )
 format = 1
 __meta__ = {

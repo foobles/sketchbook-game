@@ -126,5 +126,5 @@ func _add_block(collision_map, image, block_x, block_y):
 	var block_height = bottom_left_path_y - (16 - heights[top_right_path_x])
 	block.widths = widths 
 	block.heights = heights
-	block.angle = round(atan2(block_height, block_width)/(2*PI)*256)
+	block.angle = int(round(atan2(block_height, block_width)/(2*PI)*256))
 	collision_map.data.append(block)

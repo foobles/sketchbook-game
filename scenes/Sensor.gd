@@ -37,13 +37,23 @@ func set_direction_rotation(rotation_direction):
 
 
 func _get_tile_info(tile_coord, pixel_coord):
-	var collision_map = tiles.collisions[layer]
+	var collision_map = tiles.collision_maps[layer]
 	var id = collision_map.get_cellv(tile_coord)
 	if id == -1: 
 		return {
 			mag = 0,
 			angle = 0,
 		}
+		
+	var direction_mask_map = tiles.direction_mask_maps[layer]
+	var mask_id = direction_mask_map.get_cellv(tile_coord)
+	if mask_id != -1:
+		var bitset = tiles.direction_mask_id_to_bitset[mask_id]
+		if bitset & (1 << direction) == 0:
+			return { 
+				mag = 0,
+				angle = 0
+			}
 		
 	var transposed = collision_map.is_cell_transposed(tile_coord.x, tile_coord.y)
 	var x_flip = collision_map.is_cell_x_flipped(tile_coord.x, tile_coord.y)
@@ -75,11 +85,12 @@ func _get_tile_info(tile_coord, pixel_coord):
 	var actual_angle = meta.angle
 	if actual_angle != 255:
 		if transposed:
-			actual_angle = 64 - actual_angle
+			actual_angle = 256 + 64 - actual_angle
 		if x_flip:
 			actual_angle = 256 - actual_angle
 		if y_flip:
-			actual_angle = posmod(128 - actual_angle, 256)
+			actual_angle = 256 + 128 - actual_angle
+		actual_angle &= 0xFF
 		 
 	return {
 		mag = mag, 
