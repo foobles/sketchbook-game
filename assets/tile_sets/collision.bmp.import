@@ -13,4 +13,4 @@ dest_files=[ "res://.import/collision.bmp-0acde0c12a244d3f1c3a1c24ea7a5b1e.res",
 
 [params]
 
-flagged_tiles=PoolByteArray( 1 )
+flagged_tiles=PoolByteArray( 1, 13 )
