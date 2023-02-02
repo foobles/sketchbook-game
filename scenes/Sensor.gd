@@ -45,24 +45,37 @@ func _get_tile_info(tile_coord, pixel_coord):
 			angle = 0,
 		}
 		
+	var transposed = collision_map.is_cell_transposed(tile_coord.x, tile_coord.y)
 	var x_flip = collision_map.is_cell_x_flipped(tile_coord.x, tile_coord.y)
 	var y_flip = collision_map.is_cell_y_flipped(tile_coord.x, tile_coord.y)
 	var meta = collision_table.data[id]
 	
+	var x_mags
+	var y_mags
+	
+	if !transposed:
+		x_mags = meta.widths
+		y_mags = meta.heights
+	else:
+		x_mags = meta.heights
+		y_mags = meta.widths
+		
 	var mag
 	if is_horizontal():
 		if !y_flip:
-			mag = meta.widths[pixel_coord.y]
+			mag = x_mags[pixel_coord.y]
 		else:
-			mag = meta.widths[15 - pixel_coord.y]
+			mag = x_mags[15 - pixel_coord.y]
 	else:
 		if !x_flip:
-			mag = meta.heights[pixel_coord.x]
+			mag = y_mags[pixel_coord.x]
 		else:
-			mag = meta.heights[15 - pixel_coord.x]
+			mag = y_mags[15 - pixel_coord.x]
 		
 	var actual_angle = meta.angle
 	if actual_angle != 255:
+		if transposed:
+			actual_angle = 64 - actual_angle
 		if x_flip:
 			actual_angle = 256 - actual_angle
 		if y_flip:
