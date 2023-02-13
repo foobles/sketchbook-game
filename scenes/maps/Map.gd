@@ -4,6 +4,8 @@ var tile_meta_array = load("res://assets/tile_sets/platforming_meta.tres").into_
 
 var tiles = preload("res://singletons/tile_map_info.tres")
 
+var fbf = false
+
 func _ready():
 	var rect = $TileMap.get_used_rect()
 	rect.position.x *= $TileMap.cell_size.x 
@@ -18,11 +20,17 @@ func _ready():
 	
 	tiles.set_info($TileMap, tile_meta_array)
 
+
+
 func _physics_process(_delta):
-	var tree = get_tree()
-	tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick")
-	tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick_player_interaction", $Player)
+	if Input.is_action_just_pressed("debug_toggle_fbf"):
+		fbf = !fbf
 	
-	$Player.update_position_array()
-	$Camera.track_player($Player)
+	if !fbf || Input.is_action_just_pressed("debug_step"):
+		var tree = get_tree()
+		tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick")
+		tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick_player_interaction", $Player)
+		
+		$Player.update_position_array()
+		$Camera.track_player($Player)
 	
