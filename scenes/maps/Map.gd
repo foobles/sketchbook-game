@@ -7,18 +7,13 @@ var tiles = preload("res://singletons/tile_map_info.tres")
 var fbf = false
 
 func _ready():
-	var rect = $TileMap.get_used_rect()
-	rect.position.x *= $TileMap.cell_size.x 
-	rect.position.y *= $TileMap.cell_size.y 
-	rect.size.x *= $TileMap.cell_size.x 
-	rect.size.y *= $TileMap.cell_size.y 
 	
 	#$Camera.limit_left = rect.position.x 
 	#$Camera.limit_right = rect.end.x 
 	#$Camera.limit_top = rect.position.y 
 	#Camera.limit_bottom = rect.end.y
 	
-	tiles.set_info($TileMap, tile_meta_array)
+	tiles.set_info(self, tile_meta_array)
 
 
 

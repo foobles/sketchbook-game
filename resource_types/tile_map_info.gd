@@ -28,10 +28,10 @@ func _init():
 	
 
 func set_info(new_map, new_meta):
-	map = new_map
+	map = new_map.get_node("TileMap")
 	collision_maps = [
-		map.get_node("CollisionMap0"), 
-		map.get_node("CollisionMap1")
+		new_map.get_node("CollisionMap0"), 
+		new_map.get_node("CollisionMap1")
 	]
 	direction_mask_maps = []
 	for c in collision_maps:
