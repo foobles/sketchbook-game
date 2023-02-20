@@ -1,16 +1,39 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/tile_sets/platforming.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/maps/Map.gd" type="Script" id=2]
 [ext_resource path="res://scenes/entities/player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/PlayerCamera.gd" type="Script" id=4]
 [ext_resource path="res://assets/tile_sets/direction_mask.tres" type="TileSet" id=5]
+[ext_resource path="res://assets/images/map1_bg.png" type="Texture" id=6]
 [ext_resource path="res://assets/tile_sets/collision_tiles.generated.res" type="TileSet" id=7]
 [ext_resource path="res://assets/materials/mat_collision_map.material" type="Material" id=8]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform ivec2 scroll;
+
+void fragment() {
+	vec2 scrolled_uv = fract(UV + vec2(scroll) * TEXTURE_PIXEL_SIZE);
+	COLOR = texture(TEXTURE, scrolled_uv); 
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/scroll = PoolIntArray( 50, 0 )
 
 [node name="Map" type="Node2D"]
 pause_mode = 1
 script = ExtResource( 2 )
+
+[node name="BgCanvas" type="CanvasLayer" parent="."]
+layer = -100
+
+[node name="Background" type="Sprite" parent="BgCanvas"]
+material = SubResource( 2 )
+texture = ExtResource( 6 )
+centered = false
 
 [node name="Camera" type="Camera2D" parent="."]
 visible = false

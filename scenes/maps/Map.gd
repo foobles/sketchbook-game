@@ -28,4 +28,7 @@ func _physics_process(_delta):
 		
 		$Player.update_position_array()
 		$Camera.track_player($Player)
+		
+		# warning-ignore:integer_division
+		$BgCanvas/Background.material.set_shader_param("scroll", [int($Camera.position.x) / 4, 0])
 	
