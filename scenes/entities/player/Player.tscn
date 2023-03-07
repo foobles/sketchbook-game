@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scenes/entities/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/entities/player_anim.png" type="Texture" id=2]
@@ -23,6 +23,22 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "hang"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 40 ]
 }
 
 [sub_resource type="Animation" id=12]
@@ -258,14 +274,14 @@ script = ExtResource( 1 )
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )
 hframes = 8
-vframes = 5
+vframes = 6
 
 [node name="Hitbox" parent="." index="1"]
 radius = Vector2( 8, 10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
-playback_speed = 24.69
 anims/RESET = SubResource( 1 )
+anims/hang = SubResource( 15 )
 anims/hurt = SubResource( 12 )
 anims/idle = SubResource( 2 )
 anims/look_down = SubResource( 7 )

@@ -16,6 +16,7 @@ var jump_just_pressed = false
 var control_lock = 0
 var invul_frames = 0
 var stood_object = null
+var puppeteer = null
 var look_direction = 0
 
 # warning-ignore:unused_signal
@@ -153,8 +154,9 @@ func get_angle_rads():
 func tick():
 	read_input()
 	update_invul_frames()
-	_state.update_player(self)
-	_state.animate_player(self)
+	if puppeteer == null:
+		_state.update_player(self)
+		_state.animate_player(self)
 	sprite.global_position = global_position.floor()
 	if facing_direction == 1:
 		sprite.global_position.x += 1
@@ -229,6 +231,10 @@ func animate_walking():
 	
 func animate_standing():
 	set_animation("idle")
+	sprite.rotation = 0
+	
+func animate_hanging():
+	set_animation("hang")
 	sprite.rotation = 0
 	
 func animate_look_up():
