@@ -10,6 +10,8 @@ orientation = 0
 length = 32
 positive_direction_layer = 0
 negative_direction_layer = 0
+positive_direction_z_index = 0
+negative_direction_z_index = 0
 
 [node name="Hitbox" parent="." index="1"]
 radius = Vector2( 8, 32 )

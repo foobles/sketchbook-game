@@ -11,6 +11,9 @@ export(int) var length = 32 setget set_length
 export(int, 0, 1) var positive_direction_layer 
 export(int, 0, 1) var negative_direction_layer
 
+export(int) var positive_direction_z_index = 0
+export(int) var negative_direction_z_index = 0
+
 func _recompute_hb():
 	match orientation:
 		Orientation.VERTICAL:
@@ -40,5 +43,7 @@ func tick_player_interaction(player):
 			return 
 		if dir < 0:
 			player.pose.set_layer(negative_direction_layer)
+			player.z_index = negative_direction_z_index
 		elif dir > 0:
 			player.pose.set_layer(positive_direction_layer)
+			player.z_index = positive_direction_z_index
