@@ -48,6 +48,7 @@ look_up = 104
 look_down = 88
 
 [node name="TileMapBg" type="TileMap" parent="."]
+z_index = -1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 cell_quadrant_size = 4
@@ -112,4 +113,5 @@ position = Vector2( 157, 67 )
 
 [connection signal="became_airborne" from="Player" to="Camera" method="_on_Player_became_airborne"]
 [connection signal="became_grounded" from="Player" to="Camera" method="_on_Player_became_grounded"]
+[connection signal="died" from="Player" to="." method="_on_Player_died"]
 [connection signal="rev_released" from="Player" to="Camera" method="_on_Player_rev_released"]

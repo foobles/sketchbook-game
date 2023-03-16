@@ -99,6 +99,13 @@ func _draw():
 		draw_rect(Rect2(pos, Vector2(1, 1)), Color.cyan)
 
 
+func get_effective_position():
+	var viewport_size = get_viewport_rect().size 
+	var x = clamp(position.x, limit_left, limit_right - viewport_size.x)
+	var y = clamp(position.y, limit_top, limit_bottom - viewport_size.y)
+	return Vector2(x, y)
+	
+
 func _on_Player_became_airborne():
 	_v_mode = Mode.BOXED
 

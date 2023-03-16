@@ -6,6 +6,12 @@ var tiles = preload("res://singletons/tile_map_info.tres")
 
 var fbf = false
 
+enum {
+	STATE_NORMAL
+	STATE_DYING
+}
+var state = STATE_NORMAL
+
 func _ready():
 	
 	#$Camera.limit_left = rect.position.x 
@@ -21,14 +27,24 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("debug_toggle_fbf"):
 		fbf = !fbf
 	
-	if !fbf || Input.is_action_just_pressed("debug_step"):
-		var tree = get_tree()
-		tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick")
-		tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick_player_interaction", $Player)
-		
-		$Player.update_position_array()
-		$Camera.track_player($Player)
-		
-		# warning-ignore:integer_division
-		$BgCanvas/Background.material.set_shader_param("scroll", [int($Camera.position.x) / 4, 0])
+	if fbf && !Input.is_action_just_pressed("debug_step"):
+		return
 	
+	match state:
+		STATE_NORMAL:
+			var tree = get_tree()
+			tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick")
+			tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick_player_interaction", $Player)
+			
+			$Player.update_position_array()
+			$Camera.track_player($Player)
+			
+			# warning-ignore:integer_division
+			$BgCanvas/Background.material.set_shader_param("scroll", [int($Camera.get_effective_position().x) / 4, 0])
+		
+		STATE_DYING:
+			$Player.tick()
+
+
+func _on_Player_died():
+	state = STATE_DYING

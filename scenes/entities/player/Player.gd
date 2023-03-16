@@ -25,6 +25,8 @@ signal became_airborne
 signal became_grounded
 # warning-ignore:unused_signal
 signal rev_released
+# warning-ignore:unused_signal
+signal died
 
 var is_grounded 
 var is_rolling
@@ -38,6 +40,7 @@ onready var state_grounded_rolling = $StateGroundedRolling
 onready var state_grounded_revving = $StateGroundedRevving
 onready var state_airborne_normal = $StateAirborneNormal
 onready var state_airborne_hurt = $StateAirborneHurt
+onready var state_dead = $StateDead
 onready var _state = state_grounded_upright
 onready var pose = $Pose
 
@@ -178,6 +181,11 @@ func inflict_damage(source):
 func force_inflict_damage(source):
 	state_airborne_hurt.transition_damage(self, source.position.x)
 	
+	
+func kill():
+	set_state(state_dead)
+	
+	
 func update_invul_frames():
 	if invul_frames > 0:
 		invul_frames -= 1
@@ -263,6 +271,11 @@ func animate_skidding():
 func animate_hurt():
 	set_animation("hurt")
 	set_animation_ticks(8)
+	sprite.rotation = 0
+	
+	
+func animate_dead():
+	set_animation("die")
 	sprite.rotation = 0
 
 
