@@ -57,12 +57,13 @@ __meta__ = {
 }
 radius = Vector2( 6, 4 )
 
-[node name="HookSprite" type="Sprite" parent="Hitbox" index="0"]
-texture = ExtResource( 3 )
-
-[node name="GrabPosition" type="Position2D" parent="Hitbox" index="1"]
+[node name="GrabPosition" type="Position2D" parent="Hitbox" index="0"]
 position = Vector2( 0, 22 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+[node name="HookSprite" type="Sprite" parent="." index="2"]
+position = Vector2( 0, 12 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
 anims/RESET = SubResource( 1 )
 anims/rotate = SubResource( 2 )

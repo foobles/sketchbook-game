@@ -58,6 +58,8 @@ func tick_player_interaction(player):
 				hook_velocity = 0
 				state = STATE_IDLING
 			check_grab(player)
+			
+	$HookSprite.position = hitbox.position
 
 
 func check_grab(player):
