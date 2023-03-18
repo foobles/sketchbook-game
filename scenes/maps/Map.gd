@@ -12,6 +12,9 @@ enum {
 }
 var state = STATE_NORMAL
 
+onready var camera_top_limit = $CameraTopLimitArray
+onready var camera_bot_limit = $CameraBotLimitArray
+
 func _ready():
 	
 	#$Camera.limit_left = rect.position.x 
@@ -37,6 +40,8 @@ func _physics_process(_delta):
 			tree.call_group_flags(SceneTree.GROUP_CALL_REALTIME, "entities", "tick_player_interaction", $Player)
 			
 			$Player.update_position_array()
+			$Camera.limit_bottom = camera_bot_limit.get_limit(camera_bot_limit.to_local($Player.global_position).x)
+			$Camera.limit_top = camera_top_limit.get_limit(camera_top_limit.to_local($Player.global_position).x)
 			$Camera.track_player($Player)
 			
 			# warning-ignore:integer_division

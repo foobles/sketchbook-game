@@ -38,6 +38,16 @@ _global_script_classes=[ {
 "class": "TileSetMeta",
 "language": "GDScript",
 "path": "res://resource_types/tile_set_meta.gd"
+}, {
+"base": "Node2D",
+"class": "YIndex",
+"language": "GDScript",
+"path": "res://scenes/YIndex.gd"
+}, {
+"base": "Node2D",
+"class": "YIndexArray",
+"language": "GDScript",
+"path": "res://scenes/YIndexArray.gd"
 } ]
 _global_script_class_icons={
 "Direction": "",
@@ -45,7 +55,9 @@ _global_script_class_icons={
 "Sensor": "",
 "StringUtil": "",
 "TileMeta": "",
-"TileSetMeta": ""
+"TileSetMeta": "",
+"YIndex": "",
+"YIndexArray": ""
 }
 
 [application]

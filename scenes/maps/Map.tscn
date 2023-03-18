@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/tile_sets/platforming.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/maps/Map.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/images/map1_bg.png" type="Texture" id=6]
 [ext_resource path="res://assets/tile_sets/collision_tiles.generated.res" type="TileSet" id=7]
 [ext_resource path="res://assets/materials/mat_collision_map.material" type="Material" id=8]
+[ext_resource path="res://scenes/YIndexArray.gd" type="Script" id=9]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -46,6 +47,20 @@ box_center_v = 96
 box_radius_v = 32
 look_up = 104
 look_down = 88
+
+[node name="CameraBotLimitArray" type="Node2D" parent="."]
+z_index = 10
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CameraTopLimitArray" type="Node2D" parent="."]
+z_index = 10
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="TileMapBg" type="TileMap" parent="."]
 z_index = -1
