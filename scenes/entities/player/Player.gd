@@ -27,13 +27,16 @@ signal became_grounded
 signal rev_released
 # warning-ignore:unused_signal
 signal died
+signal respawned
 
 var is_grounded 
 var is_rolling
 
-var roll_enabled = true
-var rev_enabled = true
-var wall_jump_enabled = true
+var roll_enabled = false
+var rev_enabled = false
+var wall_jump_enabled = false
+
+onready var respawn_pos = position
 
 onready var state_grounded_upright = $StateGroundedUpright
 onready var state_grounded_rolling = $StateGroundedRolling
@@ -184,6 +187,17 @@ func force_inflict_damage(source):
 	
 func kill():
 	set_state(state_dead)
+	
+
+func respawn():
+	state_airborne_normal.transition_no_floor(self, state_airborne_normal.MODE_UPRIGHT)
+	velocity = Vector2.ZERO
+	position = respawn_pos
+	emit_signal("respawned")
+	
+	
+func is_below(global_threshold_y):
+	return global_position.y - radius.y > global_threshold_y
 	
 	
 func update_invul_frames():

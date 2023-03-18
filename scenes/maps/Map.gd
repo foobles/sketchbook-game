@@ -11,6 +11,8 @@ enum {
 	STATE_DYING
 }
 var state = STATE_NORMAL
+const RESPAWN_TIME = 60 * 3
+var respawn_timer = 0
 
 onready var camera_top_limit = $CameraTopLimitArray
 onready var camera_bot_limit = $CameraBotLimitArray
@@ -44,12 +46,22 @@ func _physics_process(_delta):
 			$Camera.limit_top = camera_top_limit.get_limit(camera_top_limit.to_local($Player.global_position).x)
 			$Camera.track_player($Player)
 			
+			if $Player.is_below($Camera.limit_bottom):
+				$Player.kill()
+			
 			# warning-ignore:integer_division
 			$BgCanvas/Background.material.set_shader_param("scroll", [int($Camera.get_effective_position().x) / 4, 0])
 		
 		STATE_DYING:
 			$Player.tick()
-
+			respawn_timer -= 1
+			if respawn_timer == 0:
+				$Player.respawn()
 
 func _on_Player_died():
 	state = STATE_DYING
+	respawn_timer = RESPAWN_TIME
+
+
+func _on_Player_respawned():
+	state = STATE_NORMAL
