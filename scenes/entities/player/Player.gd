@@ -182,8 +182,10 @@ func inflict_damage(source):
 	
 	
 func force_inflict_damage(source):
-	state_airborne_hurt.transition_damage(self, source.position.x)
-	
+	if invul_frames == 0:
+		state_airborne_hurt.transition_damage(self, source.position.x)
+	else:
+		kill()
 	
 func kill():
 	set_state(state_dead)
