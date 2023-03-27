@@ -81,6 +81,7 @@ func set_extension_length(new_extension_length):
 	extension_length = new_extension_length
 	if Engine.editor_hint:
 		$Hitbox.position.y = new_extension_length
+		$HookSprite.position.y = new_extension_length
 
 
 func transition_player_fling_hook_jump(player):
