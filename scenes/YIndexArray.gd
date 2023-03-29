@@ -39,8 +39,11 @@ func _init():
 		
 func _on_child_entered_tree(child):
 	if child is YIndex:
-		child.connect("moved", self, "_on_child_updated")
-		child.connect("tree_exited", self, "_on_child_updated")
+		if !child.is_connected("moved", self, "_on_child_updated"):
+			child.connect("moved", self, "_on_child_updated")
+			
+		if !child.is_connected("tree_exited", self, "_on_child_updated"):
+			child.connect("tree_exited", self, "_on_child_updated")
 		
 	_update_array()
 	update()

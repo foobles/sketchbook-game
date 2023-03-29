@@ -96,7 +96,8 @@ func update_sub_state(player):
 			sub_state = SubState.LOOKING_UP
 		else:
 			sub_state = SubState.IDLING
-			
+	else:
+		sub_state = SubState.WALKING
 
 func start_pushing(player):
 	sub_state = SubState.PUSHING

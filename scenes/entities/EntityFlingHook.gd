@@ -19,6 +19,9 @@ enum {
 	STATE_EXTENDING
 }
 
+func _ready():
+	$HookSprite.position = $Hitbox.position
+	
 
 func tick_player_interaction(player):
 	if hook_velocity == 0:
@@ -81,7 +84,9 @@ func set_extension_length(new_extension_length):
 	extension_length = new_extension_length
 	if Engine.editor_hint:
 		$Hitbox.position.y = new_extension_length
-		$HookSprite.position.y = new_extension_length
+		var spr = get_node_or_null("HookSprite")
+		if spr != null:
+			spr.position = $Hitbox.position
 
 
 func transition_player_fling_hook_jump(player):
