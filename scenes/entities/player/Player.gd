@@ -32,9 +32,9 @@ signal respawned
 var is_grounded 
 var is_rolling
 
-var roll_enabled = false
-var rev_enabled = false
-var wall_jump_enabled = false
+export var roll_enabled = false
+export var rev_enabled = false
+export var wall_jump_enabled = false
 
 onready var respawn_pos = position
 
