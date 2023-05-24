@@ -49,7 +49,7 @@ func _get_tile_info(tile_coord, pixel_coord):
 	var mask_id = direction_mask_map.get_cellv(tile_coord)
 	if mask_id != -1:
 		var bitset = tiles.direction_mask_id_to_bitset[mask_id]
-		if bitset & (1 << direction) == 0:
+		if bitset & (1 << starting_direction) == 0:
 			return { 
 				mag = 0,
 				angle = 0
