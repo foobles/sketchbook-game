@@ -3,6 +3,7 @@ extends Resource
 signal tiles_updated
 
 var map: TileMap
+var objects: Node2D
 var collision_maps: Array
 var direction_mask_maps: Array
 var meta
@@ -29,6 +30,7 @@ func _init():
 
 func set_info(new_map, new_meta):
 	map = new_map.get_node("TileMap")
+	objects = new_map.get_node("Objects")
 	collision_maps = [
 		new_map.get_node("CollisionMap0"), 
 		new_map.get_node("CollisionMap1")

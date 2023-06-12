@@ -22,7 +22,7 @@ func on_destroyed(player):
 	hide()
 	var explosion = EntityParticleExplosion.instance()
 	explosion.global_position = global_position
-	get_parent().add_child(explosion)
+	map_info.objects.add_child(explosion)
 	give_item_timer = GIVE_ITEM_TIME
 
 func is_expiring():

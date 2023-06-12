@@ -77,22 +77,11 @@ func eject_player(player):
 	if is_collision_horizontal:
 		if abs(y_distance) <= TOP_STICK_RADIUS:
 			return
-
-		if x_distance != 0 && sign(player.velocity.x) == sign(x_distance):
-			player.velocity.x = 0
-			player.ground_speed = 0
-			player.state_grounded_upright.start_pushing(player)
-			
-		emit_signal("player_collided_horizontal", player)
-		player.position.x -= x_distance
-		
+		handle_horizontal_collision(player, x_distance)
 	else:
 		if y_distance < 0:
 			if player.velocity.y < 0:
-				player.velocity.y = 0
-				player.ground_speed = 0
-				player.position.y -= y_distance
-				emit_signal("player_collided_bottom", player)
+				handle_bottom_collision(player, y_distance)
 		else:
 			if y_distance >= 16:
 				return
@@ -100,9 +89,30 @@ func eject_player(player):
 			var x_cmp = (obj_pos.x + obj_box.x) - pl_pos.x
 			var obj_action_width = 1 + 2*obj_box.x
 			if (player.velocity.y >= 0 && obj_action_width >= x_cmp && x_cmp >= 0):
-				player.position.y -= (y_distance - TOP_STICK_RADIUS + 1)
-				player.transition_land_on_object(self)
-				emit_signal("player_landed_top", player)
+				handle_top_collision(player, y_distance - TOP_STICK_RADIUS + 1)
+
+
+func handle_horizontal_collision(player, x_distance):
+	if x_distance != 0 && sign(player.velocity.x) == sign(x_distance):
+		player.velocity.x = 0
+		player.ground_speed = 0
+		player.state_grounded_upright.start_pushing(player)
+		
+	emit_signal("player_collided_horizontal", player)
+	player.position.x -= x_distance
+	
+
+func handle_bottom_collision(player, y_distance):
+	player.velocity.y = 0
+	player.ground_speed = 0
+	player.position.y -= y_distance
+	emit_signal("player_collided_bottom", player)
+
+
+func handle_top_collision(player, y_distance):
+	player.position.y -= y_distance
+	player.transition_land_on_object(self)
+	emit_signal("player_landed_top", player)
 
 
 func unground_player(player):

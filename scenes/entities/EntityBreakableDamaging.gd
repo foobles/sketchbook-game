@@ -18,5 +18,5 @@ func tick_player_interaction(player):
 
 func on_destroyed(_player):
 	var explosion = EntityParticleExplosion.instance()
-	get_parent().add_child(explosion)
 	explosion.position = position
+	map_info.objects.add_child(explosion)

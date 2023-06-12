@@ -16,3 +16,9 @@ hframes = 2
 
 [node name="Hitbox" parent="." index="1"]
 radius = Vector2( 12, 13 )
+
+[node name="DestructionHitbox" parent="." index="2"]
+radius = Vector2( 11, 12 )
+
+[node name="FallSensor" parent="." index="3"]
+position = Vector2( 0, 13 )
